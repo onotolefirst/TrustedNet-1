@@ -1,0 +1,103 @@
+//CERTIFICATE COMMON INFORMATION
+// key usage extensions
+"KU_DIGITAL_SIGNATURE" = "Digital Signature";
+"KU_NON_REPUDIATION" = "Non-Repudiation";
+"KU_KEY_ENCIPHERMENT" = "Key Encipherment";
+"KU_DATA_ENCIPHERMENT" = "Data Encipherment";
+"KU_KEY_AGREEMENT" = "Key Agreement";
+"KU_KEY_CERT_SIGN" = "Certificate sign";
+"KU_CRL_SIGN" = "CRL sign";
+"KU_ENCIPHER_ONLY" = "Encipher only";
+"KU_UNDEF" = "Unknown";
+"NO" = "No";
+"YES" = "Yes";
+
+// Certificates Detail View
+// status
+"CERT_STATUS" = "Certificate status";
+"CERT_VALID" = "Valid";
+
+"CERT_TITLE" = "Certificate";
+"CERT_WHO_ISSUED" = "Issuer";
+"CERT_EXPIRED" = "Expires";
+
+"CERT_THEME" = "Subject Name";
+"CERT_ISSUER_NAME" = "Issuer Name";
+"CERT_SIGNATURE_ALG" = "Signature Algorithm";
+"CERT_KEY_USAGE" = "Key Usage";
+"CERT_SUBJECT" = "Subject Key Identifier";
+"CERT_AKID" = "Authority Key Identifier";
+"CERT_CDP" = "CRL Distribution Points";
+"CERT_AUTHORITY" = "Certificate Authority Information Access";
+"CERT_C_TITLE" = "Country Name";
+"CERT_CN_TITLE" = "Common Name";
+"CERT_E_TITLE" = "Email Address";
+"CERT_VERSION_TITLE" = "Version";
+"CERT_SN_TITLE" = "Serial Number";
+"CERT_OU_TITLE" = "Domain Component";
+"CERT_SIGNATURE_ALG_TITLE" = "Algorithm";
+"CERT_PARAMS_TITLE" = "Parameters";
+"CERT_PUBLIC_KEY_TITLE" = "Public Key Data";
+"CERT_SIGNATURE_TITLE" = "Signature";
+"CERT_PURPOSE_TITLE" = "Purpose";
+"CERT_KID_TITLE" = "Key Identifier";
+"CERT_URL_TITLE" = "URL";
+"CERT_ACCESS_TITLE" = "Access Method";
+"CERT_CRITICAL_TITLE" = "Critical";
+"CERT_NOT_VALID_BEFORE_TITLE" = "Not Valid Before";
+"CERT_NOT_VALID_AFTER_TITLE" = "Not Valid After";
+"CERT_USAGE_TITLE" = "Usage";
+"CERT_EXTENDED_KEY_USAGE" = "Extended Key Usage";
+
+///////////////////////////////////////////////////
+// Authority Information Access - Access methods
+"AM_OCSP" = "Online Certificate Status Protocol";
+"AM_CA_ISSUER" = "Certification Authority Issuer";
+
+// Main menu section
+"MM_MENU" = "Menu";
+"MM_PRIVATE_CERTIFICATES" = "Private certificates";
+"MM_SECTIONS" = "Sections";
+
+// Wizard section
+"WIZARD_RECIPIENTS" = "Recipients";
+"WIZARD_ENCRYPTION_MANAGER_TITLE" = "Encryption/decryption manager";
+"WIZARD_CREATED" = "Created";
+"WIZARD_BUTTON_ENCRYPT_TITLE" = "Encrypt document";
+"WIZARD_BUTTON_SEND_EMAIL_TITLE" = "Send by E-mail";
+"WIZARD_BUTTON_OPEN_IN_TITLE" = "Open document in...";
+"WIZARD_SIZE" = "Size:";
+"WIZARD_DOCUMENT_OPERATION" = "Operations on the document";
+"WIZARD_ACTION_ENCRYPT_AND_OPEN_IN" = "Encipher and Open In...";
+"WIZARD_ACTION_ENCRYPT_AND_EMAIL" = "Encipher and send e-mail";
+"WIZARD_ACTION_DECIPHER_AND_OPEN_IN" = "Decipher and Open In...";
+"WIZARD_ACTION_DECIPHER_AND_EMAIL" = "Decipher and send e-mail";
+"WIZARD_ACTION_REENCIPHER_AND_OPEN_IN" = "Re-encipher and Open In...";
+"WIZARD_ACTION_REENCIPHER_AND_EMAIL" = "Re-encipher and send e-mail";
+"WIZARD_RECIPIENT_LIST" = "Recipient document list";
+"WIZARD_ADD_RECIPIENT_BTN" = "Add recipients";
+"WIZARD_CERTIFICATES" = "Certificates:";
+"WIZARD_WARNING_CANNOT_DECIPHER" = "The document is encrypted, but you are not included in the list of recipients. The document can not be decrypted.";
+"WIZARD_ACTION_OPEN_IN" = "Open the document In...";
+"WIZARD_ACTION_SEND_EMAIL" = "Send the document via e-mail";
+"WIZARD_ADVANCED_ADDRESS_BOOK_TITLE" = "Recipients of the document";
+
+// address book section
+"ADD_CERTS_FROM_STORE" = "Select other...";
+"ENCIPHER_CERTIFICATE" = "Encryption certificate";
+
+// common
+"YEAR_PREFIX" = "y";
+"CRYPTOARM" = "CryptoARM";
+"BYTE_PREFIX" = "byte";
+"KBYTE_PREFIX" = "Kb";
+"MBYTE_PREFIX" = "Mb";
+"GBYTE_PREFIX" = "Gb";
+"EMPTY_PREFIX" = "Empty";
+"WARNING" = "Warning";
+"CHOICE_OF_SETTINGS" = "Choice of settings";
+"BUTTON_DONE" = "Done";
+
+// ERRORs
+"UNKNOWN_ERROR_OCCURED" = "An unexpected error occurred on performing the operation";
+"UNABLE_SEND_EMAIL" = "Your device doesn't support possibility to send email";

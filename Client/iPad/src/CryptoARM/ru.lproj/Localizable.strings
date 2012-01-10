@@ -1,0 +1,103 @@
+//CERTIFICATE COMMON INFORMATION
+// key usage extensions
+"KU_DIGITAL_SIGNATURE" = "Подпись данных";
+"KU_NON_REPUDIATION" = "Неотрекаемость";
+"KU_KEY_ENCIPHERMENT" = "Шифрование ключа";
+"KU_DATA_ENCIPHERMENT" = "Шифрование данных";
+"KU_KEY_AGREEMENT" = "Согласование ключей";
+"KU_KEY_CERT_SIGN" = "Подпись сертификатов";
+"KU_CRL_SIGN" = "Подписывание списков отзыва (CRL)";
+"KU_ENCIPHER_ONLY" = "Шифрование данных";
+"KU_UNDEF" = "Неизвестно";
+"NO" = "Нет";
+"YES" = "Да";
+
+// Certificates Detail View
+// status
+"CERT_STATUS" = "Статус сертификата";
+"CERT_VALID" = "Действителен";
+
+"CERT_TITLE" = "Сертификат";
+"CERT_WHO_ISSUED" = "Кем выдан";
+"CERT_EXPIRED" = "Истекает";
+
+"CERT_THEME" = "Тема";
+"CERT_ISSUER_NAME" = "Кем выдан";
+"CERT_SIGNATURE_ALG" = "Алгоритм подписи";
+"CERT_KEY_USAGE" = "Применение";
+"CERT_SUBJECT" = "Субъект";
+"CERT_AKID" = "Идентификатор ключа органа сертификации";
+"CERT_CDP" = "Точки распределения аннулирования сертификата";
+"CERT_AUTHORITY" = "Доступ к информации бюро сертификации";
+"CERT_C_TITLE" = "Название страны";
+"CERT_CN_TITLE" = "Общее имя";
+"CERT_E_TITLE" = "Адрес электронной почты";
+"CERT_VERSION_TITLE" = "Версия";
+"CERT_SN_TITLE" = "Серийный номер";
+"CERT_OU_TITLE" = "Компонент домена";
+"CERT_SIGNATURE_ALG_TITLE" = "Алгоритм подписи";
+"CERT_PARAMS_TITLE" = "Параметры";
+"CERT_PUBLIC_KEY_TITLE" = "Данные открытого ключа";
+"CERT_SIGNATURE_TITLE" = "Подпись";
+"CERT_PURPOSE_TITLE" = "Цель";
+"CERT_KID_TITLE" = "Идентифик. ключа";
+"CERT_URL_TITLE" = "URL";
+"CERT_ACCESS_TITLE" = "Метод доступа";
+"CERT_CRITICAL_TITLE" = "Критическое";
+"CERT_NOT_VALID_BEFORE_TITLE" = "Действителен с";
+"CERT_NOT_VALID_AFTER_TITLE" = "Действителен по";
+"CERT_USAGE_TITLE" = "Использование";
+"CERT_EXTENDED_KEY_USAGE" = "Дополнительное применение";
+
+///////////////////////////////////////////////////
+// Authority Information Access - Access methods
+"AM_OCSP" = "Протокол статуса онлайнового сертификата";
+"AM_CA_ISSUER" = "Сертификат Удостоверяющего Центра";
+
+// Main menu section
+"MM_MENU" = "Меню";
+"MM_PRIVATE_CERTIFICATES" = "Личные сертификаты";
+"MM_SECTIONS" = "Разделы";
+
+// Wizard section
+"WIZARD_RECIPIENTS" = "Получатели";
+"WIZARD_ENCRYPTION_MANAGER_TITLE" = "Менеджер шифрования/расшифрования";
+"WIZARD_CREATED" = "Создан";
+"WIZARD_BUTTON_ENCRYPT_TITLE" = "Шифровать документ";
+"WIZARD_BUTTON_SEND_EMAIL_TITLE" = "Отправить по E-mail";
+"WIZARD_BUTTON_OPEN_IN_TITLE" = "Открыть документ в...";
+"WIZARD_SIZE" = "Размер:";
+"WIZARD_DOCUMENT_OPERATION" = "Операции над документом";
+"WIZARD_ACTION_ENCRYPT_AND_OPEN_IN" = "Зашифровать и открыть в...";
+"WIZARD_ACTION_ENCRYPT_AND_EMAIL" = "Зашифровать и отправить по e-mail";
+"WIZARD_ACTION_DECIPHER_AND_OPEN_IN" = "Расшифровать и открыть в...";
+"WIZARD_ACTION_DECIPHER_AND_EMAIL" = "Расшифровать и отправить по e-mail";
+"WIZARD_ACTION_REENCIPHER_AND_OPEN_IN" = "Перешифровать и открыть в...";
+"WIZARD_ACTION_REENCIPHER_AND_EMAIL" = "Перешифровать и отправить по e-mail";
+"WIZARD_RECIPIENT_LIST" = "Список получателей документа";
+"WIZARD_ADD_RECIPIENT_BTN" = "Добавить получателей";
+"WIZARD_CERTIFICATES" = "Сертификатов:";
+"WIZARD_WARNING_CANNOT_DECIPHER" = "Документ зашифрован, но Вы не занесены в список получателей. Документ не может быть расшифрован.";
+"WIZARD_ACTION_OPEN_IN" = "Открыть документ в...";
+"WIZARD_ACTION_SEND_EMAIL" = "Отправить документ по e-mail";
+"WIZARD_ADVANCED_ADDRESS_BOOK_TITLE" = "Получатели документа";
+
+// address book section
+"ADD_CERTS_FROM_STORE" = "Выбрать другой...";
+"ENCIPHER_CERTIFICATE" = "Сертификат шифрования";
+
+// common
+"YEAR_PREFIX" = "г";
+"CRYPTOARM" = "КриптоАРМ";
+"BYTE_PREFIX" = "байт";
+"KBYTE_PREFIX" = "Кб";
+"MBYTE_PREFIX" = "Мб";
+"GBYTE_PREFIX" = "Гб";
+"EMPTY_PREFIX" = "Пустой";
+"WARNING" = "Предупреждение";
+"CHOICE_OF_SETTINGS" = "Выбор настройки";
+"BUTTON_DONE" = "Готово";
+
+// ERRORs
+"UNKNOWN_ERROR_OCCURED" = "Произошла непредвиденная ошибка при выполнении операции";
+"UNABLE_SEND_EMAIL" = "Ваше устройство не поддерживает возможность отправки электронной почты";

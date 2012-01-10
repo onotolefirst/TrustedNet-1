@@ -1,0 +1,18 @@
+//
+//  MainSplitViewController.h
+//  CryptoARM
+//
+//  Created by Sergey Mityukov on 10/12/11.
+//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "DetailNavController.h"
+
+@interface MainSplitViewController : UISplitViewController {
+    
+}
+
+-(void)setDetailViewController:(UIViewController<NavigationSource>*)subViewController;
+
+@end
