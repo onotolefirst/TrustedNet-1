@@ -81,6 +81,10 @@
 "WIZARD_ACTION_OPEN_IN" = "Open the document In...";
 "WIZARD_ACTION_SEND_EMAIL" = "Send the document via e-mail";
 "WIZARD_ADVANCED_ADDRESS_BOOK_TITLE" = "Recipients of the document";
+"WIZARD_CERTIFICATES_BINDING_MANAGER" = "Certificates binding manager";
+"WIZARD_ORGANIZATION" = "Company";
+"WIZARD_POST" = "Job Title";
+"WIZARD_ADD_CERT" = "Add certificate";
 
 // address book section
 "ADD_CERTS_FROM_STORE" = "Select other...";
@@ -97,6 +101,7 @@
 "WARNING" = "Warning";
 "CHOICE_OF_SETTINGS" = "Choice of settings";
 "BUTTON_DONE" = "Done";
+"CERTIFICATES" = "Certificates";
 
 // ERRORs
 "UNKNOWN_ERROR_OCCURED" = "An unexpected error occurred on performing the operation";

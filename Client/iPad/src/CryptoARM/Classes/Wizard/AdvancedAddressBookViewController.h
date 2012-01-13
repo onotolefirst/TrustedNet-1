@@ -49,5 +49,6 @@
 - (void)groupsButtonAction:(id)sender;
 - (void)saveButtonAction:(id)sender;
 - (void)performSelectorOnCellButton:(id)sender;
+- (void)reloadTableView;
 
 @end

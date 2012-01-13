@@ -9,7 +9,7 @@
 #import "CertListPopoverViewController.h"
 
 @implementation CertListPopoverViewController
-@synthesize menuTable, personCertificatesMenuPopover, selectedPerson;
+@synthesize menuTable, personCertificatesMenuPopover, selectedPerson, parentController;
 
 - (id)initWithCertListURL:(ABMutableMultiValueRef)certListURL
 {
@@ -61,6 +61,7 @@
     [self setPersonCertificatesMenuPopover:nil];
     [self setSelectedPerson:nil];
     [self setMenuTable:nil];
+    [self setParentController:nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -78,6 +79,7 @@
 {
     [menuTable release];
     [personCertificatesMenuPopover release];
+    [parentController dealloc];
     
     if (skPersonCerts)
     {
@@ -115,7 +117,7 @@
         
         if (cell == nil)
         {
-            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"CertCellView" owner:self options:nil];
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"CertCellViewWithTick" owner:self options:nil];
             cell = (CertCellView *)[nib objectAtIndex:0];
         
             X509_INFO *selectedCert = X509_INFO_new();
@@ -163,8 +165,57 @@
             cell.certSubject.text = [Crypto getDNFromX509_NAME:certInfo.subject withNid:NID_commonName];
             cell.certIssuer.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"CERT_WHO_ISSUED", @"CERT_WHO_ISSUED"), [Crypto getDNFromX509_NAME:certInfo.issuer withNid:NID_commonName]];
             cell.certValidTo.text = [NSString stringWithFormat:@"%@: %s %@ %s %@.", NSLocalizedString(@"CERT_EXPIRED", @"CERT_EXPIRED"), szDate, monthName, szYear, NSLocalizedString(@"YEAR_PREFIX", @"YEAR_PREFIX")];
-            [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];                                                                                  
-        
+            
+            // make first cert in the URL multi-string selected
+            ABMultiValueRef URLs = ABRecordCopyValue(selectedPerson, kABPersonURLProperty);
+            ABMutableMultiValueRef urlMultiValue = ABMultiValueCreateMutableCopy(URLs);
+                    
+            // check the extracted url to find 'cryptoarm' prefix
+            NSString *strSelectedURL = [NSString stringWithString:ABMultiValueCopyValueAtIndex(urlMultiValue, 0)];            
+            NSString *strHash = [[NSString alloc] init];
+            
+            NSArray *arrUrlComponents = [strSelectedURL componentsSeparatedByString:@"/"];
+            NSRange subStrRange = [[arrUrlComponents objectAtIndex:0] rangeOfString:@"cryptoarm"]; // this is the prefix for the application
+            if (subStrRange.location != NSNotFound)
+            {
+                for (int i = 1; i < [arrUrlComponents count]; i++)
+                {
+                    if ([[arrUrlComponents objectAtIndex:i] isEqualToString:@"certificate"])
+                    {
+                        // certificate prefix was found in the recieved url string
+                        strHash = [arrUrlComponents objectAtIndex:i+1];
+                        break;
+                    }
+                }
+            }
+            
+            if ([strHash length])
+            {
+                // create hash on it(to compare with cert hash attribute in store)
+                PKCS7_ISSUER_AND_SERIAL issuerAndSerial = {};
+                issuerAndSerial.issuer = selectedCert->x509->cert_info->issuer;
+                issuerAndSerial.serial = selectedCert->x509->cert_info->serialNumber;
+            
+                unsigned char *szHash = (unsigned char *)malloc(256);
+                unsigned char *szHashValue = (unsigned char *)malloc(256);
+            
+                szHash[0] = '\0';
+                szHashValue[0] = '\0';
+                unsigned int length = 0;
+            
+                if (PKCS7_ISSUER_AND_SERIAL_digest(&issuerAndSerial, EVP_sha1(), szHash, &length) <= 0)
+                {
+                    // TODO: throw error
+                }
+            
+                NSString *hexData = [Utils hexDataToString:szHash length:length isNeedSpacing:NO];
+            
+                if ([hexData isEqualToString:strHash])
+                {
+                    [cell.imgTick performSelectorOnMainThread:@selector(setImage:) withObject: [UIImage imageNamed:@"ClosePanel.PNG"] waitUntilDone:YES];
+                }
+            }
+
             [certInfo release];
         }
         
@@ -231,6 +282,7 @@
     else
     {
         // show certificate bound manager
+        [parentController pushNavController:[[AddressBookCertificateBindingManager alloc] initWithNibName:@"AddressBookCertificateBindingManager" andPerson:selectedPerson bundle:nil]];
     }
     
     [personCertificatesMenuPopover dismissPopoverAnimated:YES];

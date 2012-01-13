@@ -81,6 +81,10 @@
 "WIZARD_ACTION_OPEN_IN" = "Открыть документ в...";
 "WIZARD_ACTION_SEND_EMAIL" = "Отправить документ по e-mail";
 "WIZARD_ADVANCED_ADDRESS_BOOK_TITLE" = "Получатели документа";
+"WIZARD_CERTIFICATES_BINDING_MANAGER" = "Менеджер привязки сертификатов";
+"WIZARD_ORGANIZATION" = "Организация";
+"WIZARD_POST" = "Должность";
+"WIZARD_ADD_CERT" = "Добавить сертификат";
 
 // address book section
 "ADD_CERTS_FROM_STORE" = "Выбрать другой...";
@@ -97,6 +101,7 @@
 "WARNING" = "Предупреждение";
 "CHOICE_OF_SETTINGS" = "Выбор настройки";
 "BUTTON_DONE" = "Готово";
+"CERTIFICATES" = "Сертификаты";
 
 // ERRORs
 "UNKNOWN_ERROR_OCCURED" = "Произошла непредвиденная ошибка при выполнении операции";

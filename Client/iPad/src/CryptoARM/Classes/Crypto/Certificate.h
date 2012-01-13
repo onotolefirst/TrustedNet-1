@@ -35,7 +35,6 @@
     NSDictionary* authorityInformationAccess; // key - access method, value - URL
     NSArray* cdpURLs; // array of CRL Distribution Point URLs
     NSArray* eku;
-    X509 *x509;
     bool isEKUCritical;
     bool isKeyUsageCritical;
     bool isSKIDCritical;
@@ -43,6 +42,7 @@
     bool isAuthorityAccessInfoCritical;
     bool isCDPCritical;
     int keyUsage;
+    @public X509 *x509;
 }
 
 // to init with copy of some class object. Please use it instead simple assignment

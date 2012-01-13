@@ -914,16 +914,6 @@
                 CFErrorRef *errorAddrBook;
                 ABRecordSetValue(person, kABPersonURLProperty, urlMultiValue, errorAddrBook);
                 CFRelease(urlMultiValue);
-
-                // ABRecordSetValue(person, kABPersonURLProperty, CFSTR("http://trusted.ru"), &error);
-                /*
-                ABRecordSetValue(person, kABPersonEmailProperty, email, &error);
-
-                NSString *name = (NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
-                NSString *lastName = (NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty);
-                [name release];
-                [lastName release];
-                 */
             }
 
             // save changes to the address book
@@ -963,28 +953,22 @@
     private_key = EVP_PKEY_new();
     EVP_PKEY_assign_RSA(private_key, rsaPrivateKey);     
     BIO_free(tempBioPrivateKey);
-
-    
-    
-    
-    
-    
     
     // add callback watch device orientation changed selector
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
     
-    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
+    // find out current device orientation
     isShowingLandscapeView = NO;
     
-    // find out current device orientation
-    if (UIDeviceOrientationIsLandscape(deviceOrientation))
+    if (self.navigationController.view.frame.size.width < 768)
     {
+        // landscape orientation
         isShowingLandscapeView = YES;
     }
-    else if (UIDeviceOrientationIsPortrait(deviceOrientation))
+    else
     {
-        isShowingLandscapeView = NO;
+        isShowingLandscapeView = NO;        
     }
 
     // initialize page components with some information

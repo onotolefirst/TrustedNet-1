@@ -7,11 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
+#import <MessageUI/MessageUI.h>
 #import "AddressBook/AddressBook.h"
 #import "../Crypto/Crypto.h"
 #import "../Utils/Utils.h"
 #import "../Crypto/Certificate.h"
 #import "CertCellView.h"
+#import "../Wizard/AdvancedAddressBookViewController.h"
+#import "../Wizard/AddressBookCertificateBindingManager.h"
 
 #include "time.h"
 #include <Openssl/bio.h>
@@ -29,9 +33,11 @@
     STACK_OF(X509) *skPersonCerts;
     UIPopoverController *personCertificatesMenuPopover;
     ABRecordRef selectedPerson;
+    DetailNavController *parentController;
 }
 
 @property (nonatomic, retain) UITableView *menuTable;
+@property (nonatomic, retain) DetailNavController *parentController;
 @property (nonatomic, assign) ABRecordRef selectedPerson;
 @property (nonatomic, retain) UIPopoverController *personCertificatesMenuPopover;
 

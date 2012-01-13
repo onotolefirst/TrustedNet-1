@@ -2,7 +2,7 @@
 
 @implementation CertCellView
 
-@synthesize certSubject, certIssuer, certValidTo, certImageView, checked, selectionImageView;
+@synthesize certSubject, certIssuer, certValidTo, certImageView, checked, imgTick;
 
 - (id)init
 {
@@ -27,7 +27,7 @@
     [certIssuer release];
     [certValidTo release];
     [certImageView release];
-    [selectionImageView release];
+    [imgTick release];
     
     [super dealloc];
 }

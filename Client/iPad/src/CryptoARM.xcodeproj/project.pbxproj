@@ -7,12 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7306C7C914BC0245001DC2CD /* CertCellViewWithTick.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7306C7C814BC0245001DC2CD /* CertCellViewWithTick.xib */; };
 		7311E9411420941400D17D98 /* Certificate.m in Sources */ = {isa = PBXBuildFile; fileRef = 73135446141FA14B000FCC39 /* Certificate.m */; };
 		731304B714126CA5008F51FF /* CryptoARMAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 731304AE14126CA5008F51FF /* CryptoARMAppDelegate.m */; };
 		731304C714126D1C008F51FF /* CryptoARM.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 731304C314126D1C008F51FF /* CryptoARM.xcdatamodeld */; };
 		731304D614126D52008F51FF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 731304D214126D52008F51FF /* InfoPlist.strings */; };
 		731304D714126D52008F51FF /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 731304D414126D52008F51FF /* MainWindow.xib */; };
 		731304DE14126D8F008F51FF /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 731304DA14126D8F008F51FF /* Default-Landscape.png */; };
+		73140DD014B5916600FBD7ED /* CertStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73140DCE14B5916600FBD7ED /* CertStoreViewController.m */; };
+		73140DD114B5916600FBD7ED /* CertStoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73140DCF14B5916600FBD7ED /* CertStoreViewController.xib */; };
+		73140DD514B5950400FBD7ED /* CertificateStoreCellViewLandscape.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73140DD314B5950400FBD7ED /* CertificateStoreCellViewLandscape.xib */; };
+		73140DDD14B5958500FBD7ED /* CertificateStoreCellViewPortrait.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73140DDC14B5958500FBD7ED /* CertificateStoreCellViewPortrait.xib */; };
+		73140DE014B596FA00FBD7ED /* CertificateStoreCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73140DDF14B596FA00FBD7ED /* CertificateStoreCellView.m */; };
 		731588D3141523A2006504AA /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 731588D2141523A2006504AA /* libcrypto.a */; };
 		731588D6141523B6006504AA /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 731588D5141523B6006504AA /* libssl.a */; };
 		7315FAC8147523B700245953 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7315FAC7147523B600245953 /* Default.png */; };
@@ -22,6 +28,11 @@
 		731D692E1487D01E0030BE04 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 731D692D1487D01E0030BE04 /* AddressBook.framework */; };
 		731D69311487D0240030BE04 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 731D69301487D0240030BE04 /* AddressBookUI.framework */; };
 		731E47CA1423262500E73D1E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 73B3271F1422015B00DB8934 /* Localizable.strings */; };
+		732C9AC214A3604A00A3ECC0 /* RecipientCertificateCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 732C9ABF14A3604A00A3ECC0 /* RecipientCertificateCellView.m */; };
+		732C9AC314A3604A00A3ECC0 /* RecipientCertificateCellViewLandscape.xib in Resources */ = {isa = PBXBuildFile; fileRef = 732C9AC014A3604A00A3ECC0 /* RecipientCertificateCellViewLandscape.xib */; };
+		732C9AC414A3604A00A3ECC0 /* RecipientCertificateCellViewPortrait.xib in Resources */ = {isa = PBXBuildFile; fileRef = 732C9AC114A3604A00A3ECC0 /* RecipientCertificateCellViewPortrait.xib */; };
+		732C9AC814A3631F00A3ECC0 /* AddressBookCertificateBindingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 732C9AC614A3631F00A3ECC0 /* AddressBookCertificateBindingManager.m */; };
+		732C9AC914A3631F00A3ECC0 /* AddressBookCertificateBindingManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 732C9AC714A3631F00A3ECC0 /* AddressBookCertificateBindingManager.xib */; };
 		7331F4041431938300E91162 /* CertDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7331F4031431938300E91162 /* CertDetailView.xib */; };
 		733A1F50143DFAD500E569D1 /* barButtonRecipients.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 733A1F4F143DFAD400E569D1 /* barButtonRecipients.PNG */; };
 		739285DF145E94A100D8F77E /* WizardEncryptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 739285DC145E94A100D8F77E /* WizardEncryptViewController.m */; };
@@ -31,6 +42,8 @@
 		73D4A0661485189300F7343D /* SystemSettingsMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D4A0631485189300F7343D /* SystemSettingsMenuCell.m */; };
 		73D4A069148520A300F7343D /* SystemSettingsMenuCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73D4A068148520A300F7343D /* SystemSettingsMenuCell.xib */; };
 		73D4A06C1485331A00F7343D /* SystemSettingsMenuCellContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D4A06B1485331900F7343D /* SystemSettingsMenuCellContent.m */; };
+		73F2E28E14B8361B00915BEA /* checked.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 73F2E28C14B8361B00915BEA /* checked.PNG */; };
+		73F2E28F14B8361B00915BEA /* unchecked.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 73F2E28D14B8361B00915BEA /* unchecked.PNG */; };
 		73F2EAF014860C3F0070AF56 /* SystemSettingsMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73F2EAEF14860C3F0070AF56 /* SystemSettingsMenuViewController.m */; };
 		73F2EAFB14867F280070AF56 /* SystemSettingsMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73F2EAFA14867F270070AF56 /* SystemSettingsMenuViewController.xib */; };
 		73F37623147CE53E005D6281 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73F37622147CE53E005D6281 /* MessageUI.framework */; };
@@ -140,6 +153,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7306C7C814BC0245001DC2CD /* CertCellViewWithTick.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CertCellViewWithTick.xib; path = Classes/Cert/CertCellViewWithTick.xib; sourceTree = "<group>"; };
 		731304AD14126CA5008F51FF /* CryptoARMAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CryptoARMAppDelegate.h; path = Classes/CryptoARMAppDelegate.h; sourceTree = "<group>"; };
 		731304AE14126CA5008F51FF /* CryptoARMAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CryptoARMAppDelegate.m; path = Classes/CryptoARMAppDelegate.m; sourceTree = "<group>"; };
 		731304BE14126CE3008F51FF /* CryptoARM-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CryptoARM-Prefix.pch"; path = "/Users/smi/Documents/CryptoARM/trunk/src/CryptoARM/CryptoARM-Prefix.pch"; sourceTree = "<absolute>"; };
@@ -149,6 +163,13 @@
 		731304DA14126D8F008F51FF /* Default-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape.png"; path = "Resources/Images/Default-Landscape.png"; sourceTree = "<group>"; };
 		73135446141FA14B000FCC39 /* Certificate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Certificate.m; path = Classes/Crypto/Certificate.m; sourceTree = "<group>"; };
 		73135447141FB23B000FCC39 /* Certificate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Certificate.h; path = Classes/Crypto/Certificate.h; sourceTree = "<group>"; };
+		73140DCD14B5916600FBD7ED /* CertStoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CertStoreViewController.h; path = Classes/Cert/CertStoreViewController.h; sourceTree = "<group>"; };
+		73140DCE14B5916600FBD7ED /* CertStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CertStoreViewController.m; path = Classes/Cert/CertStoreViewController.m; sourceTree = "<group>"; };
+		73140DCF14B5916600FBD7ED /* CertStoreViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CertStoreViewController.xib; path = Classes/Cert/CertStoreViewController.xib; sourceTree = "<group>"; };
+		73140DD314B5950400FBD7ED /* CertificateStoreCellViewLandscape.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CertificateStoreCellViewLandscape.xib; path = Classes/Cert/CertificateStoreCellViewLandscape.xib; sourceTree = "<group>"; };
+		73140DDC14B5958500FBD7ED /* CertificateStoreCellViewPortrait.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CertificateStoreCellViewPortrait.xib; path = Classes/Cert/CertificateStoreCellViewPortrait.xib; sourceTree = "<group>"; };
+		73140DDE14B596FA00FBD7ED /* CertificateStoreCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CertificateStoreCellView.h; path = Classes/Cert/CertificateStoreCellView.h; sourceTree = "<group>"; };
+		73140DDF14B596FA00FBD7ED /* CertificateStoreCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CertificateStoreCellView.m; path = Classes/Cert/CertificateStoreCellView.m; sourceTree = "<group>"; };
 		731588D2141523A2006504AA /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../lib/libcrypto.a; sourceTree = "<group>"; };
 		731588D5141523B6006504AA /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../lib/libssl.a; sourceTree = "<group>"; };
 		7315FAC7147523B600245953 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/Images/Default.png; sourceTree = "<group>"; };
@@ -158,6 +179,13 @@
 		731CD921142B6CA800C0D335 /* CertDetailTableViewHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CertDetailTableViewHeader.xib; sourceTree = "<group>"; };
 		731D692D1487D01E0030BE04 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		731D69301487D0240030BE04 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		732C9ABE14A3604A00A3ECC0 /* RecipientCertificateCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecipientCertificateCellView.h; path = Classes/Wizard/RecipientCertificateCellView.h; sourceTree = "<group>"; };
+		732C9ABF14A3604A00A3ECC0 /* RecipientCertificateCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecipientCertificateCellView.m; path = Classes/Wizard/RecipientCertificateCellView.m; sourceTree = "<group>"; };
+		732C9AC014A3604A00A3ECC0 /* RecipientCertificateCellViewLandscape.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RecipientCertificateCellViewLandscape.xib; path = Classes/Wizard/RecipientCertificateCellViewLandscape.xib; sourceTree = "<group>"; };
+		732C9AC114A3604A00A3ECC0 /* RecipientCertificateCellViewPortrait.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RecipientCertificateCellViewPortrait.xib; path = Classes/Wizard/RecipientCertificateCellViewPortrait.xib; sourceTree = "<group>"; };
+		732C9AC514A3631F00A3ECC0 /* AddressBookCertificateBindingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddressBookCertificateBindingManager.h; path = Classes/Wizard/AddressBookCertificateBindingManager.h; sourceTree = "<group>"; };
+		732C9AC614A3631F00A3ECC0 /* AddressBookCertificateBindingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddressBookCertificateBindingManager.m; path = Classes/Wizard/AddressBookCertificateBindingManager.m; sourceTree = "<group>"; };
+		732C9AC714A3631F00A3ECC0 /* AddressBookCertificateBindingManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddressBookCertificateBindingManager.xib; path = Classes/Wizard/AddressBookCertificateBindingManager.xib; sourceTree = "<group>"; };
 		7331F4031431938300E91162 /* CertDetailView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CertDetailView.xib; sourceTree = "<group>"; };
 		733A1F4F143DFAD400E569D1 /* barButtonRecipients.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = barButtonRecipients.PNG; path = Resources/Images/barButtonRecipients.PNG; sourceTree = "<group>"; };
 		739285DB145E94A100D8F77E /* WizardEncryptViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizardEncryptViewController.h; path = Classes/Wizard/WizardEncryptViewController.h; sourceTree = "<group>"; };
@@ -175,6 +203,8 @@
 		73D4A068148520A300F7343D /* SystemSettingsMenuCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SystemSettingsMenuCell.xib; path = Classes/Detail/SystemSettingsMenuCell.xib; sourceTree = "<group>"; };
 		73D4A06A1485331900F7343D /* SystemSettingsMenuCellContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SystemSettingsMenuCellContent.h; path = Classes/Detail/SystemSettingsMenuCellContent.h; sourceTree = "<group>"; };
 		73D4A06B1485331900F7343D /* SystemSettingsMenuCellContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SystemSettingsMenuCellContent.m; path = Classes/Detail/SystemSettingsMenuCellContent.m; sourceTree = "<group>"; };
+		73F2E28C14B8361B00915BEA /* checked.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = checked.PNG; path = Resources/Images/checked.PNG; sourceTree = "<group>"; };
+		73F2E28D14B8361B00915BEA /* unchecked.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = unchecked.PNG; path = Resources/Images/unchecked.PNG; sourceTree = "<group>"; };
 		73F2EAEE14860C3F0070AF56 /* SystemSettingsMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SystemSettingsMenuViewController.h; path = Classes/Detail/SystemSettingsMenuViewController.h; sourceTree = "<group>"; };
 		73F2EAEF14860C3F0070AF56 /* SystemSettingsMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SystemSettingsMenuViewController.m; path = Classes/Detail/SystemSettingsMenuViewController.m; sourceTree = "<group>"; };
 		73F2EAFA14867F270070AF56 /* SystemSettingsMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SystemSettingsMenuViewController.xib; path = Classes/Detail/SystemSettingsMenuViewController.xib; sourceTree = "<group>"; };
@@ -366,6 +396,8 @@
 				B3DD9DA514515E8500192453 /* interface-64x64 */,
 				B388CA53146C16140098B793 /* Temporary images */,
 				B3EBD4EF14457DA200243136 /* to-section.PNG */,
+				73F2E28C14B8361B00915BEA /* checked.PNG */,
+				73F2E28D14B8361B00915BEA /* unchecked.PNG */,
 				B388CA54146C16FB0098B793 /* gear.png */,
 				B300ED1D146CF05100C3C88F /* chain.png */,
 			);
@@ -382,9 +414,16 @@
 				7315FAC91475248400245953 /* RecipientCellViewLandscape.xib */,
 				7315FACB14752E7E00245953 /* RecipientCellView.h */,
 				7315FACC14752E7E00245953 /* RecipientCellView.m */,
+				732C9ABE14A3604A00A3ECC0 /* RecipientCertificateCellView.h */,
+				732C9ABF14A3604A00A3ECC0 /* RecipientCertificateCellView.m */,
+				732C9AC014A3604A00A3ECC0 /* RecipientCertificateCellViewLandscape.xib */,
+				732C9AC114A3604A00A3ECC0 /* RecipientCertificateCellViewPortrait.xib */,
 				73F39D0C148E7C4500F95B36 /* AdvancedAddressBookViewController.h */,
 				73F39D0D148E7C4500F95B36 /* AdvancedAddressBookViewController.m */,
 				73F39D0E148E7C4500F95B36 /* AdvancedAddressBookViewController.xib */,
+				732C9AC514A3631F00A3ECC0 /* AddressBookCertificateBindingManager.h */,
+				732C9AC614A3631F00A3ECC0 /* AddressBookCertificateBindingManager.m */,
+				732C9AC714A3631F00A3ECC0 /* AddressBookCertificateBindingManager.xib */,
 			);
 			name = Wizard;
 			sourceTree = "<group>";
@@ -446,11 +485,19 @@
 				73FF581E141F823A002B897A /* CertCellView.h */,
 				73FF581F141F823A002B897A /* CertCellView.m */,
 				73C44F20141F921600935BCE /* CertCellView.xib */,
+				7306C7C814BC0245001DC2CD /* CertCellViewWithTick.xib */,
 				73FF5822141F823A002B897A /* CertMenuModel.h */,
 				73FF5823141F823A002B897A /* CertMenuModel.m */,
 				73F74E311495FFAA003DD7C1 /* CertListPopoverViewController.h */,
 				73F74E321495FFAA003DD7C1 /* CertListPopoverViewController.m */,
 				73F74E331495FFAA003DD7C1 /* CertListPopoverViewController.xib */,
+				73140DCD14B5916600FBD7ED /* CertStoreViewController.h */,
+				73140DCE14B5916600FBD7ED /* CertStoreViewController.m */,
+				73140DCF14B5916600FBD7ED /* CertStoreViewController.xib */,
+				73140DD314B5950400FBD7ED /* CertificateStoreCellViewLandscape.xib */,
+				73140DDC14B5958500FBD7ED /* CertificateStoreCellViewPortrait.xib */,
+				73140DDE14B596FA00FBD7ED /* CertificateStoreCellView.h */,
+				73140DDF14B596FA00FBD7ED /* CertificateStoreCellView.m */,
 			);
 			name = Cert;
 			sourceTree = "<group>";
@@ -938,6 +985,15 @@
 				73F74E351495FFAA003DD7C1 /* CertListPopoverViewController.xib in Resources */,
 				B301B03514723F2E00344993 /* CertUsageViewController.xib in Resources */,
 				B3E59769148CC02100A358E0 /* SaveDelButtonsPanelController.xib in Resources */,
+				732C9AC314A3604A00A3ECC0 /* RecipientCertificateCellViewLandscape.xib in Resources */,
+				732C9AC414A3604A00A3ECC0 /* RecipientCertificateCellViewPortrait.xib in Resources */,
+				732C9AC914A3631F00A3ECC0 /* AddressBookCertificateBindingManager.xib in Resources */,
+				73140DD114B5916600FBD7ED /* CertStoreViewController.xib in Resources */,
+				73140DD514B5950400FBD7ED /* CertificateStoreCellViewLandscape.xib in Resources */,
+				73140DDD14B5958500FBD7ED /* CertificateStoreCellViewPortrait.xib in Resources */,
+				73F2E28E14B8361B00915BEA /* checked.PNG in Resources */,
+				73F2E28F14B8361B00915BEA /* unchecked.PNG in Resources */,
+				7306C7C914BC0245001DC2CD /* CertCellViewWithTick.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1017,6 +1073,10 @@
 				B3058C21149A0E98008A3F8C /* DDXMLDocument.m in Sources */,
 				B3058C22149A0E98008A3F8C /* DDXMLElement.m in Sources */,
 				B3058C23149A0E98008A3F8C /* DDXMLNode.m in Sources */,
+				732C9AC214A3604A00A3ECC0 /* RecipientCertificateCellView.m in Sources */,
+				732C9AC814A3631F00A3ECC0 /* AddressBookCertificateBindingManager.m in Sources */,
+				73140DD014B5916600FBD7ED /* CertStoreViewController.m in Sources */,
+				73140DE014B596FA00FBD7ED /* CertificateStoreCellView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

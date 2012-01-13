@@ -6,7 +6,7 @@
 
 #import "DetailNavController.h"
 
-@interface CertDetailViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,NavigationSource> {
+@interface CertDetailViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,NavigationSource,UITextFieldDelegate> {
     UIColor *textColor;
     CertificateInfo *certInfo;
     NSArray *arrayOU;

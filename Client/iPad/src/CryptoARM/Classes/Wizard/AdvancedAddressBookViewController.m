@@ -42,29 +42,29 @@
     ABAddressBookRef addressBook = ABAddressBookCreate();
     people = (NSArray *)ABAddressBookCopyArrayOfAllPeople(addressBook);
     [people retain];
+
+    // add callback watch device orientation changed selector
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
+    
+    // find out current device orientation
+    isShowingLandscapeView = NO;
+    
+    if (self.navigationController.view.frame.size.width < 768)
+    {
+        // landscape orientation
+        isShowingLandscapeView = YES;
+    }
+    else
+    {
+        isShowingLandscapeView = NO;        
+    }
     
     tblRecipients.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     tblRecipients.dataSource = self;
     tblRecipients.delegate = self;
     
     [tblRecipients reloadData];
-    
-    // add callback watch device orientation changed selector
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
-    
-    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
-    isShowingLandscapeView = NO;
-    
-    // find out current device orientation
-    if (UIDeviceOrientationIsLandscape(deviceOrientation))
-    {
-        isShowingLandscapeView = YES;
-    }
-    else if (UIDeviceOrientationIsPortrait(deviceOrientation))
-    {
-        isShowingLandscapeView = NO;
-    }
 }
 
 - (void)viewDidUnload
@@ -377,7 +377,7 @@
             szDate[0] = '\0'; szYear[0] = '\0';
             strftime(szDate, 5, "%d", localtime(&validTo));
             strftime(szYear, 5, "%Y", localtime(&validTo));    
-                        
+
             [cell.lblCertIssuer setText:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"CERT_WHO_ISSUED", @"CERT_WHO_ISSUED"), [Crypto getDNFromX509_NAME:cell.cert.issuer withNid:NID_commonName]]];
             
             [cell.lblValidTo setText:[NSString stringWithFormat:@"%@: %s %@ %s %@.", NSLocalizedString(@"CERT_EXPIRED", @"CERT_EXPIRED"), szDate, monthName, szYear, NSLocalizedString(@"YEAR_PREFIX", @"YEAR_PREFIX")]];
@@ -424,10 +424,20 @@
     personCertificatesMenuPopover.popoverContentSize = CGSizeMake(personCertificatesMenuPopover.popoverContentSize.width, [certListMenu calculateMenuHeight]);
 
     [certListMenu setPersonCertificatesMenuPopover:personCertificatesMenuPopover]; // to dismiss this popover in the child class when cell cert item is selected
+    [certListMenu setParentController:parentController];
     [certListMenu setSelectedPerson:personRecord];
+    
     [certListMenu release];
     
     [personCertificatesMenuPopover presentPopoverFromRect:rectPopoverPlace inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+}
+
+- (void)reloadTableView
+{
+    ABAddressBookRef addressBook = ABAddressBookCreate();
+    people = (NSArray *)ABAddressBookCopyArrayOfAllPeople(addressBook);
+
+    [tblRecipients reloadData];
 }
 
 @end
