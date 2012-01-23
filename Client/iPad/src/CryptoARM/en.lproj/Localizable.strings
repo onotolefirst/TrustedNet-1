@@ -49,6 +49,13 @@
 "CERT_USAGE_TITLE" = "Usage";
 "CERT_EXTENDED_KEY_USAGE" = "Extended Key Usage";
 
+"CERT_MANAGE_CERTIFICATE" = "Certificate management";
+"CERT_CHECK_CERT_STATUS" = "Check status";
+"CERT_EXPORT_CERTIFICATE" = "Export certificate";
+"CERT_SEND_CERT_BY_EMAIL" = "Send by E-Mail";
+"CERT_PRINT_CERTIFICATE" = "Print certificate";
+"CERT_DELETE_CERTIFICATE" = "Delete certificate";
+
 ///////////////////////////////////////////////////
 // Authority Information Access - Access methods
 "AM_OCSP" = "Online Certificate Status Protocol";
@@ -90,6 +97,21 @@
 "ADD_CERTS_FROM_STORE" = "Select other...";
 "ENCIPHER_CERTIFICATE" = "Encryption certificate";
 
+//Root view and menu
+"SECTIONS" = "Sections";
+"ROOT_APPLICATION_CERVICES" = "Application cervices";
+"ROOT_ADDRES_BOOK" = "Address book";
+"ROOT_IDEAS_DISCUSSION" = "ideas discussion";
+"ROOT_OPERATIONS_LOG" = "Operation log";
+"ROOT_PROGRAM_DESCRIPTION" = "About program";
+"ROOT_TECH_SUPPORT" = "Technical support";
+
+// Certificate usages interface
+"CERTIFICATE_USAGE_TITLE" = "Certificate usage";
+"CERTIFICATE_USAGES_DICTIONARY" = "Certificate usage dictionary";
+"CERT_USAGE_IDENTIFICATOR" = "Identificator";
+"CERT_USAGE_PURPOSE" = "Purpose description";
+
 // common
 "YEAR_PREFIX" = "y";
 "CRYPTOARM" = "CryptoARM";
@@ -102,6 +124,8 @@
 "CHOICE_OF_SETTINGS" = "Choice of settings";
 "BUTTON_DONE" = "Done";
 "CERTIFICATES" = "Certificates";
+"SAVE_BUTTON_TITLE" = "Save";
+"DELETE_BUTTON_TITLE" = "Delete";
 
 // ERRORs
 "UNKNOWN_ERROR_OCCURED" = "An unexpected error occurred on performing the operation";

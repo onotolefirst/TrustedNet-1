@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#import "KeyboardPositionDelegate.h"
+
 @interface SaveDelButtonsPanelController : UIViewController
 {
     NSString *delButtonTitle;
@@ -28,6 +30,10 @@
 @property (retain, nonatomic) IBOutlet UIButton *delButton;
 @property (retain, nonatomic) IBOutlet UIButton *saveButton;
 
+@property (retain, nonatomic) id<KeyboardPositionDelegate> keyboardPositionDelegate;
+
+- (void)moveButtonsByInfo:(NSDictionary*)userInfo;
+
 - (IBAction)delButtonTouchUpInsideAction:(id)sender;
 - (IBAction)saveButtonTouchUpInsideAction:(id)sender;
 
@@ -36,4 +42,5 @@
 - (void)keyboardNotificationHandler:(NSNotification*)notification;
 - (void)keyboardShowNotificationHandler:(NSNotification*)notification;
 - (void)keyboardHideNotificationHandler:(NSNotification*)notification;
+- (void)TextBeginEditingNotificationHandler:(NSNotification*)notification;
 @end

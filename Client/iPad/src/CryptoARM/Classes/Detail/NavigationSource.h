@@ -23,7 +23,7 @@
 - (SettingsMenuSource*)settingsMenu;
 
 - (Class)getSavingObjcetClass;
-- (UINavigationItem<MenuDataRefreshinProtocol>*)createSavingObject;
+- (id<MenuDataRefreshinProtocol>*)createSavingObject;
 
 @optional
 - (void)dismissPopovers;

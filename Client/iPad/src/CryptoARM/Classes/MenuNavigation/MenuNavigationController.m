@@ -2,19 +2,17 @@
 //  MenuNavigationController.m
 //  CryptoARM
 //
-//  Created by Sergey Mityukov on 10/12/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Created by Sergey Mityukov on 12/28/11.
+//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
 #import "MenuNavigationController.h"
 
 #import "MainMenuModel.h"
 #import "DetailNavController.h"
-
+#import "MenuListController.h"
 
 @implementation MenuNavigationController
-@synthesize navBar;
-@synthesize tableMenu;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -25,25 +23,13 @@
     return self;
 }
 
-- (id)initWithTable:(UITableView *)tblView andNavigationBar:(UINavigationBar *)navigationBar
+- (id)init
 {
     self = [super init];
-    if(self)
-    {
-        [navBar release];
-        [tableMenu release];
-        
-        navBar = navigationBar;
-        tableMenu = tblView;
+    if (self) {
+        menuNavController = [[UINavigationController alloc] init];
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [navBar release];
-    [tableMenu release];
-    [super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
@@ -56,7 +42,21 @@
 
 - (void)reloadMenuData
 {
-    [tableMenu reloadData];
+    MenuListController *topViewController = (MenuListController*)[menuNavController topViewController];
+    
+    if( topViewController.menuModel.filtered )
+    {
+        //NSLog(@"%@", topViewController.searchDisplayController.searchBar.text);
+        [topViewController.menuModel applyFilterForSeachText:topViewController.searchDisplayController.searchBar.text andScope:topViewController.searchDisplayController.searchBar.selectedScopeButtonIndex];
+    }
+    
+    [topViewController.currentTableView reloadData];
+}
+
+- (CommonNavigationItem<MenuDataRefreshinProtocol>*)currentMenuItem
+{
+    MenuListController *currentController = (MenuListController*)menuNavController.topViewController;
+    return (CommonNavigationItem<MenuDataRefreshinProtocol>*)currentController.menuModel;
 }
 
 #pragma mark - View lifecycle
@@ -66,8 +66,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    tableMenu.dataSource = self;
-    tableMenu.delegate = self;
+    UINavigationBar *navBar = menuNavController.navigationBar;
+    navBar.tintColor = [UIColor colorWithRed:(CGFloat)187/255 green:(CGFloat)2/255 blue:(CGFloat)4/255 alpha:1];
+    menuNavController.view.frame = self.view.bounds;
+    [self.view addSubview:menuNavController.view];
     
     MainMenuModel *rootItem = [[MainMenuModel alloc] init];
     
@@ -76,19 +78,22 @@
     backButton.target = self;
     backButton.image = [UIImage imageNamed:@"to-section.PNG"];
     
-    [rootItem setLeftBarButtonItem:backButton];
-    navBar.items = [NSArray arrayWithObject:rootItem];
+    MenuListController *rootViewController = [[MenuListController alloc] initWithMenuItem:rootItem];
+    rootViewController.navigationDelegate = self;
+    
+    [menuNavController pushViewController:rootViewController animated:NO];
+    menuNavController.navigationBar.topItem.title = [rootItem menuTitle];
+    menuNavController.navigationBar.topItem.leftBarButtonItem = backButton;
     
     [rootItem release];
     [backButton release];
+    [rootViewController release];
     
-    [tableMenu reloadData];
+    [self reloadMenuData];
 }
 
 - (void)viewDidUnload
 {
-    [self setNavBar:nil];
-    [self setTableMenu:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -100,102 +105,65 @@
 	return YES;
 }
 
-//--------datasource and delegate methods-----------
-
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return [((CommonNavigationItem*)navBar.topItem) mainMenuSections];
+- (void)dealloc {
+    [menuNavController release];
+    [super dealloc];
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return [((CommonNavigationItem*)navBar.topItem) mainMenuRowsInSection:section];
-}
-
--(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    CommonNavigationItem* navItm = (CommonNavigationItem*)navBar.topItem;
-    
-    UITableViewCell *cell = [navItm dequeOrCreateDefaultCell:tableView];
-    return [navItm fillCell:cell atIndex:indexPath inTableView:tableMenu];
-}
-
+#pragma mark - menu navigation delegate protocol support
 - (void)addItem:(CommonNavigationItem*)newItem forIndex:(NSIndexPath*)currentIndex
 {
-    [tableMenu deselectRowAtIndexPath:currentIndex animated:YES];
+    UITableView *menuTable = ((UITableViewController*)menuNavController.topViewController).tableView;
+    [menuTable deselectRowAtIndexPath:currentIndex animated:YES];
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] init];
     backButton.action = @selector(back:);
     backButton.target = self;
     backButton.image = [UIImage imageNamed:@"to-root.PNG"];
     
+    MenuListController *newSubmenu = [[MenuListController alloc] initWithMenuItem:newItem];
+    newSubmenu.navigationDelegate = self;
+    
+    [menuNavController pushViewController:newSubmenu animated:YES];
+    menuNavController.navigationBar.topItem.leftBarButtonItem = backButton;
+    menuNavController.navigationBar.topItem.title = [newItem menuTitle];
+    
     if( [newItem showAddButton] )
     {
         UIBarButtonItem *addButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButtonAction:)] autorelease];
-        [newItem setRightBarButtonItem:addButton];
+        menuNavController.navigationBar.topItem.rightBarButtonItem = addButton;
     }
     
-    [newItem setLeftBarButtonItem:backButton];
-    [navBar pushNavigationItem:newItem animated:YES];
-    [tableMenu reloadSections:[NSIndexSet indexSetWithIndex:currentIndex.section] withRowAnimation:UITableViewRowAnimationLeft];
     [backButton release];
-
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    CommonNavigationItem *currentItem = (CommonNavigationItem*)navBar.topItem;
-    
-    UITableViewCellAccessoryType elementType = [currentItem typeOfElementAt:indexPath];
-    
-    if( UITableViewCellAccessoryNone == elementType )
-        return;
-    
-    if( UITableViewCellAccessoryDisclosureIndicator == elementType )
-    {
-        CommonNavigationItem *newItem = [currentItem submenuNavigationItemForIndex:indexPath];
-        
-        if( !newItem )
+- (void)showDetailController:(UIViewController<NavigationSource>*)subController
         {
-            NSLog(@"Error: Unable to get submenu for this item");
-            return;
-        }
-        
-        [self addItem:newItem forIndex:indexPath];
-    }
-    
-    if( (UITableViewCellAccessoryDetailDisclosureButton == elementType) && self.splitViewController && [[self.splitViewController viewControllers] count] == 2 )
+    if( self.splitViewController && [[self.splitViewController viewControllers] count] == 2 )
     {
-        UIViewController<NavigationSource> *subController = [currentItem getDetailControllerForElementAt:indexPath];
-        
         DetailNavController<NavigationSource> *controllerDetail = [[self.splitViewController viewControllers] objectAtIndex:1];
         [controllerDetail changeSection:subController];
     }
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return [((CommonNavigationItem*)navBar.topItem) cellHeight:indexPath];
 }
 
 #pragma mark - actions callbacks
 
 -(void)back:(id)sender
 {
-    [navBar popNavigationItemAnimated:YES];
-    [tableMenu reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationRight];
+    [menuNavController popViewControllerAnimated:YES];
+    [((UITableViewController*)menuNavController.topViewController).tableView reloadData];
 }
 
 -(void)returnToSection:(id)sender
 {
-    NSIndexPath *selected = ((MainMenuModel*)navBar.topItem).selectedRowIndex;
+    NSIndexPath *selected = ((MainMenuModel*)self.currentMenuItem).selectedRowIndex;
     
     if( !selected )
     {
         return;
     }
     
-    CommonNavigationItem *newItem = [((CommonNavigationItem*)navBar.topItem) submenuNavigationItemForIndex:selected];
+    CommonNavigationItem *newItem = [((CommonNavigationItem*)self.currentMenuItem) submenuNavigationItemForIndex:selected];
     
     if( !newItem )
     {
@@ -207,7 +175,7 @@
 
 - (void)addButtonAction:(id)sender
 {
-    CommonNavigationItem *currentItem = (CommonNavigationItem*)navBar.topItem;
+    CommonNavigationItem *currentItem = (CommonNavigationItem*)self.currentMenuItem;
     UIViewController<NavigationSource> *subController = [currentItem createControllerForNewElement];
     
     if( !subController )

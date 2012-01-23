@@ -9,7 +9,7 @@
 #import "CertificateUsageMenuModel.h"
 
 #import "CertUsageViewController.h"
-#import "../CommonPaths.h"
+#import "PathHelper.h"
 
 @implementation CertificateUsageMenuModel
 
@@ -18,8 +18,13 @@
     self = [super init];
     if(self)
     {
-        savingFileName = [[NSString alloc] initWithFormat:@"%@%@", PATH_OPERATIONAL_SETTINGS, FILENAME_CERTIFICATE_USAGES];
+        savingFileName = [[NSString stringWithFormat:@"%@/%@", [PathHelper getOperationalSettinsDirectoryPath], [PathHelper getCertUsagesFileName]] copy];
+        
         usageHelper = [[CertUsageHelper alloc] initWithDictionary:savingFileName];
+        
+        filteredUsages = [[NSMutableArray alloc] init];
+        
+        self.filtered = NO;
     }
     return self;
 }
@@ -31,20 +36,23 @@
         [usageHelper release];
         [savingFileName release];
     }
+    [filteredUsages release];
     
     [super dealloc];
 }
 
 #pragma mark - superclass CommonNavigationItem methods overloading
 
-//- (NSInteger)mainMenuSections
-//{
-//    return 1;
-//}
+- (NSString*)menuTitle
+{
+    return NSLocalizedString(@"CERTIFICATE_USAGES_DICTIONARY", @"Справочник назначений сертификата");
+}
 
 - (NSInteger)mainMenuRowsInSection:(NSInteger)section
 {
-    return [usageHelper.certUsages count];
+    BOOL isFiltered = self.filtered;
+    NSInteger result = isFiltered ? filteredUsages.count : usageHelper.certUsages.count;
+    return result;
 }
 
 - (UITableViewCellAccessoryType)typeOfElementAt:(NSIndexPath *)idx
@@ -67,8 +75,17 @@
 
 - (UITableViewCell*)fillCell:(UITableViewCell*)cell atIndex:(NSIndexPath*)idx inTableView:(UITableView*)tableView
 {
-    cell.textLabel.text = ((CertUsage*)[usageHelper.certUsages objectAtIndex:idx.row]).usageId;
-    cell.detailTextLabel.text = ((CertUsage*)[usageHelper.certUsages objectAtIndex:idx.row]).usageDescription; 
+    if( (self.filtered ? filteredUsages.count : usageHelper.certUsages.count) < idx.row )
+    {
+        NSLog(@"Error: requested index is outbond. Maybe wrong array requested");
+        return cell;
+    }
+    
+    CertUsage *resultingUsage = (CertUsage*)(self.filtered ? [filteredUsages objectAtIndex:idx.row] : [usageHelper.certUsages objectAtIndex:idx.row]);
+
+    cell.textLabel.text = resultingUsage.usageId;
+    cell.detailTextLabel.text = resultingUsage.usageDescription;
+    
     cell.imageView.image = [UIImage imageNamed:@"OID.png"];
     return cell;
 }
@@ -80,7 +97,8 @@
 
 - (UIViewController<NavigationSource>*)getDetailControllerForElementAt:(NSIndexPath*)index
 {
-    return [[[CertUsageViewController alloc] initWithUsage:[[[usageHelper.certUsages objectAtIndex:index.row] copy] autorelease] idLabel:nil descriptionLabel:nil] autorelease];
+    CertUsage *resultingUsage = (CertUsage*)(self.filtered ? [filteredUsages objectAtIndex:index.row] : [usageHelper.certUsages objectAtIndex:index.row]);
+    return [[[CertUsageViewController alloc] initWithUsage:[[resultingUsage copy] autorelease] idLabel:nil descriptionLabel:nil] autorelease];
 }
 
 - (CGFloat)cellHeight:(NSIndexPath *)indexPath
@@ -144,6 +162,48 @@
 {
     CertUsage *checkingUsage = (CertUsage*)checkingElement;
     return [usageHelper checkUsageWithId:checkingUsage.usageId] != nil;
+}
+
+- (BOOL)filterable
+{
+    return YES;
+}
+
+- (NSArray*)dataScopes
+{
+    if( !scopesArray )
+    {
+        scopesArray = [NSArray arrayWithObjects:NSLocalizedString(@"CERT_USAGE_IDENTIFICATOR", @"Идентификатор"), NSLocalizedString(@"CERT_USAGE_PURPOSE", @"Назначение"), nil];
+    }
+    return scopesArray;
+}
+
+- (void)applyFilterForSeachText:(NSString*)searchString andScope:(NSInteger)searchScope
+{
+    [filteredUsages removeAllObjects];
+    
+    for (CertUsage *usage in usageHelper.certUsages)
+    {
+        NSRange foundRange;
+        switch (searchScope) {
+            case 0: //by OID
+                foundRange = [usage.usageId rangeOfString:searchString];
+                break;
+                
+            case 1: //by Description
+                foundRange = [usage.usageDescription rangeOfString:searchString];
+                break;
+                
+            default:
+                foundRange.location = NSNotFound;
+                break;
+        };
+        
+        if( foundRange.location != NSNotFound )
+        {
+            [filteredUsages addObject:usage];
+        }
+    }
 }
 
 @end

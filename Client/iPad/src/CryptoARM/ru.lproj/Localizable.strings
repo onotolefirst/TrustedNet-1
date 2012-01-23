@@ -49,6 +49,13 @@
 "CERT_USAGE_TITLE" = "Использование";
 "CERT_EXTENDED_KEY_USAGE" = "Дополнительное применение";
 
+"CERT_MANAGE_CERTIFICATE" = "Управление сертификатом";
+"CERT_CHECK_CERT_STATUS" = "Проверить статус";
+"CERT_EXPORT_CERTIFICATE" = "Экспорт сертификата";
+"CERT_SEND_CERT_BY_EMAIL" = "Отправить по E-Mail";
+"CERT_PRINT_CERTIFICATE" = "Печать сертификата";
+"CERT_DELETE_CERTIFICATE" = "Удалить сертификат";
+
 ///////////////////////////////////////////////////
 // Authority Information Access - Access methods
 "AM_OCSP" = "Протокол статуса онлайнового сертификата";
@@ -90,6 +97,21 @@
 "ADD_CERTS_FROM_STORE" = "Выбрать другой...";
 "ENCIPHER_CERTIFICATE" = "Сертификат шифрования";
 
+//Root view and menu
+"SECTIONS" = "Разделы";
+"ROOT_APPLICATION_CERVICES" = "Сервисы приложения";
+"ROOT_ADDRES_BOOK" = "Адресная книга";
+"ROOT_IDEAS_DISCUSSION" = "Обсуждение идей";
+"ROOT_OPERATIONS_LOG" = "Журнал операций";
+"ROOT_PROGRAM_DESCRIPTION" = "Описание программы";
+"ROOT_TECH_SUPPORT" = "Техподдержка";
+
+// Certificate usages interface
+"CERTIFICATE_USAGE_TITLE" = "Назначение сертификата";
+"CERTIFICATE_USAGES_DICTIONARY" = "Справочник назначений сертификата";
+"CERT_USAGE_IDENTIFICATOR" = "Идентификатор";
+"CERT_USAGE_PURPOSE" = "Назначение";
+
 // common
 "YEAR_PREFIX" = "г";
 "CRYPTOARM" = "КриптоАРМ";
@@ -102,6 +124,8 @@
 "CHOICE_OF_SETTINGS" = "Выбор настройки";
 "BUTTON_DONE" = "Готово";
 "CERTIFICATES" = "Сертификаты";
+"SAVE_BUTTON_TITLE" = "Сохранить";
+"DELETE_BUTTON_TITLE" = "Удалить";
 
 // ERRORs
 "UNKNOWN_ERROR_OCCURED" = "Произошла непредвиденная ошибка при выполнении операции";

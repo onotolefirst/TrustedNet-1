@@ -58,6 +58,11 @@
     // Do any additional setup after loading the view from its nib.
 
     panelTitle.title = @"Статистика";
+    activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+    if( [activityIndicator respondsToSelector:@selector(setColor:)] )
+    {//supported in iOS 5 and later
+        activityIndicator.color = [UIColor colorWithRed:0 green:0 blue:0 alpha:1];
+    }
     progressItem.customView = activityIndicator;
 }
 

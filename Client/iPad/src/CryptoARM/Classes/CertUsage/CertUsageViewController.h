@@ -12,7 +12,7 @@
 #import "CommonDetailController.h"
 #import "SaveDelButtonsPanelController.h"
 
-@interface CertUsageViewController : CommonDetailController <NavigationSource>
+@interface CertUsageViewController : CommonDetailController <NavigationSource, UISearchDisplayDelegate, UISearchBarDelegate>
 {
     CertUsage* usage;
     

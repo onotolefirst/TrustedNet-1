@@ -10,6 +10,13 @@
 
 @implementation CommonNavigationItem
 
+@synthesize filtered;
+
+- (NSString*)menuTitle
+{
+    return @"";
+}
+
 - (NSInteger)mainMenuSections
 {
     return 1;
@@ -67,6 +74,21 @@
 - (UIViewController<NavigationSource>*)createControllerForNewElement
 {
     return nil;
+}
+
+- (BOOL)filterable
+{
+    return NO;
+}
+
+- (NSArray*)dataScopes
+{
+    return nil;
+}
+
+- (void)applyFilterForSeachText:(NSString*)searchString andScope:(NSInteger)searchScope
+{
+    
 }
 
 @end

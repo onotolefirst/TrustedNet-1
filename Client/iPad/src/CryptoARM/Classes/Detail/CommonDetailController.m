@@ -66,7 +66,7 @@
     parentNavController = (DetailNavController*)navController;
 }
 
-- (UINavigationItem<MenuDataRefreshinProtocol>*)getSavingObject
+- (id<MenuDataRefreshinProtocol>*)getSavingObject
 {
     UIViewController<NavigationSource> *navSrc = (UIViewController<NavigationSource> *)self;
 
@@ -77,18 +77,18 @@
 
     MenuNavigationController *navController = [parentNavController.splitViewController.viewControllers objectAtIndex:0];
     
-    UINavigationItem *tmpItem = (CommonNavigationItem<MenuDataRefreshinProtocol>*)[navController.navBar topItem];
-    UINavigationItem<MenuDataRefreshinProtocol> *dataSaveObject = nil;
+    CommonNavigationItem *tmpItem = [navController currentMenuItem];
+    CommonNavigationItem<MenuDataRefreshinProtocol> *dataSaveObject = nil;
         
     if( [self conformsToProtocol:@protocol(NavigationSource)] )
     {
         if( [tmpItem isKindOfClass:[navSrc getSavingObjcetClass]] )
         {
-            dataSaveObject = (UINavigationItem<MenuDataRefreshinProtocol>*)tmpItem;
+            dataSaveObject = (CommonNavigationItem<MenuDataRefreshinProtocol>*)tmpItem;
         }
         else
         {
-            dataSaveObject = [navSrc createSavingObject];
+            dataSaveObject = (CommonNavigationItem<MenuDataRefreshinProtocol>*)[navSrc createSavingObject];
         }
     }
     
@@ -97,8 +97,12 @@
         return nil;
     }
     
-    return dataSaveObject;
+    return (id<MenuDataRefreshinProtocol>*)dataSaveObject;
 }
 
+- (CGRect)getKeyboardPosition
+{
+    return parentNavController.lastDetectedKeyboardPosition;
+}
 
 @end

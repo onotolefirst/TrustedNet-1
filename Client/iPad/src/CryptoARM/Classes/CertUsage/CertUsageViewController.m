@@ -68,6 +68,8 @@
     buttonsBar = [[SaveDelButtonsPanelController alloc] initWithSaveAction:@selector(buttonSave:) andDelAction:@selector(buttonDelete:) forObject:self];
     [self.view addSubview:buttonsBar.view];
     [buttonsBar setKeyboardResponders:[NSArray arrayWithObjects:idField, descriptionField, nil]];
+    
+    buttonsBar.keyboardPositionDelegate = self;
 }
 
 - (void)viewDidUnload
@@ -117,8 +119,7 @@
 
 - (NSString*)title
 {
-    //TODO: localize
-    return NSLocalizedString(@"Назначение сертификата", @"Certificate usage title");
+    return NSLocalizedString(@"CERTIFICATE_USAGE_TITLE", @"Certificate usage title");
 }
 
 - (NSArray*)getAdditionalButtons
@@ -227,9 +228,9 @@
     return [CertificateUsageMenuModel class];
 }
 
-- (CommonNavigationItem<MenuDataRefreshinProtocol>*)createSavingObject
+- (id<MenuDataRefreshinProtocol>*)createSavingObject
 {
-    return [[[CertificateUsageMenuModel alloc] init] autorelease];
+    return (id<MenuDataRefreshinProtocol>*)[[[CertificateUsageMenuModel alloc] init] autorelease];
 }
      
 @end

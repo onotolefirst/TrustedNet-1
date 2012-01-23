@@ -16,6 +16,7 @@
 @implementation DetailNavController
 @synthesize navCtrlr;
 @synthesize mainMenuPopover;
+@synthesize lastDetectedKeyboardPosition;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -153,13 +154,23 @@
     navCtrlr = [[UINavigationController alloc] initWithRootViewController:defaultController];
     
     navCtrlr.delegate = self;
-    navCtrlr.navigationBar.topItem.title = @"CryptoARM"; //TODO: localize
+    navCtrlr.navigationBar.topItem.title = NSLocalizedString(@"CRYPTOARM", @"CryptoARM");
     navCtrlr.navigationBar.tintColor = [UIColor colorWithRed:(CGFloat)187/255 green:(CGFloat)2/255 blue:(CGFloat)4/255 alpha:1];
     
     [self addButtonsFromController:defaultController];
     [defaultController release];
     
     [self.view addSubview:navCtrlr.view];
+    
+    self.lastDetectedKeyboardPosition = CGRectMake(0, 0, 0, 0);
+    keyboardIsSplitted = NO;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(detectingKeyboardPosition:) name:UIKeyboardDidShowNotification object:nil];
+    
+    if( [[UIDevice currentDevice].systemVersion compare:@"5.0"] != NSOrderedAscending )
+    {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(detectingSplittedKeyboardPosition:) name:UIKeyboardDidChangeFrameNotification object:nil];
+    }
 }
 
 - (void)viewDidUnload
@@ -344,8 +355,20 @@
 - (void)refreshMenuData
 {
     MenuNavigationController *menuController = [self.splitViewController.viewControllers objectAtIndex:0];
-    
     [menuController reloadMenuData]; 
+}
+
+- (void)detectingKeyboardPosition:(NSNotification*)notification
+{
+    self.lastDetectedKeyboardPosition = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    keyboardIsSplitted = NO;
+}
+
+- (void)detectingSplittedKeyboardPosition:(NSNotification*)notification
+{
+    NSLog(@"Keyboard frame changing detected.");
+    self.lastDetectedKeyboardPosition = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    keyboardIsSplitted = YES;
 }
 
 @end

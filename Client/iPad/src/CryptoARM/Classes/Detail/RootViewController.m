@@ -52,16 +52,15 @@
         return;
     }
     
-    //TODO: localize
-    settingsMenu = [[SettingsMenuSource alloc] initWithTitle:@"Сервисы приложения"];
+    settingsMenu = [[SettingsMenuSource alloc] initWithTitle:NSLocalizedString(@"ROOT_APPLICATION_CERVICES", @"Сервисы приложения")];
     
-    [settingsMenu addMenuItem:@"Сервисы приложения" withAction:nil forTarget:nil];
+    [settingsMenu addMenuItem:NSLocalizedString(@"ROOT_APPLICATION_CERVICES", @"Сервисы приложения") withAction:nil forTarget:nil];
     
-    [settingsMenu addMenuItem:@"Адресная книга" withAction:nil forTarget:nil];
-    [settingsMenu addMenuItem:@"Обсуждение идей" withAction:nil forTarget:nil];
-    [settingsMenu addMenuItem:@"Журнал операций" withAction:nil forTarget:nil];
-    [settingsMenu addMenuItem:@"Описание программы" withAction:nil forTarget:nil];
-    [settingsMenu addMenuItem:@"Техподдержка" withAction:nil forTarget:nil];
+    [settingsMenu addMenuItem:NSLocalizedString(@"ROOT_ADDRES_BOOK", @"Адресная книга") withAction:nil forTarget:nil];
+    [settingsMenu addMenuItem:NSLocalizedString(@"ROOT_IDEAS_DISCUSSION", @"Обсуждение идей") withAction:nil forTarget:nil];
+    [settingsMenu addMenuItem:NSLocalizedString(@"ROOT_OPERATIONS_LOG", @"Журнал операций") withAction:nil forTarget:nil];
+    [settingsMenu addMenuItem:NSLocalizedString(@"ROOT_PROGRAM_DESCRIPTION", @"Описание программы") withAction:nil forTarget:nil];
+    [settingsMenu addMenuItem:NSLocalizedString(@"ROOT_TECH_SUPPORT", @"Техподдержка") withAction:nil forTarget:nil];
 }
 
 #pragma mark - NavigationSource protocol supporting
@@ -106,7 +105,7 @@
     return [self class];
 }
 
-- (UINavigationItem<MenuDataRefreshinProtocol>*)createSavingObject
+- (id<MenuDataRefreshinProtocol>*)createSavingObject
 {
     return nil;
 }

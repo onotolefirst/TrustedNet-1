@@ -11,11 +11,11 @@
 @implementation SaveDelButtonsPanelController
 @synthesize delButton;
 @synthesize saveButton;
+@synthesize keyboardPositionDelegate;
 
 - (id)initWithSaveAction:(SEL)saveAction andDelAction:(SEL)delAction forObject:(id)target
 {
-    //TODO: localize
-    self = [self initWithSaveAction:saveAction delAction:delAction forObject:target saveTitle:@"Сохранить" delTitle:@"Удалить"];
+    self = [self initWithSaveAction:saveAction delAction:delAction forObject:target saveTitle:NSLocalizedString(@"SAVE_BUTTON_TITLE", @"Сохранить") delTitle:NSLocalizedString(@"DELETE_BUTTON_TITLE", @"Удалить")];
     if(self)
     {
         //additional init
@@ -104,6 +104,7 @@
     
     if( firstResponders )
     {
+        //TODO: check, what control is really first responder
         for( NSUInteger i = 0; i < [firstResponders count]; i++ )
         {
             [[firstResponders objectAtIndex:i] resignFirstResponder];
@@ -137,8 +138,13 @@
 
 - (void)setKeyboardResponders:(NSArray*)responders
 {
+    //TODO: if exists, free previos array
     firstResponders = [NSArray arrayWithArray:responders];
     [firstResponders retain];
+    
+    for (UITextField *textField in firstResponders) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TextBeginEditingNotificationHandler:) name:UITextFieldTextDidBeginEditingNotification object:textField];
+    }
 }
 
 - (void)dealloc {
@@ -157,35 +163,53 @@
     self.view.frame = CGRectMake(0, keyboardCoordinates.origin.y - 44, self.view.superview.bounds.size.width, 44);
 }
 
-- (void)keyboardNotificationHandler:(NSNotification *)notification
+- (void)moveButtonsByInfo:(NSDictionary*)userInfo
 {
-    CGRect windowRelatedKeyboardCoords = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGRect windowRelatedKeyboardCoords = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    if( !(windowRelatedKeyboardCoords.size.width + windowRelatedKeyboardCoords.size.height) )
+{
+        NSLog(@"Unable get new coordinates");
+        return;
+    }
+        
     UIWindow *wnd = self.view.window;
     keyboardCoordinates = [self.view.superview convertRect:windowRelatedKeyboardCoords fromView:wnd];
+    CGFloat animDuration = (isEditing ? ((NSNumber*)[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey]).floatValue : 0);
     
-    NSLog(@"Keyboard notification!!!");
-
-    [UIView animateWithDuration:(isEditing ? 0.3 : 0) animations:^{
+    [UIView animateWithDuration:animDuration animations:^{
             [self resizeButtonsBarFrame];
         }];
 }
 
+- (void)keyboardNotificationHandler:(NSNotification *)notification
+{
+    [self moveButtonsByInfo:notification.userInfo];
+}
+
 - (void)keyboardShowNotificationHandler:(NSNotification*)notification
 {
-    [self keyboardNotificationHandler:notification];
-    if( !isEditing )
-    {
-        self.view.hidden = NO;
-        [UIView animateWithDuration:0.3 animations:^{
-            self.view.alpha = 1;
-        }];
-    }
-    isEditing = YES;
+    [self moveButtonsByInfo:notification.userInfo];
 }
 
 - (void)keyboardHideNotificationHandler:(NSNotification*)notification
 {
     [self keyboardNotificationHandler:notification];
+}
+
+- (void)TextBeginEditingNotificationHandler:(NSNotification*)notification
+{
+    if( !isEditing && self.keyboardPositionDelegate )
+    {
+        keyboardCoordinates = [self.view.superview convertRect:[self.keyboardPositionDelegate getKeyboardPosition] fromView:self.view.window];
+        [self resizeButtonsBarFrame];
+    }
+    
+    isEditing = YES;
+    
+    self.view.hidden = NO;
+    [UIView animateWithDuration:0.3 animations:^{
+        self.view.alpha = 1;
+    }];
 }
 
 @end

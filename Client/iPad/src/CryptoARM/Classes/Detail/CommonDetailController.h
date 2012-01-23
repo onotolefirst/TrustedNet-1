@@ -9,14 +9,17 @@
 #import <UIKit/UIKit.h>
 
 #import "DetailNavController.h"
+#import "KeyboardPositionDelegate.h"
 
 
-@interface CommonDetailController : UIViewController
+@interface CommonDetailController : UIViewController <KeyboardPositionDelegate>
 {
     DetailNavController *parentNavController;
 }
 
 - (void)setParentNavigationController:(DetailNavController*)navController;
-- (UINavigationItem<MenuDataRefreshinProtocol>*)getSavingObject;
+- (id<MenuDataRefreshinProtocol>*)getSavingObject;
+
+- (CGRect)getKeyboardPosition;
 
 @end

@@ -70,10 +70,14 @@
 		B3058C23149A0E98008A3F8C /* DDXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = B3058C1C149A0E98008A3F8C /* DDXMLNode.m */; };
 		B305A3EA14515708004EC85F /* ClosePanel.PNG in Resources */ = {isa = PBXBuildFile; fileRef = B305A3E914515708004EC85F /* ClosePanel.PNG */; };
 		B30F1FCF14458BE90057AD45 /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = B30F1FCE14458BE90057AD45 /* folder.png */; };
+		B313839714AB4F6300F3960E /* MenuListController.m in Sources */ = {isa = PBXBuildFile; fileRef = B313839514AB4F6200F3960E /* MenuListController.m */; };
+		B313839814AB4F6300F3960E /* MenuListController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B313839614AB4F6300F3960E /* MenuListController.xib */; };
 		B31546D614710C11007725F9 /* CertificateUsageMenuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B31546D514710C11007725F9 /* CertificateUsageMenuModel.m */; };
 		B31546DC14712B36007725F9 /* CertUsageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B31546DB14712B36007725F9 /* CertUsageHelper.m */; };
 		B31546DF1471303F007725F9 /* CertUsage.m in Sources */ = {isa = PBXBuildFile; fileRef = B31546DE1471303F007725F9 /* CertUsage.m */; };
 		B3203DB3146AB44300A52D6C /* SettingsMenuSource.m in Sources */ = {isa = PBXBuildFile; fileRef = B3203DB2146AB44300A52D6C /* SettingsMenuSource.m */; };
+		B322EC6914C9470300A8236A /* DetailNavController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B322EC6814C9470300A8236A /* DetailNavController.xib */; };
+		B322EC6F14C9626A00A8236A /* PathHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B322EC6E14C9626A00A8236A /* PathHelper.m */; };
 		B3242F001450542E00C02A1C /* MessagesHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B3242EFF1450542E00C02A1C /* MessagesHelper.m */; };
 		B3242F0514505EA900C02A1C /* att-green.png in Resources */ = {isa = PBXBuildFile; fileRef = B3242F0114505EA900C02A1C /* att-green.png */; };
 		B3242F0614505EA900C02A1C /* att-red.png in Resources */ = {isa = PBXBuildFile; fileRef = B3242F0214505EA900C02A1C /* att-red.png */; };
@@ -83,8 +87,6 @@
 		B33B831D1445DA5300ED450B /* MainSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B33B831C1445DA5300ED450B /* MainSplitViewController.m */; };
 		B3459778144EBFF900AD0CEE /* FlipPanelView.m in Sources */ = {isa = PBXBuildFile; fileRef = B3459777144EBFF900AD0CEE /* FlipPanelView.m */; };
 		B3471D171417505D00776676 /* MessagesDetailController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B3471D151417505D00776676 /* MessagesDetailController.xib */; };
-		B351660E1445DBD400E49B3D /* MenuNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = B351660C1445DBD400E49B3D /* MenuNavigationController.m */; };
-		B351660F1445DBD400E49B3D /* MenuNavigationController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B351660D1445DBD400E49B3D /* MenuNavigationController.xib */; };
 		B35166121445DC0300E49B3D /* CommonNavigationItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B35166111445DC0300E49B3D /* CommonNavigationItem.m */; };
 		B35CBF5E1420F1C200A2C262 /* 114-CryptoARM-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = B35CBF5A1420F1C200A2C262 /* 114-CryptoARM-logo.png */; };
 		B35CBF5F1420F1C200A2C262 /* 512-CryptoARM-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = B35CBF5B1420F1C200A2C262 /* 512-CryptoARM-logo.png */; };
@@ -104,6 +106,8 @@
 		B3A2BD5714112174000A79ED /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B3A2BD5514112174000A79ED /* InfoPlist.strings */; };
 		B3A2BD5A14112174000A79ED /* CryptoARMTests.h in Resources */ = {isa = PBXBuildFile; fileRef = B3A2BD5914112174000A79ED /* CryptoARMTests.h */; };
 		B3A2BD5C14112174000A79ED /* CryptoARMTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A2BD5B14112174000A79ED /* CryptoARMTests.m */; };
+		B3B1F5DC14AB0EFA0027234D /* MenuNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B1F5DA14AB0EFA0027234D /* MenuNavigationController.m */; };
+		B3B1F5DD14AB0EFA0027234D /* MenuNavigationController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B3B1F5DB14AB0EFA0027234D /* MenuNavigationController.xib */; };
 		B3DD9DBB14515E8500192453 /* cert-intermediate-invalid.png in Resources */ = {isa = PBXBuildFile; fileRef = B3DD9DA614515E8500192453 /* cert-intermediate-invalid.png */; };
 		B3DD9DBC14515E8500192453 /* cert-intermediate-valid.png in Resources */ = {isa = PBXBuildFile; fileRef = B3DD9DA714515E8500192453 /* cert-intermediate-valid.png */; };
 		B3DD9DBD14515E8500192453 /* cert-intermediate.png in Resources */ = {isa = PBXBuildFile; fileRef = B3DD9DA814515E8500192453 /* cert-intermediate.png */; };
@@ -156,7 +160,6 @@
 		7306C7C814BC0245001DC2CD /* CertCellViewWithTick.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CertCellViewWithTick.xib; path = Classes/Cert/CertCellViewWithTick.xib; sourceTree = "<group>"; };
 		731304AD14126CA5008F51FF /* CryptoARMAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CryptoARMAppDelegate.h; path = Classes/CryptoARMAppDelegate.h; sourceTree = "<group>"; };
 		731304AE14126CA5008F51FF /* CryptoARMAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CryptoARMAppDelegate.m; path = Classes/CryptoARMAppDelegate.m; sourceTree = "<group>"; };
-		731304BE14126CE3008F51FF /* CryptoARM-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CryptoARM-Prefix.pch"; path = "/Users/smi/Documents/CryptoARM/trunk/src/CryptoARM/CryptoARM-Prefix.pch"; sourceTree = "<absolute>"; };
 		731304C414126D1C008F51FF /* CryptoARM.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CryptoARM.xcdatamodel; sourceTree = "<group>"; };
 		731304D314126D52008F51FF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		731304D514126D52008F51FF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
@@ -230,6 +233,7 @@
 		73FF5845141F8525002B897A /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Utils.m; path = Classes/Utils/Utils.m; sourceTree = "<group>"; };
 		73FF5848141F8647002B897A /* Crypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Crypto.h; path = Classes/Crypto/Crypto.h; sourceTree = "<group>"; };
 		73FF5849141F8647002B897A /* Crypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Crypto.m; path = Classes/Crypto/Crypto.m; sourceTree = "<group>"; };
+		B300A7CE14C017B400008565 /* KeyboardPositionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeyboardPositionDelegate.h; path = Classes/Detail/KeyboardPositionDelegate.h; sourceTree = "<group>"; };
 		B300ED1D146CF05100C3C88F /* chain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = chain.png; path = Resources/Images/chain.png; sourceTree = "<group>"; };
 		B301B03114723F2E00344993 /* CertUsageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CertUsageViewController.h; path = Classes/CertUsage/CertUsageViewController.h; sourceTree = "<group>"; };
 		B301B03214723F2E00344993 /* CertUsageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CertUsageViewController.m; path = Classes/CertUsage/CertUsageViewController.m; sourceTree = "<group>"; };
@@ -248,6 +252,9 @@
 		B3058C1E149A0E98008A3F8C /* DDXMLPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLPrivate.h; sourceTree = "<group>"; };
 		B305A3E914515708004EC85F /* ClosePanel.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ClosePanel.PNG; path = Resources/Images/ClosePanel.PNG; sourceTree = "<group>"; };
 		B30F1FCE14458BE90057AD45 /* folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = folder.png; path = Resources/Images/folder.png; sourceTree = "<group>"; };
+		B313839414AB4F6200F3960E /* MenuListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuListController.h; path = Classes/MenuNavigation/MenuListController.h; sourceTree = "<group>"; };
+		B313839514AB4F6200F3960E /* MenuListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuListController.m; path = Classes/MenuNavigation/MenuListController.m; sourceTree = "<group>"; };
+		B313839614AB4F6300F3960E /* MenuListController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MenuListController.xib; path = Classes/MenuNavigation/MenuListController.xib; sourceTree = "<group>"; };
 		B31546D414710C11007725F9 /* CertificateUsageMenuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CertificateUsageMenuModel.h; path = Classes/CertUsage/CertificateUsageMenuModel.h; sourceTree = "<group>"; };
 		B31546D514710C11007725F9 /* CertificateUsageMenuModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CertificateUsageMenuModel.m; path = Classes/CertUsage/CertificateUsageMenuModel.m; sourceTree = "<group>"; };
 		B31546DA14712B36007725F9 /* CertUsageHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CertUsageHelper.h; path = Classes/CertUsage/CertUsageHelper.h; sourceTree = "<group>"; };
@@ -256,13 +263,17 @@
 		B31546DE1471303F007725F9 /* CertUsage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CertUsage.m; path = Classes/CertUsage/CertUsage.m; sourceTree = "<group>"; };
 		B3203DB1146AB44300A52D6C /* SettingsMenuSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsMenuSource.h; path = Classes/Detail/SettingsMenuSource.h; sourceTree = "<group>"; };
 		B3203DB2146AB44300A52D6C /* SettingsMenuSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsMenuSource.m; path = Classes/Detail/SettingsMenuSource.m; sourceTree = "<group>"; };
+		B322EC6814C9470300A8236A /* DetailNavController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DetailNavController.xib; path = Classes/Detail/DetailNavController.xib; sourceTree = "<group>"; };
+		B322EC6D14C9626A00A8236A /* PathHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PathHelper.h; path = Classes/PathHelper.h; sourceTree = "<group>"; };
+		B322EC6E14C9626A00A8236A /* PathHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PathHelper.m; path = Classes/PathHelper.m; sourceTree = "<group>"; };
+		B322EC7114C9629F00A8236A /* CryptoARM-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CryptoARM-Prefix.pch"; sourceTree = "<group>"; };
 		B3242EFE1450542E00C02A1C /* MessagesHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessagesHelper.h; path = Classes/Detail/MessagesHelper.h; sourceTree = "<group>"; };
 		B3242EFF1450542E00C02A1C /* MessagesHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessagesHelper.m; path = Classes/Detail/MessagesHelper.m; sourceTree = "<group>"; };
 		B3242F0114505EA900C02A1C /* att-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "att-green.png"; path = "Resources/Images/att-green.png"; sourceTree = "<group>"; };
 		B3242F0214505EA900C02A1C /* att-red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "att-red.png"; path = "Resources/Images/att-red.png"; sourceTree = "<group>"; };
 		B3242F0314505EA900C02A1C /* att-yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "att-yellow.png"; path = "Resources/Images/att-yellow.png"; sourceTree = "<group>"; };
 		B3242F0414505EA900C02A1C /* bell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bell.png; path = Resources/Images/bell.png; sourceTree = "<group>"; };
-		B32E7B461469657D00365900 /* DetailNavController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DetailNavController.xib; path = Classes/Detail/DetailNavController.xib; sourceTree = "<group>"; };
+		B32D297414ADAE94002914C6 /* MenuNavigationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuNavigationDelegate.h; path = Classes/MenuNavigation/MenuNavigationDelegate.h; sourceTree = "<group>"; };
 		B32E7B471469657D00365900 /* DetailNavController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DetailNavController.h; path = Classes/Detail/DetailNavController.h; sourceTree = "<group>"; };
 		B32E7B481469657D00365900 /* DetailNavController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DetailNavController.m; path = Classes/Detail/DetailNavController.m; sourceTree = "<group>"; };
 		B32E7B491469657D00365900 /* NavigationSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NavigationSource.h; path = Classes/Detail/NavigationSource.h; sourceTree = "<group>"; };
@@ -271,9 +282,6 @@
 		B3459776144EBFF900AD0CEE /* FlipPanelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlipPanelView.h; path = Classes/FlipPanelView.h; sourceTree = "<group>"; };
 		B3459777144EBFF900AD0CEE /* FlipPanelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlipPanelView.m; path = Classes/FlipPanelView.m; sourceTree = "<group>"; };
 		B3471D151417505D00776676 /* MessagesDetailController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessagesDetailController.xib; sourceTree = "<group>"; };
-		B351660B1445DBD400E49B3D /* MenuNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuNavigationController.h; path = Classes/MenuNavigation/MenuNavigationController.h; sourceTree = "<group>"; };
-		B351660C1445DBD400E49B3D /* MenuNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuNavigationController.m; path = Classes/MenuNavigation/MenuNavigationController.m; sourceTree = "<group>"; };
-		B351660D1445DBD400E49B3D /* MenuNavigationController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MenuNavigationController.xib; path = Classes/MenuNavigation/MenuNavigationController.xib; sourceTree = "<group>"; };
 		B35166101445DC0300E49B3D /* CommonNavigationItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonNavigationItem.h; path = Classes/MenuNavigation/CommonNavigationItem.h; sourceTree = "<group>"; };
 		B35166111445DC0300E49B3D /* CommonNavigationItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommonNavigationItem.m; path = Classes/MenuNavigation/CommonNavigationItem.m; sourceTree = "<group>"; };
 		B35CBF5A1420F1C200A2C262 /* 114-CryptoARM-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "114-CryptoARM-logo.png"; sourceTree = "<group>"; };
@@ -298,7 +306,9 @@
 		B3A2BD5914112174000A79ED /* CryptoARMTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CryptoARMTests.h; sourceTree = "<group>"; };
 		B3A2BD5B14112174000A79ED /* CryptoARMTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CryptoARMTests.m; sourceTree = "<group>"; };
 		B3A678FF147BDDAC00FF39AB /* MenuDataRefreshinProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuDataRefreshinProtocol.h; path = Classes/MenuNavigation/MenuDataRefreshinProtocol.h; sourceTree = "<group>"; };
-		B3CA93C114A1D85200088532 /* CommonPaths.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonPaths.h; path = Classes/CommonPaths.h; sourceTree = "<group>"; };
+		B3B1F5D914AB0EFA0027234D /* MenuNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuNavigationController.h; path = Classes/MenuNavigation/MenuNavigationController.h; sourceTree = "<group>"; };
+		B3B1F5DA14AB0EFA0027234D /* MenuNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuNavigationController.m; path = Classes/MenuNavigation/MenuNavigationController.m; sourceTree = "<group>"; };
+		B3B1F5DB14AB0EFA0027234D /* MenuNavigationController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MenuNavigationController.xib; path = Classes/MenuNavigation/MenuNavigationController.xib; sourceTree = "<group>"; };
 		B3DD9DA614515E8500192453 /* cert-intermediate-invalid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cert-intermediate-invalid.png"; sourceTree = "<group>"; };
 		B3DD9DA714515E8500192453 /* cert-intermediate-valid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cert-intermediate-valid.png"; sourceTree = "<group>"; };
 		B3DD9DA814515E8500192453 /* cert-intermediate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cert-intermediate.png"; sourceTree = "<group>"; };
@@ -452,7 +462,8 @@
 				731304D414126D52008F51FF /* MainWindow.xib */,
 				731304AD14126CA5008F51FF /* CryptoARMAppDelegate.h */,
 				731304AE14126CA5008F51FF /* CryptoARMAppDelegate.m */,
-				B3CA93C114A1D85200088532 /* CommonPaths.h */,
+				B322EC6D14C9626A00A8236A /* PathHelper.h */,
+				B322EC6E14C9626A00A8236A /* PathHelper.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -545,6 +556,7 @@
 				B3E59765148CC02100A358E0 /* SaveDelButtonsPanelController.h */,
 				B3E59766148CC02100A358E0 /* SaveDelButtonsPanelController.m */,
 				B3E59767148CC02100A358E0 /* SaveDelButtonsPanelController.xib */,
+				B300A7CE14C017B400008565 /* KeyboardPositionDelegate.h */,
 			);
 			name = Detail;
 			sourceTree = "<group>";
@@ -642,7 +654,7 @@
 			children = (
 				B32E7B471469657D00365900 /* DetailNavController.h */,
 				B32E7B481469657D00365900 /* DetailNavController.m */,
-				B32E7B461469657D00365900 /* DetailNavController.xib */,
+				B322EC6814C9470300A8236A /* DetailNavController.xib */,
 				B32E7B491469657D00365900 /* NavigationSource.h */,
 				B3E59762148CBFBB00A358E0 /* CommonDetailController.h */,
 				B3E59763148CBFBB00A358E0 /* CommonDetailController.m */,
@@ -824,7 +836,7 @@
 			isa = PBXGroup;
 			children = (
 				B3E5975A148CBD0000A358E0 /* main.m */,
-				731304BE14126CE3008F51FF /* CryptoARM-Prefix.pch */,
+				B322EC7114C9629F00A8236A /* CryptoARM-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -846,12 +858,16 @@
 		B3EBD4E21445718400243136 /* Menu Navigation */ = {
 			isa = PBXGroup;
 			children = (
-				B351660B1445DBD400E49B3D /* MenuNavigationController.h */,
-				B351660C1445DBD400E49B3D /* MenuNavigationController.m */,
-				B351660D1445DBD400E49B3D /* MenuNavigationController.xib */,
+				B3B1F5D914AB0EFA0027234D /* MenuNavigationController.h */,
+				B3B1F5DA14AB0EFA0027234D /* MenuNavigationController.m */,
+				B3B1F5DB14AB0EFA0027234D /* MenuNavigationController.xib */,
 				B35166101445DC0300E49B3D /* CommonNavigationItem.h */,
 				B35166111445DC0300E49B3D /* CommonNavigationItem.m */,
 				B3A678FF147BDDAC00FF39AB /* MenuDataRefreshinProtocol.h */,
+				B313839414AB4F6200F3960E /* MenuListController.h */,
+				B313839514AB4F6200F3960E /* MenuListController.m */,
+				B313839614AB4F6300F3960E /* MenuListController.xib */,
+				B32D297414ADAE94002914C6 /* MenuNavigationDelegate.h */,
 			);
 			name = "Menu Navigation";
 			sourceTree = "<group>";
@@ -944,7 +960,6 @@
 				B3EBD4F014457DA200243136 /* to-root.PNG in Resources */,
 				B3EBD4F114457DA200243136 /* to-section.PNG in Resources */,
 				B30F1FCF14458BE90057AD45 /* folder.png in Resources */,
-				B351660F1445DBD400E49B3D /* MenuNavigationController.xib in Resources */,
 				B3242F0514505EA900C02A1C /* att-green.png in Resources */,
 				B3242F0614505EA900C02A1C /* att-red.png in Resources */,
 				B3242F0714505EA900C02A1C /* att-yellow.png in Resources */,
@@ -985,6 +1000,8 @@
 				73F74E351495FFAA003DD7C1 /* CertListPopoverViewController.xib in Resources */,
 				B301B03514723F2E00344993 /* CertUsageViewController.xib in Resources */,
 				B3E59769148CC02100A358E0 /* SaveDelButtonsPanelController.xib in Resources */,
+				B3B1F5DD14AB0EFA0027234D /* MenuNavigationController.xib in Resources */,
+				B313839814AB4F6300F3960E /* MenuListController.xib in Resources */,
 				732C9AC314A3604A00A3ECC0 /* RecipientCertificateCellViewLandscape.xib in Resources */,
 				732C9AC414A3604A00A3ECC0 /* RecipientCertificateCellViewPortrait.xib in Resources */,
 				732C9AC914A3631F00A3ECC0 /* AddressBookCertificateBindingManager.xib in Resources */,
@@ -994,6 +1011,7 @@
 				73F2E28E14B8361B00915BEA /* checked.PNG in Resources */,
 				73F2E28F14B8361B00915BEA /* unchecked.PNG in Resources */,
 				7306C7C914BC0245001DC2CD /* CertCellViewWithTick.xib in Resources */,
+				B322EC6914C9470300A8236A /* DetailNavController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1040,7 +1058,6 @@
 				7311E9411420941400D17D98 /* Certificate.m in Sources */,
 				73C44F2A141F93F900935BCE /* MessagesDetailController.m in Sources */,
 				B33B831D1445DA5300ED450B /* MainSplitViewController.m in Sources */,
-				B351660E1445DBD400E49B3D /* MenuNavigationController.m in Sources */,
 				B35166121445DC0300E49B3D /* CommonNavigationItem.m in Sources */,
 				B38A9A7D144D61E1006EF2B2 /* ViewControllerWithFlipPanel.m in Sources */,
 				B3459778144EBFF900AD0CEE /* FlipPanelView.m in Sources */,
@@ -1073,10 +1090,13 @@
 				B3058C21149A0E98008A3F8C /* DDXMLDocument.m in Sources */,
 				B3058C22149A0E98008A3F8C /* DDXMLElement.m in Sources */,
 				B3058C23149A0E98008A3F8C /* DDXMLNode.m in Sources */,
+				B3B1F5DC14AB0EFA0027234D /* MenuNavigationController.m in Sources */,
+				B313839714AB4F6300F3960E /* MenuListController.m in Sources */,
 				732C9AC214A3604A00A3ECC0 /* RecipientCertificateCellView.m in Sources */,
 				732C9AC814A3631F00A3ECC0 /* AddressBookCertificateBindingManager.m in Sources */,
 				73140DD014B5916600FBD7ED /* CertStoreViewController.m in Sources */,
 				73140DE014B596FA00FBD7ED /* CertificateStoreCellView.m in Sources */,
+				B322EC6F14C9626A00A8236A /* PathHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1213,6 +1233,8 @@
 					"\"$(SRCROOT)/../lib\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "57EA9A27-0226-442A-B98C-F71F90DE2547";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "57EA9A27-0226-442A-B98C-F71F90DE2547";
 				VALIDATE_PRODUCT = NO;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1236,6 +1258,8 @@
 					"\"$(SRCROOT)/../lib\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "57EA9A27-0226-442A-B98C-F71F90DE2547";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "57EA9A27-0226-442A-B98C-F71F90DE2547";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

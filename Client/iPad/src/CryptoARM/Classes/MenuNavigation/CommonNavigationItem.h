@@ -10,9 +10,10 @@
 
 #import "NavigationSource.h"
 
-
-@interface CommonNavigationItem : UINavigationItem {
+@interface CommonNavigationItem : NSObject {
 }
+
+- (NSString*)menuTitle;
 
 - (NSInteger)mainMenuSections;
 - (NSInteger)mainMenuRowsInSection:(NSInteger)section;
@@ -27,5 +28,11 @@
 
 - (BOOL)showAddButton;
 - (UIViewController<NavigationSource>*)createControllerForNewElement;
+
+@property BOOL filtered;
+
+- (BOOL)filterable;
+- (NSArray*)dataScopes;
+- (void)applyFilterForSeachText:(NSString*)searchString andScope:(NSInteger)searchScope;
 
 @end

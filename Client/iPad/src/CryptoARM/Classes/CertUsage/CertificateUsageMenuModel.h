@@ -14,6 +14,9 @@
 {
     CertUsageHelper *usageHelper;
     NSString *savingFileName;
+    NSArray *scopesArray;
+    
+    NSMutableArray* filteredUsages;
 }
 
 - (id)init;

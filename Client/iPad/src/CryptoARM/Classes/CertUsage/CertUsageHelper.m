@@ -65,7 +65,6 @@
 
 - (CertUsage*)checkUsageWithId:(NSString*)usageId
 {
-    NSLog(@"\tcheckUsageWithId");
     NSUInteger objIndex = [certUsages indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
         //NSLog(@"Comparing \"%@\" with \"%@\"", ((CertUsage*)obj).usageDescription, usageId);
         if( [((CertUsage*)obj).usageId isEqualToString:usageId] )

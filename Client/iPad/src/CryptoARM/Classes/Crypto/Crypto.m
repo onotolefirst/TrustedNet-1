@@ -143,6 +143,11 @@
         return 1; // we have not any private key corresponding public key in the recipient cert list
     }
     
+    if( !BIO_flush(outMessageBIO) )
+    {
+        return 3;
+    }
+    
     BIO_free(outMessageBIO);
 
     return 0;     // success

@@ -8,7 +8,7 @@
 
 #import "CryptoARMAppDelegate.h"
 
-#import "CommonPaths.h"
+#import "PathHelper.h"
 
 @implementation CryptoARMAppDelegate
 
@@ -29,19 +29,30 @@ NSString *kSelectedLanguage = @"application_language";
     // Override point for customization after application launch.
     
     //  checking for application operational settings directory existence
-    NSURL *appSettingDirUrl = [NSURL fileURLWithPath:PATH_OPERATIONAL_SETTINGS isDirectory:YES];
-    NSError *checkError = nil;
-
-    if( ![appSettingDirUrl checkResourceIsReachableAndReturnError:&checkError] )
+    NSError *directoryError = nil;
+    NSString *directoryPath = [PathHelper getOperationalSettinsDirectoryPath:&directoryError];
+    if( directoryError )
     {
-        NSDictionary *attrubutes = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:448] forKey:NSFilePosixPermissions];
-        [[NSFileManager defaultManager] createDirectoryAtPath:appSettingDirUrl.path withIntermediateDirectories:YES attributes:attrubutes error:&checkError];
+        NSLog(@"error recieving library directory:\n\t%@", directoryError);
+    }
+    else
+    {
+        NSURL *appSettingDirUrl = [NSURL fileURLWithPath:directoryPath isDirectory:YES];
+        NSError *checkError = nil;
+        
+        if( ![appSettingDirUrl checkResourceIsReachableAndReturnError:&checkError] )
+        {
+            NSDictionary *attrubutes = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:448] forKey:NSFilePosixPermissions];
+            [[NSFileManager defaultManager] createDirectoryAtPath:appSettingDirUrl.path withIntermediateDirectories:YES attributes:attrubutes error:&checkError];
+        }
+        
+        if( checkError )
+        {
+            NSLog(@"Error: Unable create folder \"%@\" with error:\n\t%@", appSettingDirUrl.path, checkError);
+        }
     }
     
-    if( checkError )
-    {
-        NSLog(@"Error: Unable create folder \"%@\" with error:\n\t%@", appSettingDirUrl.path, checkError);
-    }
+    //NSLog(@"\nDevice name:\t%@\nDevice model:\t%@\nSystem version:\t%@\nSystem name:\t%@", [UIDevice currentDevice].name, [UIDevice currentDevice].model, [UIDevice currentDevice].systemVersion, [UIDevice currentDevice].systemName);
     
     mainController = [[MainSplitViewController alloc] init];
     [self.window addSubview:mainController.view];
@@ -252,7 +263,7 @@ NSString *kSelectedLanguage = @"application_language";
     // %20 - space, need to be replaced
     URLString = [URLString stringByReplacingOccurrencesOfString:@"%20" withString:@" "];
     NSArray *arrUrlComponents = [URLString componentsSeparatedByString:@"/"];
-    NSString *strID = [[NSString alloc] init];
+    NSString *strID = [[[NSString alloc] init] autorelease];
     
     NSRange subStrRange = [[arrUrlComponents objectAtIndex:0] rangeOfString:@"cryptoarm"]; // this is the prefix for the application
     if (subStrRange.location != NSNotFound)

@@ -14,8 +14,6 @@
 {
     self = [super init];
 
-    self.title = NSLocalizedString(@"MM_PRIVATE_CERTIFICATES", @"Private certificates");
-
     static const char* szCerts =
     "-----BEGIN CERTIFICATE-----\n"
     "MIID0DCCA3+gAwIBAgIIbk1ypXYtYngwCAYGKoUDAgIDMIHCMRIwEAYIKoUDA4ED\n"
@@ -116,6 +114,11 @@
     return UITableViewCellAccessoryDetailDisclosureButton;
 }
 
+- (NSString*)menuTitle
+{
+    return NSLocalizedString(@"MM_PRIVATE_CERTIFICATES", @"Private certificates");
+}
+
 - (NSInteger)mainMenuSections
 {
     return 1;
@@ -140,9 +143,9 @@
 - (UIViewController<NavigationSource>*)getDetailControllerForElementAt:(NSIndexPath*)index
 {
     X509_INFO *selectedCert = sk_X509_INFO_value(certArray, index.row);
-    CertificateInfo *certInfo = [[CertificateInfo alloc] initWithX509_INFO:selectedCert];
+    CertificateInfo *certInfo = [[[CertificateInfo alloc] initWithX509_INFO:selectedCert] autorelease];
     
-    return [[CertDetailViewController alloc] initWithCertInfo:certInfo];
+    return [[[CertDetailViewController alloc] initWithCertInfo:certInfo] autorelease];
 }
 
 - (UITableViewCell*)fillCell:(UITableViewCell *)cell atIndex:(NSIndexPath *)idx inTableView:(UITableView *)tableView

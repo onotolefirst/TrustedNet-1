@@ -20,11 +20,14 @@
 - (id)init
 {
     self = [super init];
-    
-    self.title = @"Разделы";
     self.selectedRowIndex = nil;
     
     return self;
+}
+
+- (NSString*)menuTitle
+{
+    return NSLocalizedString(@"SECTIONS", @"Разделы");
 }
 
 - (NSInteger)mainMenuSections

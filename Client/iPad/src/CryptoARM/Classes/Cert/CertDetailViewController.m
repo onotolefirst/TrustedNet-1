@@ -533,14 +533,14 @@
         return;
     }
     
-    //TODO: localize
-    settingsMenu = [[SettingsMenuSource alloc] initWithTitle:@"Управление сертификатом"];
+    settingsMenu = [[SettingsMenuSource alloc] initWithTitle:NSLocalizedString(@"CERT_MANAGE_CERTIFICATE", @"Управление сертификатом")];
     
-    [settingsMenu addMenuItem:@"Проверить статус" withAction:nil forTarget:nil];
-    [settingsMenu addMenuItem:@"Экспорт сертификата" withAction:nil forTarget:nil];
-    [settingsMenu addMenuItem:@"Отправить по E-Mail" withAction:nil forTarget:nil];
-    [settingsMenu addMenuItem:@"Печать сертификата" withAction:nil forTarget:nil];
-    [settingsMenu addMenuItem:@"Удалить сертификат" withAction:nil forTarget:nil];
+    NSString *strVal = NSLocalizedString(@"CERT_CHECK_CERT_STATUS", @"Проверить статус");
+    [settingsMenu addMenuItem:strVal withAction:nil forTarget:nil];
+    [settingsMenu addMenuItem:NSLocalizedString(@"CERT_EXPORT_CERTIFICATE", @"Экспорт сертификата") withAction:nil forTarget:nil];
+    [settingsMenu addMenuItem:NSLocalizedString(@"CERT_SEND_CERT_BY_EMAIL", @"Отправить по E-Mail") withAction:nil forTarget:nil];
+    [settingsMenu addMenuItem:NSLocalizedString(@"CERT_PRINT_CERTIFICATE", @"Печать сертификата") withAction:nil forTarget:nil];
+    [settingsMenu addMenuItem:NSLocalizedString(@"CERT_DELETE_CERTIFICATE", @"Удалить сертификат") withAction:nil forTarget:nil];
 }
 
 - (void)dismissPopovers
@@ -554,7 +554,7 @@
     return [self class];
 }
 
-- (UINavigationItem<MenuDataRefreshinProtocol>*)createSavingObject
+- (id<MenuDataRefreshinProtocol>*)createSavingObject
 {
     //TODO: implement, if necessary
     return nil;

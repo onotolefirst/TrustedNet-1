@@ -17,10 +17,14 @@
     NSMutableArray *preservedControllers;
     UIPopoverController *settingsMenuPopover;
     UIPopoverController *mainMenuPopover;
+    
+    BOOL keyboardIsSplitted;
 }
 
 @property (retain, nonatomic) UINavigationController *navCtrlr;
 @property (retain, nonatomic) UIPopoverController *mainMenuPopover;
+
+@property (nonatomic) CGRect lastDetectedKeyboardPosition;
 
 - (void)pushNavController:(UIViewController<NavigationSource>*)newController;
 - (void)changeSection:(UIViewController<NavigationSource>*)newController;
@@ -33,5 +37,8 @@
 - (void)settingsButtonAction:(id)sender;
 
 - (void)refreshMenuData;
+
+- (void)detectingKeyboardPosition:(NSNotification*)notification;
+- (void)detectingSplittedKeyboardPosition:(NSNotification*)notification;
 
 @end
