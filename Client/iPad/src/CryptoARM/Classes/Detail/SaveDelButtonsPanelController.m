@@ -67,6 +67,9 @@
     self.view.hidden = YES;
     self.view.alpha = 0;
     
+    self.delButton.title = delButtonTitle;
+    self.saveButton.title = saveButtonTitle;
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShowNotificationHandler:) name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHideNotificationHandler:) name:UIKeyboardDidHideNotification object:nil];
 }

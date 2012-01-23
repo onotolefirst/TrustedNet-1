@@ -27,8 +27,8 @@
 - (id)initWithSaveAction:(SEL)saveAction andDelAction:(SEL)delAction forObject:(id)target;
 - (id)initWithSaveAction:(SEL)saveAction delAction:(SEL)delAction forObject:(id)target saveTitle:(NSString*)saveTitle delTitle:(NSString*)delTitle;
 
-@property (retain, nonatomic) IBOutlet UIButton *delButton;
-@property (retain, nonatomic) IBOutlet UIButton *saveButton;
+@property (retain, nonatomic) IBOutlet UIBarButtonItem *delButton;
+@property (retain, nonatomic) IBOutlet UIBarButtonItem *saveButton;
 
 @property (retain, nonatomic) id<KeyboardPositionDelegate> keyboardPositionDelegate;
 
