@@ -47,7 +47,7 @@
 
 // to init with copy of some class object. Please use it instead simple assignment
 - (id) initFromCopy:(CertificateInfo*)cert;
-- (id) initWithX509_INFO:(X509_INFO *)cert;
+- (id) initWithX509:(X509 *)cert;
 
 @property (nonatomic, retain) NSString* serialNumber;
 @property (nonatomic, retain) NSString* keyUsageString;

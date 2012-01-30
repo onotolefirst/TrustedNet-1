@@ -120,11 +120,11 @@
             NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"CertCellViewWithTick" owner:self options:nil];
             cell = (CertCellView *)[nib objectAtIndex:0];
         
-            X509_INFO *selectedCert = X509_INFO_new();
-            selectedCert->x509 = sk_X509_value(skPersonCerts, indexPath.row);
+            X509 *selectedCert = X509_new();
+            selectedCert = sk_X509_value(skPersonCerts, indexPath.row);
         
             // parsing X509_INFO
-            CertificateInfo *certInfo = [[CertificateInfo alloc] initWithX509_INFO:selectedCert];
+            CertificateInfo *certInfo = [[CertificateInfo alloc] initWithX509:selectedCert];
             time_t validTo = certInfo.validTo; // cert expires date
         
             // set language from CryptoARM settings pane
@@ -193,8 +193,8 @@
             {
                 // create hash on it(to compare with cert hash attribute in store)
                 PKCS7_ISSUER_AND_SERIAL issuerAndSerial = {};
-                issuerAndSerial.issuer = selectedCert->x509->cert_info->issuer;
-                issuerAndSerial.serial = selectedCert->x509->cert_info->serialNumber;
+                issuerAndSerial.issuer = selectedCert->cert_info->issuer;
+                issuerAndSerial.serial = selectedCert->cert_info->serialNumber;
             
                 unsigned char *szHash = (unsigned char *)malloc(256);
                 unsigned char *szHashValue = (unsigned char *)malloc(256);
@@ -216,6 +216,7 @@
                 }
             }
 
+            X509_free(selectedCert);
             [certInfo release];
         }
         

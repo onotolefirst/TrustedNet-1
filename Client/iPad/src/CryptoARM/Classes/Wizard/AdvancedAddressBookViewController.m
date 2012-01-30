@@ -228,7 +228,7 @@
     return [self class];
 }
 
-- (UINavigationItem<MenuDataRefreshinProtocol>*)createSavingObject
+- (id<MenuDataRefreshinProtocol>*)createSavingObject
 {
     //TODO: implement, if necessary
     return nil;
@@ -336,10 +336,10 @@
         if ( sk_X509_num(skCertFound) )
         {
             // at first show the first cert in stack; TODO: store user's selected cert
-            X509_INFO *selectedCert = X509_INFO_new();
-            selectedCert->x509 = sk_X509_value(skCertFound, 0);
+            X509 *selectedCert = X509_new();
+            selectedCert = sk_X509_value(skCertFound, 0);
             
-            cell.cert = [[[CertificateInfo alloc] initWithX509_INFO:selectedCert] autorelease];
+            cell.cert = [[[CertificateInfo alloc] initWithX509:selectedCert] autorelease];
             [cell.imgCert performSelectorOnMainThread:@selector(setImage:) withObject:[UIImage imageNamed:@"cert-valid.png"] waitUntilDone:YES];
                 
             // parsing X509_INFO
@@ -381,6 +381,8 @@
             [cell.lblCertIssuer setText:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"CERT_WHO_ISSUED", @"CERT_WHO_ISSUED"), [Crypto getDNFromX509_NAME:cell.cert.issuer withNid:NID_commonName]]];
             
             [cell.lblValidTo setText:[NSString stringWithFormat:@"%@: %s %@ %s %@.", NSLocalizedString(@"CERT_EXPIRED", @"CERT_EXPIRED"), szDate, monthName, szYear, NSLocalizedString(@"YEAR_PREFIX", @"YEAR_PREFIX")]];
+
+            X509_free(selectedCert);
         }
         else
         {

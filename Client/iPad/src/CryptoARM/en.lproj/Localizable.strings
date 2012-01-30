@@ -63,8 +63,16 @@
 
 // Main menu section
 "MM_MENU" = "Menu";
-"MM_PRIVATE_CERTIFICATES" = "Private certificates";
 "MM_SECTIONS" = "Sections";
+"MM_PRIVATE_CERTIFICATES" = "Private certificates";
+"MM_OTHER_PEOPLE_CERTIFICATES" = "Other people certificates";
+"MM_INTERMEDAITE_CERTIFICATION_AUTHORITIES" = "Intermediate certification authorities";
+"MM_TRUSTED_ROOT_CERTIFICATION_AUTHORITIES" = "Trusted root certification authorities";
+"MM_CERTIFICATE_REVOCATION_LIST" = "Certificate revocation lists";
+"MM_CERTIFICATE_ENROLLMENT_REQUESTS" = "Certificate enrollment requests";
+"MM_OPERATIONAL_SETTINGS" = "Operational settings";
+"MM_CERTIFICATE_PURPOSE_REFERENCE" = "Certificate purpose reference";
+"MM_CERTIFICATE_PRINT_TEMPLATES" = "Certificate print templates";
 
 // Wizard section
 "WIZARD_RECIPIENTS" = "Recipients";

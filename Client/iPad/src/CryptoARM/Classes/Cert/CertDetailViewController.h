@@ -5,6 +5,7 @@
 #import "../Crypto/Crypto.h"
 
 #import "DetailNavController.h"
+#import "CertChainViewController.h"
 
 @interface CertDetailViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,NavigationSource,UITextFieldDelegate> {
     UIColor *textColor;

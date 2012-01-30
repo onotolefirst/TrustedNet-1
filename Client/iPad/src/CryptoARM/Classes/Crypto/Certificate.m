@@ -56,7 +56,7 @@ isAKIDCritical, authorityInformationAccess, isAuthorityAccessInfoCritical, isCDP
     return self;
 }
 
--(id) initWithX509_INFO:(X509_INFO *)cert {
+-(id) initWithX509:(X509 *)cert {
     self = [super init];
     
     private_key = EVP_PKEY_new();
@@ -69,7 +69,7 @@ isAKIDCritical, authorityInformationAccess, isAuthorityAccessInfoCritical, isCDP
         return self;
     }
     
-    x509 = cert->x509;
+    x509 = cert;
     subject = X509_get_subject_name(x509);    
     issuer = X509_get_issuer_name(x509);
     validTo = [Utils getTimeFromASN1:(X509_get_notAfter(x509))]; // cert expires date

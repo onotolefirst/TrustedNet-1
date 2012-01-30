@@ -351,7 +351,7 @@
     return [self class];
 }
 
-- (UINavigationItem<MenuDataRefreshinProtocol>*)createSavingObject
+- (id<MenuDataRefreshinProtocol>*)createSavingObject
 {
     //TODO: implement, if necessary
     return nil;
@@ -405,24 +405,24 @@
         if ( sk_X509_num(skUnattachedCerts) || sk_X509_num(skPersonCerts) )
         {
             // at first show unattached certificates
-            X509_INFO *selectedCert = X509_INFO_new();
+            X509 *selectedCert = X509_new();
 
             if (sk_X509_num(skPersonCerts) > indexPath.row)
             {
-                selectedCert->x509 = sk_X509_value(skPersonCerts, indexPath.row);
+                selectedCert = sk_X509_value(skPersonCerts, indexPath.row);
                 [cell.imgTick setImage:[UIImage imageNamed:@"checked.PNG"]];
                 cell.isChecked = YES;
             }
             else
             {
-                selectedCert->x509 = sk_X509_value(skUnattachedCerts, indexPath.row - sk_X509_num(skPersonCerts));
+                selectedCert = sk_X509_value(skUnattachedCerts, indexPath.row - sk_X509_num(skPersonCerts));
                 [cell.imgTick setImage:[UIImage imageNamed:@"unchecked.PNG"]];
                 cell.isChecked = NO;
             }
 
-            cell.cert = [[[CertificateInfo alloc] initWithX509_INFO:selectedCert] autorelease];
+            cell.cert = [[[CertificateInfo alloc] initWithX509:selectedCert] autorelease];
 
-            // parsing X509_INFO
+            // parsing X509
             time_t validTo = cell.cert.validTo; // cert expires date
             
             // set language from CryptoARM settings pane
@@ -463,6 +463,8 @@
             [cell.lblCertIssuer setText:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"CERT_WHO_ISSUED", @"CERT_WHO_ISSUED"), [Crypto getDNFromX509_NAME:cell.cert.issuer withNid:NID_commonName]]];
             
             [cell.lblValidTo setText:[NSString stringWithFormat:@"%@: %s %@ %s %@.", NSLocalizedString(@"CERT_EXPIRED", @"CERT_EXPIRED"), szDate, monthName, szYear, NSLocalizedString(@"YEAR_PREFIX", @"YEAR_PREFIX")]];
+
+            X509_free(selectedCert);
         }
         else
         {
@@ -521,11 +523,13 @@
 {
     UIButton *button = sender;
     
-    X509_INFO *selectedCert = X509_INFO_new();
-    selectedCert->x509 = sk_X509_value(skAllPresentedCerts, [button.titleLabel.text intValue]);
+    X509 *selectedCert = X509_new();
+    selectedCert = sk_X509_value(skAllPresentedCerts, [button.titleLabel.text intValue]);
 
-    CertificateInfo *certInfo = [[CertificateInfo alloc] initWithX509_INFO:selectedCert];
+    CertificateInfo *certInfo = [[CertificateInfo alloc] initWithX509:selectedCert];
     [parentController pushNavController:[[CertDetailViewController alloc] initWithCertInfo:certInfo]];
+    
+    X509_free(selectedCert);
 }
 
 @end

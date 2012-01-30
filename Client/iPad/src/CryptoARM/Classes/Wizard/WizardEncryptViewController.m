@@ -116,7 +116,7 @@
         
         [self constructSettingsMenu];
         
-    
+    /*
     //////////////////////////
     //  TODO: DELETE IT!!!!!
     static const char* szCerts =
@@ -672,12 +672,12 @@
     "Uwjh+kKRmFSqkxpTjQTU8F7feDg6DmXH5EMhRTLCoE64QGgXOsV8x1TgkUvRuYaF\n"                                                                                                                                                                                                            
     "Xw==\n"                                                                                                                                                                                                                                                                        
     "-----END CERTIFICATE-----\n";
-
-  //  SSL_library_init();
+     */
+   //  SSL_library_init();
    // OpenSSL_add_all_algorithms();
 
-    BIO *bioCerts = BIO_new_mem_buf((void*)szCerts, -1);
-    certArray = (STACK_OF(X509_INFO) *)PEM_X509_INFO_read_bio(bioCerts, NULL, NULL, NULL);
+//    BIO *bioCerts = BIO_new_mem_buf((void*)szCerts, -1);
+//    certArray = (STACK_OF(X509) *)PEM_X509_read_bio(bioCerts, NULL, NULL, NULL);
     }
     //////////////////////////
 
@@ -833,7 +833,7 @@
     
     for (int i = 0; i < 2; i++)
     {
-        X509 *cert = (sk_X509_INFO_value(certArray, i))->x509;
+        X509 *cert = (sk_X509_value(certArray, i));
         
         if (STORE_store_certificate(store, cert, emptyAttrs, emptyParams) <= 0)
         {
@@ -862,7 +862,7 @@
                 
                 for (int  k = 0; k < 2; k++)
             {
-                X509 *cert = (sk_X509_INFO_value(certArray, k))->x509;
+                X509 *cert = (sk_X509_value(certArray, k));
 
                 // create hash on it(to compare with cert hash attribute in store)
                 PKCS7_ISSUER_AND_SERIAL issuerAndSerial = {};
@@ -1091,10 +1091,10 @@
         cell = (RecipientCellView *)[nib objectAtIndex:0];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        X509_INFO *selectedCert = sk_X509_INFO_value(certArray, indexPath.row);
+        X509 *selectedCert = sk_X509_value(certArray, indexPath.row);
 
         // parsing X509_INFO
-        cell.cert = [[[CertificateInfo alloc] initWithX509_INFO:selectedCert] autorelease];
+        cell.cert = [[[CertificateInfo alloc] initWithX509:selectedCert] autorelease];
         time_t validTo = cell.cert.validTo; // cert expires date
 
         // set language from CryptoARM settings pane
@@ -1248,7 +1248,7 @@
     
     for (int i = 0; i < 2/* certArray->stack.num */; i++)
     {
-        sk_X509_push(stackOfX509SelectedCerts, (sk_X509_INFO_value(certArray, i))->x509);
+        sk_X509_push(stackOfX509SelectedCerts, (sk_X509_value(certArray, i)));
     }
     
     // encipher with a bio stream
@@ -1275,7 +1275,7 @@
     
     for (int i = 0; i < 2/* certArray->stack.num */; i++)
     {
-        X509 *cert = (sk_X509_INFO_value(certArray, i))->x509;
+        X509 *cert = (sk_X509_value(certArray, i));
         sk_X509_push(stackOfX509SelectedCerts, cert);
     }
 
@@ -1311,7 +1311,7 @@
         p7 = d2i_PKCS7_bio(bioInputFile, NULL);
     }
     
-    if (![Crypto decode_message:p7 privateKey:private_key recipient:(sk_X509_INFO_value(certArray, 1))->x509 outFilePath:resultTempFilePath])
+    if (![Crypto decode_message:p7 privateKey:private_key recipient:(sk_X509_value(certArray, 1)) outFilePath:resultTempFilePath])
     {
         // perform open in operation
         [self actionOpenIn];
@@ -1339,7 +1339,7 @@
         p7 = d2i_PKCS7_bio(bioInputFile, NULL);
     }
     
-    if (![Crypto decode_message:p7 privateKey:private_key recipient:(sk_X509_INFO_value(certArray, 0))->x509 outFilePath:resultTempFilePath])
+    if (![Crypto decode_message:p7 privateKey:private_key recipient:(sk_X509_value(certArray, 0)) outFilePath:resultTempFilePath])
     {
         
         [self actionSendEmail];
@@ -1403,7 +1403,7 @@
     
     for (int i = 0; i < 2/* certArray->stack.num */; i++)
     {
-        X509 *cert = (sk_X509_INFO_value(certArray, i))->x509;
+        X509 *cert = (sk_X509_value(certArray, i));
         sk_X509_push(stackOfX509SelectedCerts, cert);
         
         NSString *strEmail = [Crypto getDNFromX509_NAME:cert->cert_info->subject withNid:NID_pkcs9_emailAddress];
@@ -1492,7 +1492,7 @@
     return [self class];
 }
 
-- (UINavigationItem<MenuDataRefreshinProtocol>*)createSavingObject
+- (id<MenuDataRefreshinProtocol>*)createSavingObject
 {
     //TODO: implement, if necessary
     return nil;

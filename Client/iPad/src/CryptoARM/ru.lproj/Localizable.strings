@@ -1,4 +1,4 @@
-//CERTIFICATE COMMON INFORMATION
+﻿//CERTIFICATE COMMON INFORMATION
 // key usage extensions
 "KU_DIGITAL_SIGNATURE" = "Подпись данных";
 "KU_NON_REPUDIATION" = "Неотрекаемость";
@@ -63,8 +63,16 @@
 
 // Main menu section
 "MM_MENU" = "Меню";
-"MM_PRIVATE_CERTIFICATES" = "Личные сертификаты";
 "MM_SECTIONS" = "Разделы";
+"MM_PRIVATE_CERTIFICATES" = "Личные сертификаты";
+"MM_OTHER_PEOPLE_CERTIFICATES" = "Сертификаты других пользователей";
+"MM_INTERMEDAITE_CERTIFICATION_AUTHORITIES" = "Сертификаты промежуточных центров";
+"MM_TRUSTED_ROOT_CERTIFICATION_AUTHORITIES" = "Сертификаты корневых центров";
+"MM_CERTIFICATE_REVOCATION_LIST" = "Списки отзыва сертификатов";
+"MM_CERTIFICATE_ENROLLMENT_REQUESTS" = "Запросы на сертификат";
+"MM_OPERATIONAL_SETTINGS" = "Операционные настройки";
+"MM_CERTIFICATE_PURPOSE_REFERENCE" = "Справочник назначений сертификата";
+"MM_CERTIFICATE_PRINT_TEMPLATES" = "Шаблоны печати сертификата";
 
 // Wizard section
 "WIZARD_RECIPIENTS" = "Получатели";

@@ -10,97 +10,44 @@
 
 @implementation CertMenuModel
 
-- (id) init
+- (id) initWithStoreName:(NSString *)strStoreName
 {
     self = [super init];
+    certArray = sk_X509_new_null();
 
-    static const char* szCerts =
-    "-----BEGIN CERTIFICATE-----\n"
-    "MIID0DCCA3+gAwIBAgIIbk1ypXYtYngwCAYGKoUDAgIDMIHCMRIwEAYIKoUDA4ED\n"
-    "AQETBDQzNjUxGDAWBgkqhkiG9w0BCQEWCW1kNUBiay5ydTELMAkGA1UEBhMCUlUx\n"
-    "GTAXBgNVBAgeEAQcBDAEQAQ4BDkAIAQtBDsxHTAbBgNVBAceFAQZBD4ESAQ6BDAE\n"
-    "QAAtBB4EOwQwMTswOQYDVQQKHjIEHgQeBB4AIAAiBCYEOAREBEAEPgQyBEsENQAg\n"
-    "BCIENQRFBD0EPgQ7BD4EMwQ4BDgAIjEOMAwGA1UEAxMFZGVuaXMwHhcNMTExMTA5\n"
-    "MTQ1MTIwWhcNMTIxMTA5MTQ1MTIwWjCBwjESMBAGCCqFAwOBAwEBEwQ0MzY1MRgw\n"
-    "FgYJKoZIhvcNAQkBFgltZDVAYmsucnUxCzAJBgNVBAYTAlJVMRkwFwYDVQQIHhAE\n"
-    "HAQwBEAEOAQ5ACAELQQ7MR0wGwYDVQQHHhQEGQQ+BEgEOgQwBEAALQQeBDsEMDE7\n"
-    "MDkGA1UECh4yBB4EHgQeACAAIgQmBDgERARABD4EMgRLBDUAIAQiBDUERQQ9BD4E\n"
-    "OwQ+BDMEOAQ4ACIxDjAMBgNVBAMTBWRlbmlzMGMwHAYGKoUDAgITMBIGByqFAwIC\n"
-    "JAAGByqFAwICHgEDQwAEQGRCNK7JiZR7cKF43K3Ysta1qbFCFtYo/Y/LRVe6+9Hi\n"
-    "Zt/zyzFLCYRPJ3AhOLEKcRNvm46P4fa3M0xM/QgGdZmjggFTMIIBTzApBgNVHQ4E\n"
-    "IgQgPMTIFCv4wraOvLGcjnadnWvw7af46iKBD08Xc9MlGxkwCwYDVR0PBAQDAgPY\n"
-    "MA8GA1UdEwQIMAYBAf8CAQEwggECBgNVHSMEgfowgfeAIDzEyBQr+MK2jryxnI52\n"
-    "nZ1r8O2n+OoigQ9PF3PTJRsZoYHIpIHFMIHCMRIwEAYIKoUDA4EDAQETBDQzNjUx\n"
-    "GDAWBgkqhkiG9w0BCQEWCW1kNUBiay5ydTELMAkGA1UEBhMCUlUxGTAXBgNVBAge\n"
-    "EAQcBDAEQAQ4BDkAIAQtBDsxHTAbBgNVBAceFAQZBD4ESAQ6BDAEQAAtBB4EOwQw\n"
-    "MTswOQYDVQQKHjIEHgQeBB4AIAAiBCYEOAREBEAEPgQyBEsENQAgBCIENQRFBD0E\n"
-    "PgQ7BD4EMwQ4BDgAIjEOMAwGA1UEAxMFZGVuaXOCCG5NcqV2LWJ4MAgGBiqFAwIC\n"
-    "AwNBALpYC4i2EIz8fCizFyOz43B2qTDQAKzVR7F49kmXA2mF6ORma92mZ3Ik/0Ar\n"
-    "nPswHhIpJIkOZ9zQT24TKitALBo=\n"
-    "-----END CERTIFICATE-----\n"
-    "-----BEGIN CERTIFICATE-----\n"
-    "MIID0DCCA3+gAwIBAgIIbk1ypXYtYngwCAYGKoUDAgIDMIHCMRIwEAYIKoUDA4ED\n"
-    "AQETBDQzNjUxGDAWBgkqhkiG9w0BCQEWCW1kNUBiay5ydTELMAkGA1UEBhMCUlUx\n"
-    "GTAXBgNVBAgeEAQcBDAEQAQ4BDkAIAQtBDsxHTAbBgNVBAceFAQZBD4ESAQ6BDAE\n"
-    "QAAtBB4EOwQwMTswOQYDVQQKHjIEHgQeBB4AIAAiBCYEOAREBEAEPgQyBEsENQAg\n"
-    "BCIENQRFBD0EPgQ7BD4EMwQ4BDgAIjEOMAwGA1UEAxMFZGVuaXMwHhcNMTExMTA5\n"
-    "MTQ1MTIwWhcNMTIxMTA5MTQ1MTIwWjCBwjESMBAGCCqFAwOBAwEBEwQ0MzY1MRgw\n"
-    "FgYJKoZIhvcNAQkBFgltZDVAYmsucnUxCzAJBgNVBAYTAlJVMRkwFwYDVQQIHhAE\n"
-    "HAQwBEAEOAQ5ACAELQQ7MR0wGwYDVQQHHhQEGQQ+BEgEOgQwBEAALQQeBDsEMDE7\n"
-    "MDkGA1UECh4yBB4EHgQeACAAIgQmBDgERARABD4EMgRLBDUAIAQiBDUERQQ9BD4E\n"
-    "OwQ+BDMEOAQ4ACIxDjAMBgNVBAMTBWRlbmlzMGMwHAYGKoUDAgITMBIGByqFAwIC\n"
-    "JAAGByqFAwICHgEDQwAEQGRCNK7JiZR7cKF43K3Ysta1qbFCFtYo/Y/LRVe6+9Hi\n"
-    "Zt/zyzFLCYRPJ3AhOLEKcRNvm46P4fa3M0xM/QgGdZmjggFTMIIBTzApBgNVHQ4E\n"
-    "IgQgPMTIFCv4wraOvLGcjnadnWvw7af46iKBD08Xc9MlGxkwCwYDVR0PBAQDAgPY\n"
-    "MA8GA1UdEwQIMAYBAf8CAQEwggECBgNVHSMEgfowgfeAIDzEyBQr+MK2jryxnI52\n"
-    "nZ1r8O2n+OoigQ9PF3PTJRsZoYHIpIHFMIHCMRIwEAYIKoUDA4EDAQETBDQzNjUx\n"
-    "GDAWBgkqhkiG9w0BCQEWCW1kNUBiay5ydTELMAkGA1UEBhMCUlUxGTAXBgNVBAge\n"
-    "EAQcBDAEQAQ4BDkAIAQtBDsxHTAbBgNVBAceFAQZBD4ESAQ6BDAEQAAtBB4EOwQw\n"
-    "MTswOQYDVQQKHjIEHgQeBB4AIAAiBCYEOAREBEAEPgQyBEsENQAgBCIENQRFBD0E\n"
-    "PgQ7BD4EMwQ4BDgAIjEOMAwGA1UEAxMFZGVuaXOCCG5NcqV2LWJ4MAgGBiqFAwIC\n"
-    "AwNBALpYC4i2EIz8fCizFyOz43B2qTDQAKzVR7F49kmXA2mF6ORma92mZ3Ik/0Ar\n"
-    "nPswHhIpJIkOZ9zQT24TKitALBo=\n"
-    "-----END CERTIFICATE-----\n"
-    "-----BEGIN CERTIFICATE-----\n"                                                                                                                                                                                                                                                 
-    "MIIFnTCCBUygAwIBAgIKSzaA5AAAAABZZTAIBgYqhQMCAgMwggEEMR4wHAYJKoZI\n"                                                                                                                                                                                                            
-    "hvcNAQkBFg9jYUBza2Jrb250dXIucnUxCzAJBgNVBAYTAlJVMTMwMQYDVQQIDCo2\n"                                                                                                                                                                                                            
-    "NiDQodCy0LXRgNC00LvQvtCy0YHQutCw0Y8g0L7QsdC70LDRgdGC0YwxITAfBgNV\n"                                                                                                                                                                                                            
-    "BAcMGNCV0LrQsNGC0LXRgNC40L3QsdGD0YDQszEwMC4GA1UECwwn0KPQtNC+0YHR\n"                                                                                                                                                                                                            
-    "gtC+0LLQtdGA0Y/RjtGJ0LjQuSDRhtC10L3RgtGAMS4wLAYDVQQKDCXQl9CQ0J4g\n"                                                                                                                                                                                                            
-    "wqvQn9CkIMKr0KHQmtCRINCa0L7QvdGC0YPRgMK7MRswGQYDVQQDExJVQyBTS0Ig\n"                                                                                                                                                                                                            
-    "S29udHVyIChHVCkwHhcNMTEwNTMwMDYxMzAwWhcNMTIwNTMwMDYxMzAwWjCCAYUx\n"                                                                                                                                                                                                            
-    "IDAeBgkqhkiG9w0BCQEWEXN1cHBvcnRAZG9udGV4LnJ1MQswCQYDVQQGEwJSVTEs\n"                                                                                                                                                                                                            
-    "MCoGA1UECAwj0KDQvtGB0YLQvtCy0YHQutCw0Y8g0L7QsdC70LDRgdGC0YwxEzAR\n"                                                                                                                                                                                                            
-    "BgNVBAcMCtCo0LDRhdGC0YsxPDA6BgNVBAoMM9Ce0J7QniAi0KLQvtGA0LPQvtCy\n"                                                                                                                                                                                                            
-    "0YvQuSDQlNC+0LwgItCU0L7QvS3QotC10LrRgdGCIjE7MDkGA1UEAwwy0JHRg9C9\n"                                                                                                                                                                                                            
-    "0LjQvdCwINCi0LDRgtGM0Y/QvdCwINCT0YDQuNCz0L7RgNGM0LXQstC90LAxPjA8\n"                                                                                                                                                                                                            
-    "BgkqhkiG9w0BCQIML0lOTj02MTU1MDUyNjIwL0tQUD02MTU1MDEwMDEvT0dSTj0x\n"                                                                                                                                                                                                            
-    "MDM2MTU1MDA3NTY5MRkwFwYDVQQMDBDQtNC40YDQtdC60YLQvtGAMTswOQYDVQQE\n"                                                                                                                                                                                                            
-    "DDLQkdGD0L3QuNC90LAg0KLQsNGC0YzRj9C90LAg0JPRgNC40LPQvtGA0YzQtdCy\n"                                                                                                                                                                                                            
-    "0L3QsDBjMBwGBiqFAwICEzASBgcqhQMCAiQABgcqhQMCAh4BA0MABECqQcncI22P\n"                                                                                                                                                                                                            
-    "QU3ppyaEnrkNK6GFD2OOkcOgPHGiWeRR24HUVM7m+68CGKXy92ZftgtiDnjlxv/t\n"                                                                                                                                                                                                            
-    "rFzExwFUqtaVo4ICFzCCAhMwDgYDVR0PAQH/BAQDAgTwMGoGA1UdJQRjMGEGCCsG\n"                                                                                                                                                                                                            
-    "AQUFBwMCBggrBgEFBQcDBAYHKoUDAgIiBgYHKoUDBgMBAQYHKoUDAwcFRgYIKoUD\n"                                                                                                                                                                                                            
-    "BgMBAwEGCCqFAwYDAQIBBggqhQMGAwEEAQYIKoUDBgMBBAIGCCqFAwYDAQQDMBwG\n"                                                                                                                                                                                                            
-    "A1UdEQQVMBOBEXN1cHBvcnRAZG9udGV4LnJ1MB0GA1UdDgQWBBRdjEifl5axVer7\n"                                                                                                                                                                                                            
-    "eG++GBro/JsUBDAfBgNVHSMEGDAWgBQttS1GRNv9Ok1H9xwOpN14FMmwBTBuBgNV\n"                                                                                                                                                                                                            
-    "HR8EZzBlMGOgYaBfhi1odHRwOi8vY2Euc2tia29udHVyLnJ1L2NkcC9rb250dXIt\n"                                                                                                                                                                                                            
-    "Z3QtMjAxMC5jcmyGLmh0dHA6Ly9jZHAuc2tia29udHVyLnJ1L2NkcC9rb250dXIt\n"                                                                                                                                                                                                            
-    "Z3QtMjAxMC5jcmwwgZkGCCsGAQUFBwEBBIGMMIGJMEIGCCsGAQUFBzAChjZodHRw\n"                                                                                                                                                                                                            
-    "Oi8vY2Euc2tia29udHVyLnJ1L2NlcnRpZmljYXRlcy9rb250dXItZ3QtMjAxMC5j\n"                                                                                                                                                                                                            
-    "cnQwQwYIKwYBBQUHMAKGN2h0dHA6Ly9jZHAuc2tia29udHVyLnJ1L2NlcnRpZmlj\n"                                                                                                                                                                                                            
-    "YXRlcy9rb250dXItZ3QtMjAxMC5jcnQwKwYDVR0QBCQwIoAPMjAxMTA1MzAwNjEz\n"                                                                                                                                                                                                            
-    "MDBagQ8yMDEyMDUyOTA2MDgwMFowCAYGKoUDAgIDA0EAM2ZYb+9SyRJL97bIekQZ\n"                                                                                                                                                                                                            
-    "Uwjh+kKRmFSqkxpTjQTU8F7feDg6DmXH5EMhRTLCoE64QGgXOsV8x1TgkUvRuYaF\n"                                                                                                                                                                                                            
-    "Xw==\n"                                                                                                                                                                                                                                                                        
-    "-----END CERTIFICATE-----\n";                                                                                                                                                                                                                                          
+    // create temporary certificate binding to the address book store record
+    ENGINE *e = ENGINE_by_id(CTIOSRSA_ENGINE_ID);
+    STORE *store = STORE_new_engine(e);
     
-  //  SSL_library_init();
-  //  OpenSSL_add_all_algorithms();
+    STORE_ctrl(store, CTIOSRSA_STORE_CTRL_SET_NAME, 0, strStoreName, NULL);
     
-    BIO *bioCerts = BIO_new_mem_buf((void*)szCerts, -1);
-    certArray = (STACK_OF(X509_INFO) *)PEM_X509_INFO_read_bio(bioCerts, NULL, NULL, NULL);
-
+    void *handle = nil;
+    OPENSSL_ITEM emptyAttrs[] = {{ STORE_ATTR_END }};
+    OPENSSL_ITEM emptyParams[] = {{ STORE_PARAM_KEY_NO_PARAMETERS }};
+    
+	if ((handle = STORE_list_certificate_start(store, emptyAttrs, emptyParams)))
+	{
+    	for (int i = 0; !STORE_list_certificate_endp(store, handle); i++)
+        {
+            X509 *cert = STORE_list_certificate_next(store, handle);
+            
+            if (cert)
+            {
+                sk_X509_push(certArray, cert);
+            }
+            else
+            {
+                // print error;
+            }
+        }
+	}
+    else
+    {
+        // print error;
+    }
+    
+    STORE_free(store);
+    
     return self;
 }
 
@@ -142,8 +89,8 @@
 
 - (UIViewController<NavigationSource>*)getDetailControllerForElementAt:(NSIndexPath*)index
 {
-    X509_INFO *selectedCert = sk_X509_INFO_value(certArray, index.row);
-    CertificateInfo *certInfo = [[[CertificateInfo alloc] initWithX509_INFO:selectedCert] autorelease];
+    X509 *selectedCert = sk_X509_value(certArray, index.row);
+    CertificateInfo *certInfo = [[[CertificateInfo alloc] initWithX509:selectedCert] autorelease];
     
     return [[[CertDetailViewController alloc] initWithCertInfo:certInfo] autorelease];
 }
@@ -158,10 +105,10 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"CertCellView" owner:self options:nil];
         cellView = (CertCellView *)[nib objectAtIndex:0];
 
-        X509_INFO *selectedCert = sk_X509_INFO_value(certArray, idx.row);
+        X509 *selectedCert = sk_X509_value(certArray, idx.row);
     
         // parsing X509_INFO
-        CertificateInfo *certInfo = [[CertificateInfo alloc] initWithX509_INFO:selectedCert];
+        CertificateInfo *certInfo = [[CertificateInfo alloc] initWithX509:selectedCert];
         time_t validTo = certInfo.validTo; // cert expires date
     
         // set language from CryptoARM settings pane

@@ -29,7 +29,7 @@ typedef enum
 } EnumOperationType;
 
 @interface WizardEncryptViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,QLPreviewControllerDataSource,QLPreviewControllerDelegate,NavigationSource,UIDocumentInteractionControllerDelegate,MFMailComposeViewControllerDelegate,UITextFieldDelegate> {
-    STACK_OF(X509_INFO) *certArray;
+    STACK_OF(X509) *certArray;
     UIImageView *imageDoc; // simple image of the opened document; is filled based on the document extention
     UIImageView *imageProfile;
     UILabel *documentName; // contains only name

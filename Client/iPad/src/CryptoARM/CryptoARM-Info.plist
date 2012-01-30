@@ -71,6 +71,42 @@
 			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
+				<string>com.myurl.myapp.zipextension</string>
+				<string>public.comma-separated-values-text</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeIconFiles</key>
+			<array>
+				<string>Icon-iPad-doc320.png</string>
+				<string>Icon-iPad-doc.png</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>MyAppName File</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.myurl.myapp.crlextension</string>
+				<string>public.comma-separated-values-text</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeIconFiles</key>
+			<array>
+				<string>Icon-iPad-doc320.png</string>
+				<string>Icon-iPad-doc.png</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>MyAppName File</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
 				<string>com.myurl.myapp.encextension</string>
 				<string>public.comma-separated-values-text</string>
 			</array>
@@ -106,6 +142,40 @@
 	</array>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>MyAppName File</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.myurl.myapp.zipextension</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<string>zip</string>
+				<key>public.mime-type</key>
+				<string>application/zip</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>MyAppName File</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.myurl.myapp.crlextension</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<string>crl</string>
+				<key>public.mime-type</key>
+				<string>application/pkix-crl</string>
+			</dict>
+		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>

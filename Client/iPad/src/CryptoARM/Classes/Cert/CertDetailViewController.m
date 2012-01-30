@@ -40,7 +40,7 @@
     [self constructSettingsMenu];
 
     //TODO: create chain view controller and insert to popover instead of tempController
-    UIViewController* tempController = [[UIViewController alloc] init];
+    CertChainViewController* tempController = [[CertChainViewController alloc] initWithNibName:@"CertChainViewController" bundle:nil andCert:cert->x509];
     chainPopover = [[UIPopoverController alloc] initWithContentViewController:tempController];
     [tempController release];
 

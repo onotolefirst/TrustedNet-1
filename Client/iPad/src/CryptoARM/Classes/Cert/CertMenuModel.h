@@ -19,10 +19,14 @@
 #include <Openssl/sha.h>
 #include <Openssl/x509.h>
 #include <Openssl/safestack.h>
+#include <Openssl/asn1.h>
+#include <Openssl/ctiosrsa.h>
+#include <Openssl/store.h>
 
 @interface CertMenuModel : CommonNavigationItem {
-    STACK_OF(X509_INFO) *certArray;
+    STACK_OF(X509) *certArray;
 }
 
-@end
+- (id) initWithStoreName:(NSString *)strStoreName;
 
+@end
