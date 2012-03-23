@@ -11,7 +11,7 @@
 
 @implementation StatisticsHelper
 
-- (id)InitWithSomething
+- (id)initWithSomething
 {
     self = [super init];
     if( self )

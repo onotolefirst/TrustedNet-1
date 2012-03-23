@@ -69,11 +69,11 @@ isAKIDCritical, authorityInformationAccess, isAuthorityAccessInfoCritical, isCDP
         return self;
     }
     
-    x509 = cert;
-    subject = X509_get_subject_name(x509);    
-    issuer = X509_get_issuer_name(x509);
-    validTo = [Utils getTimeFromASN1:(X509_get_notAfter(x509))]; // cert expires date
-    validFrom = [Utils getTimeFromASN1:(X509_get_notBefore(x509))]; // cert expires date
+    self.x509 = X509_dup(cert);
+    self.subject = X509_get_subject_name(self.x509);    
+    self.issuer = X509_get_issuer_name(self.x509);
+    self.validTo = [Utils getTimeFromASN1:(X509_get_notAfter(self.x509))]; // cert expires date
+    self.validFrom = [Utils getTimeFromASN1:(X509_get_notBefore(self.x509))]; // cert expires date
     //public_key = X509_get_pubkey(cert->x509);
     static const char* szPrivateKey =
     "-----BEGIN RSA PRIVATE KEY-----\n"                                                                                                                                                                                                                                               
@@ -104,7 +104,7 @@ isAKIDCritical, authorityInformationAccess, isAuthorityAccessInfoCritical, isCDP
     
     if (nil != x509->cert_info->serialNumber)
     {
-        serialNumber = [Utils hexDataToString:x509->cert_info->serialNumber->data length:x509->cert_info->serialNumber->length isNeedSpacing:true];
+        self.serialNumber = [Utils hexDataToString:x509->cert_info->serialNumber->data length:x509->cert_info->serialNumber->length isNeedSpacing:true];
     }
     
     // extract certificate version
@@ -115,7 +115,7 @@ isAKIDCritical, authorityInformationAccess, isAuthorityAccessInfoCritical, isCDP
     char *szAlg = (char*)malloc(100);
     szAlg[0] = '\0';
     OBJ_obj2txt(szAlg, 100, x509->cert_info->signature->algorithm,0);
-    signatureAlg = [NSString stringWithCString:szAlg encoding:NSASCIIStringEncoding];
+    self.signatureAlg = [NSString stringWithCString:szAlg encoding:NSASCIIStringEncoding];
     free(szAlg);
     
     if ((nil != x509->cert_info->signature->parameter)
@@ -376,6 +376,8 @@ isAKIDCritical, authorityInformationAccess, isAuthorityAccessInfoCritical, isCDP
     [authorityInformationAccess release];
     [eku release];
     EVP_PKEY_free(private_key);
+    
+    [signatureAlg release];
 
     [super dealloc];
 }

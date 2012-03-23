@@ -21,6 +21,8 @@
 @synthesize viewUservoice;
 @synthesize viewProfile;
 
+@synthesize statisticsHelper;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -32,8 +34,6 @@
 
 - (void)dealloc
 {
-    [statisticsHelper release];
-    
     [statCerts release];
     [statCrls release];
     [statRequests release];
@@ -89,7 +89,10 @@
     statUservoice.mainImage.image = [UIImage imageNamed:@"stat-UserVoice.png"];
     statProfile.mainImage.image = [UIImage imageNamed:@"profile.png"];
     
-    statisticsHelper = [[StatisticsHelper alloc] InitWithSomething];
+    StatisticsHelper *tmpHelper = [[StatisticsHelper alloc] initWithSomething];
+    self.statisticsHelper = tmpHelper;
+    [tmpHelper release];
+    
     [self reloadData];
 }
 
@@ -124,23 +127,23 @@
 
 - (void)reloadData
 {
-    if( !statisticsHelper )
+    if( !(self.statisticsHelper) )
     {
         return;
     }
     
-    [statisticsHelper refreshData];
+    [self.statisticsHelper refreshData];
     
-    statCerts.upperLabel.text = [NSString stringWithFormat:@"Действительных: %d", [statisticsHelper validCerts]];
-    statCerts.lowerLabel.text = [NSString stringWithFormat:@"Не действительных: %d", [statisticsHelper invalidCerts]];
-    statCrls.upperLabel.text = [NSString stringWithFormat:@"Действительных: %d", [statisticsHelper validCrls]];
-    statCrls.lowerLabel.text = [NSString stringWithFormat:@"Не действительных: %d", [statisticsHelper invalidCrls]];
-    statRequests.upperLabel.text = [NSString stringWithFormat:@"Обработанных: %d", [statisticsHelper processedRequests]];
-    statRequests.lowerLabel.text = [NSString stringWithFormat:@"В ожидании: %d", [statisticsHelper pendingRequests]];
-    statUservoice.upperLabel.text = [NSString stringWithFormat:@"Одобренных: %d", [statisticsHelper processedIdeas]];
-    statUservoice.lowerLabel.text = [NSString stringWithFormat:@"На рассмотрении: %d", [statisticsHelper pendingIdeas]];
-    statProfile.upperLabel.text = [NSString stringWithFormat:@"Название: %@", [statisticsHelper profileName]];
-    statProfile.lowerLabel.text = [NSString stringWithFormat:@"Владелец: %@", [statisticsHelper profileOwner]];
+    statCerts.upperLabel.text = [NSString stringWithFormat:@"Действительных: %d", [self.statisticsHelper validCerts]];
+    statCerts.lowerLabel.text = [NSString stringWithFormat:@"Не действительных: %d", [self.statisticsHelper invalidCerts]];
+    statCrls.upperLabel.text = [NSString stringWithFormat:@"Действительных: %d", [self.statisticsHelper validCrls]];
+    statCrls.lowerLabel.text = [NSString stringWithFormat:@"Не действительных: %d", [self.statisticsHelper invalidCrls]];
+    statRequests.upperLabel.text = [NSString stringWithFormat:@"Обработанных: %d", [self.statisticsHelper processedRequests]];
+    statRequests.lowerLabel.text = [NSString stringWithFormat:@"В ожидании: %d", [self.statisticsHelper pendingRequests]];
+    statUservoice.upperLabel.text = [NSString stringWithFormat:@"Одобренных: %d", [self.statisticsHelper processedIdeas]];
+    statUservoice.lowerLabel.text = [NSString stringWithFormat:@"На рассмотрении: %d", [self.statisticsHelper pendingIdeas]];
+    statProfile.upperLabel.text = [NSString stringWithFormat:@"Название: %@", [self.statisticsHelper profileName]];
+    statProfile.lowerLabel.text = [NSString stringWithFormat:@"Владелец: %@", [self.statisticsHelper profileOwner]];
 }
 
 @end

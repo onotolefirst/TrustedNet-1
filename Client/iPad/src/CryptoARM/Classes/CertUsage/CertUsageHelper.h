@@ -9,26 +9,14 @@
 #import <Foundation/Foundation.h>
 
 #import "CertUsage.h"
-
-#define TAG_OIDS @"OIDs"
-#define TAG_OID @"OID"
-#define TAG_VALUE @"Value"
-#define TAG_FRND_NAME @"FriendlyName"
-
-enum tag_type {
-    TT_NONE = 0,
-    TT_OIDS = 1,
-    TT_OID = 2,
-    TT_VALUE = 3,
-    TT_FRND_NAME = 4
-    };
+#import "XmlTags.h"
 
 @interface CertUsageHelper : NSObject <NSXMLParserDelegate>
 {
     NSMutableArray* certUsages;
     
     CertUsage *curUsage;
-    enum tag_type curTagType;
+    enum oids_tag_type curTagType;
 }
 
 - (id)init;

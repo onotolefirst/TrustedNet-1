@@ -9,6 +9,7 @@
 #import "MainMenuModel.h"
 
 #import "CertMenuModel.h"
+#import "ProfileMenuModel.h"
 #import "CertificateUsageMenuModel.h"
 
 
@@ -111,14 +112,14 @@
             cell.textLabel.text = NSLocalizedString(@"MM_CERTIFICATE_PRINT_TEMPLATES", @"MM_CERTIFICATE_PRINT_TEMPLATES");
         }
             break;
-
+            
         default:
         {
             cell.textLabel.text = [NSString stringWithFormat:@"Section %d, Row %d", idx.section+1, idx.row+1];
         }
             break;
     }
-
+    
     return cell;
 }
 
@@ -131,15 +132,23 @@
         case 0:
             return [[[CertMenuModel alloc] initWithStoreName:@"My"] autorelease];
             break;
+            
         case 1:
             return [[[CertMenuModel alloc] initWithStoreName:@"AddressBook"] autorelease];
             break;
+            
         case 2:
             return [[[CertMenuModel alloc] initWithStoreName:@"CA"] autorelease];
             break;
+            
         case 3:
             return [[[CertMenuModel alloc] initWithStoreName:@"Root"] autorelease];
             break;            
+            
+        case 6:
+            return [[[ProfileMenuModel alloc] init] autorelease];
+            break;
+            
         case 7:
             return [[[CertificateUsageMenuModel alloc] init] autorelease];
             break;

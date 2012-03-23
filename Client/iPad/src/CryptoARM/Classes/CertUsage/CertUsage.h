@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "DDXML.h"
+
 @interface CertUsage : NSObject <NSCopying>
 
 + (CertUsage*)createUsageWithId:(NSString*)usgId andDescription:(NSString*)usgDescr;
@@ -16,5 +18,7 @@
 
 @property (nonatomic, retain) NSString *usageId;
 @property (nonatomic, retain) NSString *usageDescription;
+
+- (DDXMLElement*)contructXmlBranch;
 
 @end

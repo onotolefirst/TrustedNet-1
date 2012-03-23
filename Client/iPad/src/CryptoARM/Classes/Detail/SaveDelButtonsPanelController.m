@@ -69,9 +69,16 @@
     
     self.delButton.title = delButtonTitle;
     self.saveButton.title = saveButtonTitle;
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShowNotificationHandler:) name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHideNotificationHandler:) name:UIKeyboardDidHideNotification object:nil];
+    
+    //Default bar style for iOS version earler than 5.0
+    if( [[UIDevice currentDevice].systemVersion compare:@"5.0"] == NSOrderedAscending )
+    {
+        UIToolbar *toolbar = (UIToolbar*)self.view;
+        toolbar.barStyle = UIBarStyleDefault;
+    }
 }
 
 - (void)viewDidUnload
@@ -136,7 +143,6 @@
     } completion:^(BOOL finished) {
         self.view.hidden = YES;
     }];
-
 }
 
 - (void)setKeyboardResponders:(NSArray*)responders
@@ -170,18 +176,18 @@
 {
     CGRect windowRelatedKeyboardCoords = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     if( !(windowRelatedKeyboardCoords.size.width + windowRelatedKeyboardCoords.size.height) )
-{
+    {
         NSLog(@"Unable get new coordinates");
         return;
     }
-        
+    
     UIWindow *wnd = self.view.window;
     keyboardCoordinates = [self.view.superview convertRect:windowRelatedKeyboardCoords fromView:wnd];
     CGFloat animDuration = (isEditing ? ((NSNumber*)[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey]).floatValue : 0);
     
     [UIView animateWithDuration:animDuration animations:^{
-            [self resizeButtonsBarFrame];
-        }];
+        [self resizeButtonsBarFrame];
+    }];
 }
 
 - (void)keyboardNotificationHandler:(NSNotification *)notification

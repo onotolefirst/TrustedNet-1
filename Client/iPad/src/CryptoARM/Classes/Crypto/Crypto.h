@@ -40,4 +40,9 @@
 // extract cert stack from store by URL placed in an address book person record
 + (void)getCertificatesFromURL:(STACK_OF(X509) *)skCerts withURLCertList:(ABMutableMultiValueRef)multiURLCertList andStore:(NSString *)strStoreName;
 
++ (NSString*)convertAsnObjectToString:(ASN1_OBJECT*)object noName:(BOOL)noname;
+
++ (NSArray*)getDigestAlgorithmList;
++ (NSArray*)getCiphersAlgorithmList;
+
 @end

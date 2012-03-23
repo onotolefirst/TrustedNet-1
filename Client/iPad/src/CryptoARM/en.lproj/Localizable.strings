@@ -119,6 +119,79 @@
 "CERTIFICATE_USAGES_DICTIONARY" = "Certificate usage dictionary";
 "CERT_USAGE_IDENTIFICATOR" = "Identificator";
 "CERT_USAGE_PURPOSE" = "Purpose description";
+"CERT_USAGE_OBJECT_IDENTIFICATOR" = "Object identificator";
+"CERT_USAGE_WARNING" = "Warning";
+"CERT_USAGE_STING_IN_FIELD_IS_NOT_OID" = "String, entered into field \"%@\" is not OID:\n\n%@";
+"CERT_USAGE_OID_ALREADY_PRESENT" = "This object identifier is already present in the dictionary. Enter new ID, or modify an existing one.";
+"CERT_USAGE_CERTIFICATE_USAGES" = "Certificate usages";
+
+// Operational profiles interface
+"PROFILES_TITLE" = "Operation profiles";
+"PROFILE_TITLE" = "Operation profile";
+"PROILE_NAME" = "Profile name";
+"PROILE_PARAMETERS" = "Profile parameters";
+"PROILE_SIGNING" = "Signing";
+"PROILE_ENCRYPTION" = "Encryption";
+"PROILE_DECRYPTION" = "Decription";
+"PROILE_CERT_POLICY" = "Certificates policy";
+"PROFILE_SCOPE_NAME" = "Name";
+"PROFILE_SCOPE_DESCRIPTION" = "Description";
+"PROFILE_SCOPE_CREATION_DATE" = "Creation date";
+
+// Operational profile parameters panel
+"PROFILE_PARAMETERS_ENTER_PIN" = "Enter PIN code";
+"PROFILE_PARAMETERS_ABSENT" = "Absent";
+"PROFILE_PARAMETERS_INCLUDE_FILE_NAME_INTO_RESOURECE_ID" = "Включить имя файла в идентификатор ресурса";
+"PROFILE_PARAMETERS_CERTIFICATE_OWNER" = "Certificate owner";
+"PROFILE_PARAMETERS_SIGNATURE_TYPE" = "Signature type";
+"PROFILE_PARAMETERS_COMMENT" = "Comment";
+"PROFILE_PARAMETERS_RESOURCE_IS_FILENAME" = "Resource - file name";
+"PROFILE_PARAMETERS_RESOURCE_IDENTIFIER" = "Resource identifier";
+"PROFILE_PARAMETERS_MOT_SELECTED" = "Not selected";
+"PROFILE_PARAMETERS_CREATE_DETACHED_SIGNATURE" = "Create detached signature";
+"PROFILE_PARAMETERS_CREATE_IN_BASE64" = "Create file in BASE64";
+"PROFILE_PARAMETERS_CREATE_IN_DER" = "Create file in DER";
+"PROFILE_PARAMETERS_ARCHIVE_AFTER_SIGINING" = "Archive the file after the signing";
+"PROFILE_PARAMETERS_ENCRYPT_TO_SENDER" = "Encrypt to sender";
+"PROFILE_PARAMETERS_CERTIFICATE_USAGE" = "Certificate usage";
+"PROFILE_PARAMETERS_NOT_SPECIFIED" = "Not specified";
+"PROFILE_PARAMETERS_ADDITIONAL_SIGN_PARAMETERS" = "Additional signature parameters";
+"PROFILE_PARAMETERS_SIGNATURE_CERTIFICATES" = "Signature certificates";
+"PROFILE_PARAMETERS_KEY_PIN_CODE" = "Key access code (PIN)";
+"PROFILE_PARAMETERS_HASH_ALG_TYPE" = "Hash algorithm type";
+"PROFILE_PARAMETERS_ADDITIONAL_SIGN_PARAMETERS" = "Additional signature parameters";
+"PROFILE_PARAMETERS_SIGNATURE_SAVING" = "Signature saving";
+"PROFILE_PARAMETERS_RESULT_FILE_FORMAT" = "Result file format";
+"PROFILE_PARAMETERS_ENCRYPTION_CERT" = "Encrypting certificate";
+"PROFILE_PARAMETERS_ENCRYPT_ALG_TYPE" = "Encrypting algorithm type";
+"PROFILE_PARAMETERS_RECIEVERS_CERTIFICATES" = "Recievers certificates";
+"PROFILE_PARAMETERS_ENCRYPTING_CERTIFICATE" = "Decrypting certificates";
+"PROFILE_PARAMETERS_ENCRYPT_CERTIFICATES_FILTER" = "Encrypting certificates filter";
+"PROFILE_PARAMETERS_CERTIFICATES_FOR_VALIDATION_BY_ONLINE_CRL" = "Certificates that require loading CRL from CA";
+"PROFILE_PARAMETERS_SIGN_USAGE_COMMENT" = "Comment for signature usage";
+"PROFILE_PARAMETERS_SIGN_COMMENT" = "Signature comment";
+"PROFILE_PARAMETERS_SECURE_DELETION" = "Secure deletion";
+"PROFILE_PARAMETERS_REMOVE_SOURCE_FILE_AFTER_ENCRYPTION" = "Remove source file after encrypting";
+
+"PROFILE_PARAMETERS_OID_CREATION" = "Creation";
+"PROFILE_PARAMETERS_OID_CORRECTED" = "Corrected";
+"PROFILE_PARAMETERS_OID_ACQUAINT" = "Acquaint";
+"PROFILE_PARAMETERS_OID_AGREED" = "Agreed";
+"PROFILE_PARAMETERS_OID_SIGNED" = "Signed";
+"PROFILE_PARAMETERS_OID_AFFIRM" = "Affirm";
+
+// Operational profile select algorithm
+"PROFILE_SEL_ALG_SIGNATURE_HASH_ALG_TYPE" = "Signature hash algorithm type";
+"PROFILE_SEL_ALG_HASH_ALG_TYPE" = "Hash algorithm type";
+"PROFILE_SEL_ALG_SELECT_ALGOTITHM" = "Select algorithm";
+
+// Operational settings celect certificate
+"PROFILE_SEL_CERT_SIGNATURE_CERTIFICATE" = "Signature certificate";
+"PROFILE_SEL_CERT_ENCRYPTION_CERTIFICATE" = "Encryption certificate";
+"PROFILE_SEL_CERT_RECIEVERS_CERTIFICATES" = "Recievers certificates";
+"PROFILE_SEL_CERT_DECRYPTING_CERTIFICATES" = "Decryptiong certificate";
+"PROFILE_SEL_CERT_CERTIFICATES_FOR_VALIDATION_BY_CRL" = "Certificates that require loading CRL from CA";
+"PROFILE_SEL_CERT_DATE_FORMAT" = "Date format: YYYY-MM-DD";
 
 // common
 "YEAR_PREFIX" = "y";

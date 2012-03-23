@@ -14,7 +14,7 @@
 }
 
 //TODO: define appropriate initializing
-- (id)InitWithSomething;
+- (id)initWithSomething;
 - (void)refreshData;
 
 - (NSInteger)validCerts;

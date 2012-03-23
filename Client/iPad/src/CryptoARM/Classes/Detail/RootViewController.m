@@ -105,7 +105,7 @@
     return [self class];
 }
 
-- (id<MenuDataRefreshinProtocol>*)createSavingObject
+- (id<MenuDataRefreshinProtocol>)createSavingObject
 {
     return nil;
 }

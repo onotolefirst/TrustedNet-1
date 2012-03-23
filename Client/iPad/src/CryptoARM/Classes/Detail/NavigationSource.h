@@ -23,7 +23,7 @@
 - (SettingsMenuSource*)settingsMenu;
 
 - (Class)getSavingObjcetClass;
-- (id<MenuDataRefreshinProtocol>*)createSavingObject;
+- (id<MenuDataRefreshinProtocol>)createSavingObject;
 
 @optional
 - (void)dismissPopovers;

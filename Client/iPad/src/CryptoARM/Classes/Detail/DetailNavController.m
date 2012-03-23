@@ -123,6 +123,15 @@
 {
     [navCtrlr pushViewController:newController animated:YES];
     
+    //TODO: renewing problem. Crash error with navigation controller delegate
+    //  see method navigationController of ParametersPanel class
+    
+//    if( [newController conformsToProtocol:@protocol(UINavigationControllerDelegate)] && [newController respondsToSelector:@selector(navigationController:willShowViewController:animated:)] )
+//    {
+//        navCtrlr.delegate = (id<UINavigationControllerDelegate>)newController;
+//    }
+    
+    
     if( ![newController conformsToProtocol:@protocol(NavigationSource)] )
     {
         NSLog(@"Warning! View controller not conforms to reqired protocol NavigationSource");
@@ -351,6 +360,8 @@
     ((UINavigationItem*)[navCtrlr.navigationBar.items objectAtIndex:0]).leftBarButtonItem = nil;
     self.mainMenuPopover = nil;
 }
+
+#pragma mark - Other functions
 
 - (void)refreshMenuData
 {

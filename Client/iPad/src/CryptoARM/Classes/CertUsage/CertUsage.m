@@ -8,6 +8,8 @@
 
 #import "CertUsage.h"
 
+#import "XmlTags.h"
+
 @implementation CertUsage
 
 @synthesize usageId;
@@ -32,6 +34,21 @@
 - (id)copyWithZone:(NSZone *)zone
 {
     return [[CertUsage allocWithZone:zone] initWithId:[self usageId] andDescription:[self usageDescription]];
+}
+
+- (DDXMLElement*)contructXmlBranch
+{
+    if( !self.usageId )
+    {
+        return nil;
+    }
+    
+    DDXMLElement *oidRoot = [DDXMLElement elementWithName:TAG_OID];
+    
+    [oidRoot addChild:[DDXMLElement elementWithName:TAG_VALUE stringValue:self.usageId]];
+    [oidRoot addChild:[DDXMLElement elementWithName:TAG_FRND_NAME stringValue:self.usageDescription ? self.usageDescription : @""]];
+    
+    return oidRoot;
 }
 
 @end

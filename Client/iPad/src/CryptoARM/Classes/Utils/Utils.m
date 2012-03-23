@@ -1,5 +1,7 @@
 #import "Utils.h"
 
+#import "Certificate.h"
+
 @implementation Utils
 const NSString *productGUID = @"0AA8B7A5-0B41-4B53-9B18-B38B475CE41D";
 
@@ -191,6 +193,189 @@ const NSString *productGUID = @"0AA8B7A5-0B41-4B53-9B18-B38B475CE41D";
                         formattedStr = [NSString stringWithFormat:@"%.3f GB", ((float)size / pow(1024, 3)), NSLocalizedString(@"GBYTE_PREFIX", @"GBYTE_PREFIX")];
 	
 	return formattedStr;
+}
+
++ (struct SST_Entry*)getNextEntry:(struct SST_Entry*)currentEntry
+{
+    struct SST_Entry *resultEntry = (struct SST_Entry*)(currentEntry->data + currentEntry->length);
+    if( SSTEntryIsTerminating(resultEntry) )
+    {
+        return nil;
+    }
+    
+    return resultEntry;
+}
+
++ (NSArray*)certificatesFromSST:(NSData*)sstData
+{
+    //TODO: Extract key, key container and provider data from SST?
+    
+    if( !sstData || !(sstData.length) )
+    {
+        NSLog(@"Information: income SST data is empty");
+        return [NSArray array];
+    }
+    
+    struct SST_Entry *currentEntry = (struct SST_Entry*)((char*)sstData.bytes + 8);
+    if( SSTEntryIsTerminating(currentEntry) )
+    {
+        currentEntry = nil;
+    }
+    
+    NSMutableArray *resultArray = [[NSMutableArray alloc] init];
+    
+    while (currentEntry)
+    {
+        if( currentEntry->id == 0x20 && currentEntry->encodingType == 0x1 )
+        {
+            const unsigned char *dataPointer = currentEntry->data;
+            X509 *newCert = d2i_X509(NULL, &dataPointer, currentEntry->length);
+            CertificateInfo *newCertInfo = [[CertificateInfo alloc] initWithX509:newCert];
+            
+            [resultArray addObject:newCertInfo];
+            
+            [newCertInfo release];
+            X509_free(newCert);
+        }
+        
+        currentEntry = [Utils getNextEntry:currentEntry];
+    }
+    
+    return [resultArray autorelease];
+}
+
++ (NSData*)createSSTEntryWithId:(UInt32)entryId coding:(UInt32)entryCoding andValue:(NSData*)entryData
+{
+    if( !entryId || !entryData )
+    {
+        return [NSMutableData dataWithLength:12];
+    }
+    
+    NSMutableData *resultData = [[NSMutableData alloc] initWithLength:(entryData.length + 12)];
+    struct SST_Entry *resultEntry = (struct SST_Entry*)resultData.bytes;
+    resultEntry->id = entryId;
+    resultEntry->encodingType = entryCoding;
+    resultEntry->length = entryData.length;
+    memcpy(resultEntry->data, entryData.bytes, entryData.length);
+    
+    return [resultData autorelease];
+}
+
++ (NSData*)packCertsOnlyIntoSST:(NSArray*)certificatesArray
+{
+    if( !certificatesArray )
+    {
+        return nil;
+    }
+    
+    NSMutableArray *arrayOfSstEntries = [[NSMutableArray alloc] initWithCapacity:certificatesArray.count];
+    unsigned char *dataBuffer = NULL;
+    int dataLength;
+    for (CertificateInfo *currentCert in certificatesArray) {
+        dataBuffer = NULL;
+        dataLength = i2d_X509(currentCert.x509, &dataBuffer);
+        if( dataLength )
+        {
+            [arrayOfSstEntries addObject:[Utils createSSTEntryWithId:0x20 coding:0x1 andValue:[NSData dataWithBytes:dataBuffer length:(NSUInteger)dataLength]]];
+            OPENSSL_free(dataBuffer);
+        }
+    }
+    
+    NSMutableData *resultData = [NSMutableData dataWithBytes:(void*)("\0\0\0\0CERT") length:8];
+    for (NSData *currentEntry in arrayOfSstEntries)
+    {
+        [resultData appendData:currentEntry];
+    }
+    
+    const char terminatingBytes[12] = {0};
+    [resultData appendBytes:(const void*)terminatingBytes length:12];
+    
+    [arrayOfSstEntries release];
+    return resultData;
+}
+
++ (NSString*)generateUUIDWithBraces:(BOOL)addBraces
+{
+    CFUUIDRef newUuid = CFUUIDCreate(kCFAllocatorDefault);
+    
+    NSString *uuidString = (NSString*)CFUUIDCreateString(kCFAllocatorDefault, newUuid);
+    NSString *resultString = [NSString stringWithFormat:(addBraces ? @"{%@}" : @"%@"), uuidString];
+
+    CFRelease(newUuid);
+    [uuidString release];
+    
+    return resultString;
+}
+
++ (NSString*)generateUUID
+{
+    return [Utils generateUUIDWithBraces:NO];
+}
+
+//Functions for decrypting and encrypting PIN imorted from Windows CryptoARM
+//wchar replaced by unichar, blob by NSData and CStdStringW by NSString
++ (NSData*)encryptPin:(NSString*)encodingPin
+{
+    NSMutableData *resultData = [[NSMutableData alloc] init];
+    
+    if( encodingPin && encodingPin.length )
+	{
+		srand( (unsigned)time(NULL) );
+        
+        unichar wchXorOrig = uchEncryptPinMagicNumberXor;
+		wchXorOrig ^= (rand() & 0xff);
+		wchXorOrig ^= ((rand() & 0xff) << 8);
+        
+        unichar wchXor = wchXorOrig;
+		int iSum = 0;
+        for ( size_t i = 0, uiLast = encodingPin.length - 1; i <= uiLast; i++ )
+		{
+			if ( i == uiLast )
+			{
+                [resultData appendBytes:&wchXorOrig length:sizeof(unichar)];
+			}
+            
+            wchXor += (uchEncryptPinMagicNumberAdd + (unichar)iSum);
+            unichar tmpChar = ([encodingPin characterAtIndex:i]) ^ wchXor;
+            [resultData appendBytes:&tmpChar length:sizeof(unichar)];
+			if ( i % 3 == 0 )
+			{
+                iSum += ([encodingPin characterAtIndex:i]) ^ wchXor;
+			}
+		}
+	}
+    
+    return [resultData autorelease];
+}
+
++ (NSString*)decryptPin:(NSData*)pinData
+{
+    NSString *codedPin = [NSString stringWithCharacters:pinData.bytes length:pinData.length/sizeof(unichar)];
+    NSMutableString *resultString = [[NSMutableString alloc] init];
+    
+    size_t uiSize = pinData.length/sizeof(unichar);
+	if ( uiSize > 1 )
+	{
+		size_t uiXor = uiSize - 2;
+        unichar wchXor = [codedPin characterAtIndex:uiXor];
+		int iSum = 0;
+		for ( size_t i = 0; i < uiSize; i++ )
+		{
+			if ( i != uiXor )
+			{
+                wchXor += uchEncryptPinMagicNumberAdd + (unichar)iSum;
+                
+                unichar tmpChar = ([codedPin characterAtIndex:i] ^ wchXor);
+                [resultString appendString:[NSString stringWithCharacters:&tmpChar length:1]];
+				if ( i % 3 == 0 )
+				{
+                    iSum += [codedPin characterAtIndex:i];
+				}
+			}
+		}
+	}
+    
+    return [resultString autorelease];
 }
 
 @end

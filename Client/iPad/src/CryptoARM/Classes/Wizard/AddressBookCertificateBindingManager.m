@@ -345,13 +345,13 @@
     return [self class];
 }
 
-- (id<MenuDataRefreshinProtocol>*)createSavingObject
+- (id<MenuDataRefreshinProtocol>)createSavingObject
 {
     //TODO: implement, if necessary
     return nil;
 }
 
-#pragma mark table view controller delegate
+#pragma mark - table view controller delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;

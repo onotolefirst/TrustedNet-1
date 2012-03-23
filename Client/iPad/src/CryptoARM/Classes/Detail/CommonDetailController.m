@@ -66,20 +66,20 @@
     parentNavController = (DetailNavController*)navController;
 }
 
-- (id<MenuDataRefreshinProtocol>*)getSavingObject
+- (id<MenuDataRefreshinProtocol>)getSavingObject
 {
     UIViewController<NavigationSource> *navSrc = (UIViewController<NavigationSource> *)self;
-
+    
     if( !parentNavController || !(parentNavController.splitViewController) || ([parentNavController.splitViewController.viewControllers count] < 1) )
     {
         return [navSrc createSavingObject];
     }
-
+    
     MenuNavigationController *navController = [parentNavController.splitViewController.viewControllers objectAtIndex:0];
     
     CommonNavigationItem *tmpItem = [navController currentMenuItem];
     CommonNavigationItem<MenuDataRefreshinProtocol> *dataSaveObject = nil;
-        
+    
     if( [self conformsToProtocol:@protocol(NavigationSource)] )
     {
         if( [tmpItem isKindOfClass:[navSrc getSavingObjcetClass]] )
@@ -97,7 +97,7 @@
         return nil;
     }
     
-    return (id<MenuDataRefreshinProtocol>*)dataSaveObject;
+    return dataSaveObject;
 }
 
 - (CGRect)getKeyboardPosition

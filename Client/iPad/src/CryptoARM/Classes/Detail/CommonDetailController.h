@@ -18,7 +18,7 @@
 }
 
 - (void)setParentNavigationController:(DetailNavController*)navController;
-- (id<MenuDataRefreshinProtocol>*)getSavingObject;
+- (id<MenuDataRefreshinProtocol>)getSavingObject;
 
 - (CGRect)getKeyboardPosition;
 

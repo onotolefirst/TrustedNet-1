@@ -14,7 +14,6 @@
 
 
 @interface StatisticsPanel : UIViewController <RefreshingProtocol> {
-    StatisticsHelper *statisticsHelper;
     
     StatElement *statCerts;
     StatElement *statCrls;
@@ -38,6 +37,8 @@
 @property (nonatomic, retain) IBOutlet UIView *viewRequests;
 @property (nonatomic, retain) IBOutlet UIView *viewUservoice;
 @property (nonatomic, retain) IBOutlet UIView *viewProfile;
+
+@property (nonatomic, retain) StatisticsHelper *statisticsHelper;
 
 - (void)reloadData;
 

@@ -50,8 +50,7 @@
 
 - (NSInteger)mainMenuRowsInSection:(NSInteger)section
 {
-    BOOL isFiltered = self.filtered;
-    NSInteger result = isFiltered ? filteredUsages.count : usageHelper.certUsages.count;
+    NSInteger result = self.filtered ? filteredUsages.count : usageHelper.certUsages.count;
     return result;
 }
 
@@ -82,9 +81,12 @@
     }
     
     CertUsage *resultingUsage = (CertUsage*)(self.filtered ? [filteredUsages objectAtIndex:idx.row] : [usageHelper.certUsages objectAtIndex:idx.row]);
-
+    
     cell.textLabel.text = resultingUsage.usageId;
     cell.detailTextLabel.text = resultingUsage.usageDescription;
+    
+    cell.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
+    cell.detailTextLabel.numberOfLines = 2;
     
     cell.imageView.image = [UIImage imageNamed:@"OID.png"];
     return cell;
@@ -103,7 +105,7 @@
 
 - (CGFloat)cellHeight:(NSIndexPath *)indexPath
 {
-    return 44; // default cell row height size
+    return 64;
 }
 
 - (BOOL)showAddButton

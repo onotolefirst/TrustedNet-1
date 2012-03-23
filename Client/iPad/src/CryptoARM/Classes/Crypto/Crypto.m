@@ -1,5 +1,36 @@
 #import "Crypto.h"
 
+void list_md(const EVP_MD *md, const char *from, const char *to, void *out)
+{
+    if( md )
+    {
+        NSMutableArray *algs = (NSMutableArray*)out;
+        [algs addObject:[NSNumber numberWithInt:EVP_MD_nid(md)]];
+    }
+    //    else
+    //    {
+    //        if( !from )
+    //        {
+    //            from = "<undefined>";
+    //        }
+    //        
+    //        if( !to )
+    //        {
+    //            to = "<undefined>";
+    //        }
+    //        NSLog(@"%s => %s", from, to);
+    //    }
+}
+
+void list_ciph(const EVP_CIPHER *cph, const char *from, const char *to, void *out)
+{
+    if( cph )
+    {
+        NSMutableArray *algs = (NSMutableArray*)out;
+        [algs addObject:[NSString stringWithCString:EVP_CIPHER_name(cph) encoding:NSUTF8StringEncoding]];
+    }
+}
+
 @implementation Crypto
 
 -(id) init {
@@ -202,6 +233,38 @@
         STORE_free(store);
         ENGINE_free(e);
     }
+}
+
++ (NSString*)convertAsnObjectToString:(ASN1_OBJECT*)object noName:(BOOL)noname
+{
+    unsigned long requiredLength = OBJ_obj2txt(NULL, 0, object, (noname ? 1 : 0));
+    NSMutableData *bufferForString = [[NSMutableData alloc] initWithLength:(requiredLength+2)];
+    
+    OBJ_obj2txt((char*)bufferForString.bytes, bufferForString.length, object, (noname ? 1 : 0));
+    NSString *resultString = [[NSString alloc] initWithCString:(const char *)bufferForString.bytes encoding:NSUTF8StringEncoding];
+    
+    [bufferForString release];
+    return [resultString autorelease];
+}
+
++ (NSArray*)getDigestAlgorithmList
+{
+    NSMutableArray *tmpList = [[NSMutableArray alloc] init];
+    
+    OpenSSL_add_all_digests();
+    EVP_MD_do_all_sorted( list_md, (void*)tmpList );
+    
+    return [tmpList autorelease];
+}
+
++ (NSArray*)getCiphersAlgorithmList
+{
+    NSMutableArray *tmpList = [[NSMutableArray alloc] init];
+    
+    OpenSSL_add_all_ciphers();
+    EVP_CIPHER_do_all_sorted( list_ciph, (void*)tmpList );
+    
+    return [tmpList autorelease];
 }
 
 @end

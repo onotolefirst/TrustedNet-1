@@ -169,10 +169,10 @@
     {
         NSLog(@"Warning: wrong input. Entered ID is not OID (by RFC 3061):\n\t%@", self.idField.text);
         
-        //TODO: localize warning message
-        NSString *idFieldName = @"Объектный идентификатор";
+        NSString *idFieldName = NSLocalizedString(@"CERT_USAGE_OBJECT_IDENTIFICATOR", @"Объектный идентификатор");
+        NSLocalizedString(@"CERT_USAGE_STING_IN_FIELD_IS_NOT_OID", @"Строка, введенная в поле \"%@\" не является OID-ом:\n\n%@");
         NSString *warningMessage = [NSString stringWithFormat:@"Строка, введенная в поле \"%@\" не является OID-ом:\n\n%@", idFieldName, self.idField.text];
-        NSString *warningTitle = @"Предупреждение";
+        NSString *warningTitle = NSLocalizedString(@"CERT_USAGE_WARNING", @"Предупреждение");
         
         UIAlertView *alertDialog = [[UIAlertView alloc] initWithTitle:warningTitle message:warningMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alertDialog show];
@@ -180,8 +180,7 @@
         [alertDialog release];
         return FALSE;
     }
-                          
-                          
+    
     CertificateUsageMenuModel *usageSaver = (CertificateUsageMenuModel *)[self getSavingObject];
     
     if( !usageSaver )
@@ -189,7 +188,7 @@
         NSLog(@"Error saving data: can't obtain saving oject.");
         return FALSE;
     }
-
+    
     if( (!usage.usageId || ![usage.usageId length]) ||  ([usage.usageId compare:self.idField.text] != NSOrderedSame) )
     {
         CertUsage *newUsage = [[CertUsage alloc] initWithId:self.idField.text andDescription:self.descriptionField.text];
@@ -197,13 +196,12 @@
         {
             NSLog(@"Warning! usage already exists. Aborting saving.");
             
-            //TODO: localize warning message
-            NSString *warningTitle = @"Предупреждение";
-            NSString *warningMessage = @"Данный объектный идентификатор уже присутствует в справочнике. Введите новый идентификатор или измените существующий.";
+            NSString *warningTitle = NSLocalizedString(@"CERT_USAGE_WARNING", @"Предупреждение");
+            NSString *warningMessage = NSLocalizedString(@"CERT_USAGE_OID_ALREADY_PRESENT", @"Данный объектный идентификатор уже присутствует в справочнике. Введите новый идентификатор или измените существующий.");
             
             UIAlertView *alertDialog = [[UIAlertView alloc] initWithTitle:warningTitle message:warningMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
             [alertDialog show];
-
+            
             [alertDialog release];
             [newUsage release];
             return FALSE;
@@ -216,7 +214,7 @@
     
     usage.usageId = self.idField.text;
     usage.usageDescription = self.descriptionField.text;
-
+    
     [usageSaver addElement:usage];
     [parentNavController refreshMenuData];
     
@@ -228,9 +226,9 @@
     return [CertificateUsageMenuModel class];
 }
 
-- (id<MenuDataRefreshinProtocol>*)createSavingObject
+- (id<MenuDataRefreshinProtocol>)createSavingObject
 {
-    return (id<MenuDataRefreshinProtocol>*)[[[CertificateUsageMenuModel alloc] init] autorelease];
+    return [[[CertificateUsageMenuModel alloc] init] autorelease];
 }
-     
+
 @end

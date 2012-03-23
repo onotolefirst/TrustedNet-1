@@ -53,4 +53,14 @@
     return [NSString stringWithFormat:@"%s", FILENAME_CERTIFICATE_USAGESs];
 }
 
++ (NSString*)getProfilesFileName
+{
+    return [NSString stringWithFormat:@"%s", FILENAME_OPERATIONAL_SETTINGS];
+}
+
++ (NSString*)getSignUsagesFileName;
+{
+    return [NSString stringWithFormat:@"%s", FILENAME_SIGNATURE_USAGES];
+}
+
 @end

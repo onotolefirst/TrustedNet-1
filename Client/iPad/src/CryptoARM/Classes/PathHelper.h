@@ -12,6 +12,9 @@
 #define PATH_OPERATIONAL_SETTINGSs "/Settings"
 
 #define FILENAME_CERTIFICATE_USAGESs "OidsDictionaryFile.xml"
+#define FILENAME_OPERATIONAL_SETTINGS "Profiles.xml"
+
+#define FILENAME_SIGNATURE_USAGES "OidsSignatureDictionaryFile.xml"
 
 @interface PathHelper : NSObject
 
@@ -23,4 +26,6 @@
 + (NSString*)getOperationalSettinsDirectoryPath:(NSError**)error;
 
 + (NSString*)getCertUsagesFileName;
++ (NSString*)getProfilesFileName;
++ (NSString*)getSignUsagesFileName;
 @end

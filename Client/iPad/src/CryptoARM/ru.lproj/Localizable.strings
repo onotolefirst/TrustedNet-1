@@ -1,4 +1,4 @@
-﻿//CERTIFICATE COMMON INFORMATION
+//CERTIFICATE COMMON INFORMATION
 // key usage extensions
 "KU_DIGITAL_SIGNATURE" = "Подпись данных";
 "KU_NON_REPUDIATION" = "Неотрекаемость";
@@ -119,6 +119,82 @@
 "CERTIFICATE_USAGES_DICTIONARY" = "Справочник назначений сертификата";
 "CERT_USAGE_IDENTIFICATOR" = "Идентификатор";
 "CERT_USAGE_PURPOSE" = "Назначение";
+"CERT_USAGE_OBJECT_IDENTIFICATOR" = "Объектный идентификатор";
+"CERT_USAGE_WARNING" = "Предупреждение";
+"CERT_USAGE_STING_IN_FIELD_IS_NOT_OID" = "Строка, введенная в поле \"%@\" не является OID-ом:\n\n%@";
+"CERT_USAGE_OID_ALREADY_PRESENT" = "Данный объектный идентификатор уже присутствует в справочнике. Введите новый идентификатор или измените существующий.";
+"CERT_USAGE_CERTIFICATE_USAGES" = "Назначения сертификата";
+
+// Operational profiles interface
+"PROFILES_TITLE" = "Операционные настройки";
+"PROFILE_TITLE" = "Операционная настройка";
+"PROILE_NAME" = "Наименование настройки";
+"PROILE_PARAMETERS" = "Параметры настройки";
+"PROILE_SIGNING" = "Подпись";
+"PROILE_ENCRYPTION" = "Шифрование";
+"PROILE_DECRYPTION" = "Расшифрование";
+"PROILE_CERT_POLICY" = "Политика сертификатов";
+"PROFILE_SCOPE_NAME" = "Название";
+"PROFILE_SCOPE_DESCRIPTION" = "Описание";
+"PROFILE_SCOPE_CREATION_DATE" = "Дата создания";
+
+
+// Operational profile parameters panel
+"PROFILE_PARAMETERS_ENTER_PIN" = "Введите PIN код";
+"PROFILE_PARAMETERS_ABSENT" = "Отсутствует";
+"PROFILE_PARAMETERS_INCLUDE_FILE_NAME_INTO_RESOURECE_ID" = "Включить имя файла в идентификатор ресурса";
+"PROFILE_PARAMETERS_CERTIFICATE_OWNER" = "Владелец сертификата";
+"PROFILE_PARAMETERS_SIGNATURE_TYPE" = "Тип подписи";
+"PROFILE_PARAMETERS_COMMENT" = "Комментарий";
+"PROFILE_PARAMETERS_RESOURCE_IS_FILENAME" = "Ресурс - имя файла";
+"PROFILE_PARAMETERS_RESOURCE_IDENTIFIER" = "Идентификатор ресурса";
+"PROFILE_PARAMETERS_MOT_SELECTED" = "Не выбраны";
+"PROFILE_PARAMETERS_CREATE_DETACHED_SIGNATURE" = "Создать отделенную подпись";
+"PROFILE_PARAMETERS_CREATE_IN_BASE64" = "Формировать файл в BASE64";
+"PROFILE_PARAMETERS_CREATE_IN_DER" = "Формировать файл в DER";
+"PROFILE_PARAMETERS_ARCHIVE_AFTER_SIGINING" = "Архивировать после создания подписи";
+"PROFILE_PARAMETERS_ENCRYPT_TO_SENDER" = "Шифровать в адрес отправителя";
+"PROFILE_PARAMETERS_CERTIFICATE_USAGE" = "Назначение сертификата";
+"PROFILE_PARAMETERS_NOT_SPECIFIED" = "Не задано";
+"PROFILE_PARAMETERS_ADDITIONAL_SIGN_PARAMETERS" = "Дополнительные параметры подписи";
+"PROFILE_PARAMETERS_SIGNATURE_CERTIFICATES" = "Сертификаты подписи";
+"PROFILE_PARAMETERS_KEY_PIN_CODE" = "Код доступа к ключу (PIN-код)";
+"PROFILE_PARAMETERS_HASH_ALG_TYPE" = "Тип хеш-алгоритма";
+"PROFILE_PARAMETERS_ADDITIONAL_SIGN_PARAMETERS" = "Дополнительные параметры подписи";
+"PROFILE_PARAMETERS_SIGNATURE_SAVING" = "Сохранение подписи";
+"PROFILE_PARAMETERS_RESULT_FILE_FORMAT" = "Формат выходного файла";
+"PROFILE_PARAMETERS_ENCRYPTION_CERT" = "Сертификат шифрования";
+"PROFILE_PARAMETERS_ENCRYPT_ALG_TYPE" = "Тип алгоритма шифрования";
+"PROFILE_PARAMETERS_RECIEVERS_CERTIFICATES" = "Сертификаты получатетей";
+"PROFILE_PARAMETERS_ENCRYPTING_CERTIFICATE" = "Сертификат расшифрования";
+"PROFILE_PARAMETERS_ENCRYPT_CERTIFICATES_FILTER" = "Фильтр назначений сертификатов шифрования";
+"PROFILE_PARAMETERS_CERTIFICATES_FOR_VALIDATION_BY_ONLINE_CRL" = "Сертификаты для которых требуется загрузка CRL из УЦ";
+"PROFILE_PARAMETERS_SIGN_USAGE_COMMENT" = "Комментарий по использованию подписи";
+"PROFILE_PARAMETERS_SIGN_COMMENT" = "Комментарий подписи";
+"PROFILE_PARAMETERS_SECURE_DELETION" = "Гарантированное удаление";
+"PROFILE_PARAMETERS_REMOVE_SOURCE_FILE_AFTER_ENCRYPTION" = "Удалить исходный файл после шифрования";
+//"PROFILE_PARAMETERS_" = ;
+
+"PROFILE_PARAMETERS_OID_CREATION" = "Создание";
+"PROFILE_PARAMETERS_OID_CORRECTED" = "Исправлено";
+"PROFILE_PARAMETERS_OID_ACQUAINT" = "Ознакомлен";
+"PROFILE_PARAMETERS_OID_AGREED" = "Согласовано";
+"PROFILE_PARAMETERS_OID_SIGNED" = "Подписано";
+"PROFILE_PARAMETERS_OID_AFFIRM" = "Утверждено";
+
+// Operational profile select algorithm
+"PROFILE_SEL_ALG_SIGNATURE_HASH_ALG_TYPE" = "Тип хэш-алгоритма подписи";
+"PROFILE_SEL_ALG_HASH_ALG_TYPE" = "Тип хэш-алгоритма";
+"PROFILE_SEL_ALG_SELECT_ALGOTITHM" = "Выберите алгоритм";
+
+// Operational settings celect certificate
+"PROFILE_SEL_CERT_SIGNATURE_CERTIFICATE" = "Сертификат подписи";
+"PROFILE_SEL_CERT_ENCRYPTION_CERTIFICATE" = "Сертификат шифрования";
+"PROFILE_SEL_CERT_RECIEVERS_CERTIFICATES" = "Сертификаты получателей";
+"PROFILE_SEL_CERT_DECRYPTING_CERTIFICATES" = "Сертификат расшифрования";
+"PROFILE_SEL_CERT_CERTIFICATES_FOR_VALIDATION_BY_CRL" = "Сертификаты, требующие загрузки CRL из УЦ";
+"PROFILE_SEL_CERT_DATE_FORMAT" = "Формат даты: ГГГГ-ММ-ДД";
+
 
 // common
 "YEAR_PREFIX" = "г";

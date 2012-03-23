@@ -19,7 +19,7 @@
     self = [super init];
     if(self)
     {
-        certUsages = [[NSMutableArray alloc] init];
+        certUsages = [[NSMutableArray array] retain];
         
         curTagType = TT_NONE;
         curUsage = nil;
@@ -66,7 +66,6 @@
 - (CertUsage*)checkUsageWithId:(NSString*)usageId
 {
     NSUInteger objIndex = [certUsages indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
-        //NSLog(@"Comparing \"%@\" with \"%@\"", ((CertUsage*)obj).usageDescription, usageId);
         if( [((CertUsage*)obj).usageId isEqualToString:usageId] )
         {
             *stop = YES;
@@ -96,10 +95,10 @@
     [certUsages removeObject:usage];
 }
 
-- (BOOL)readUsages:(NSString*)fileNme
+- (BOOL)readUsages:(NSString*)fileName
 {
     NSError *dataReadingError = nil;
-    NSData *xmlData = [NSData dataWithContentsOfFile:fileNme options:NSDataReadingUncached error:&dataReadingError];
+    NSData *xmlData = [NSData dataWithContentsOfFile:fileName options:NSDataReadingUncached error:&dataReadingError];
     if( dataReadingError )
     {
         NSLog(@"Error: XML file reading error:\n\t%@", dataReadingError);
@@ -121,16 +120,6 @@
     return parseResult;
 }
 
-- (DDXMLElement*)contructUsageWithOid:(NSString*)usageOID andDescription:(NSString*)usageDescription
-{
-    DDXMLElement *oidRoot = [DDXMLElement elementWithName:TAG_OID];
-    
-    [oidRoot addChild:[DDXMLElement elementWithName:TAG_VALUE stringValue:usageOID]];
-    [oidRoot addChild:[DDXMLElement elementWithName:TAG_FRND_NAME stringValue:usageDescription]];
-    
-    return oidRoot;
-}
-
 - (void)writeUsages:(NSString*)fileName
 {
     DDXMLElement *rootDictElement = [DDXMLElement elementWithName:TAG_OIDS];
@@ -139,7 +128,7 @@
     for( NSUInteger i = 0; i < [certUsages count]; i++ )
     {
         itrUsage = (CertUsage*)[certUsages objectAtIndex:i];
-        [rootDictElement addChild:[self contructUsageWithOid:itrUsage.usageId andDescription:itrUsage.usageDescription]];
+        [rootDictElement addChild:[itrUsage contructXmlBranch]];
     }
     
     NSError *initError = nil;
@@ -150,7 +139,7 @@
         [usageDictionary release];
         return;
     }
-
+    
     [usageDictionary.XMLData writeToFile:fileName atomically:YES];
     [usageDictionary release];
 }
