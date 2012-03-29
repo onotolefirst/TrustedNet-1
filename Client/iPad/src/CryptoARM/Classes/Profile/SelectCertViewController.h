@@ -10,6 +10,7 @@
 
 #import "Profile.h"
 #import "CommonDetailController.h"
+#import "CertificateStore.h"
 
 enum ENM_SEL_CERT_PAGE_TYPE {
     SCPT_SIGN_CERT = 0,
@@ -17,14 +18,6 @@ enum ENM_SEL_CERT_PAGE_TYPE {
     SCPT_RECIEVERS_CERTS = 2,
     SCPT_DECRYPT_CERT = 3,
     SCPT_VALIDATION_CERTS = 4
-    };
-
-enum  ENM_STORE_TYPE {
-    ST_PERSONAL = 0,
-    ST_ROOT = 1,
-    //...
-    
-    ST_DEFAULT = ST_PERSONAL
     };
 
 enum ENM_SCOPE_VALUE_INDEX {
@@ -36,26 +29,31 @@ enum ENM_SCOPE_VALUE_INDEX {
 
 @interface SelectCertViewController : CommonDetailController <NavigationSource, UITableViewDataSource, UITableViewDelegate, UISearchDisplayDelegate>
 {
-    //TODO: make certificate collection object and replace goddamn STACK structure
-    STACK_OF(X509) *availableCertificates;
     enum ENM_SEL_CERT_PAGE_TYPE pageType;
     
     UIImage *checkedValid;
     UIImage *uncheckedValid;
     
-    NSMutableIndexSet *personalStorageIndex;
-    
-    enum ENM_STORE_TYPE currentSelectedStoreType;
+    enum CERT_STORE_TYPE currentSelectedStoreType;
     
     BOOL isFiltered;
     UISearchDisplayController *searchController;
+    
+
+    //Dictionary for certificates arrays, readed from various storages
+    NSMutableDictionary *storagesDictionary;
+    //Dictionary for index maps of filtered certificates (used for filtering)
+    NSMutableDictionary *filteredCertificatsMapsDictionary;
+    //Dictionary of selected indexes for various storages (used for selecting multiple certificates)
+    NSMutableDictionary *selectedCertificatesIndexesDictionary;
+    
+    SettingsMenuSource  *settingsMenu;
 }
 
 - (id)initWithProfile:(Profile *)profile andSelectType:(enum ENM_SEL_CERT_PAGE_TYPE)listType;
 
 @property (nonatomic, readonly) UITableView *tableView;
 @property (nonatomic, retain) Profile *parentProfile;
-@property (nonatomic, retain) NSDictionary *filteredCertificatesMap;
 
 @property (nonatomic, retain) NSString *filterString;
 @property NSInteger filterScope;
@@ -63,10 +61,26 @@ enum ENM_SCOPE_VALUE_INDEX {
 - (void)actionSaveEncRecievers;
 - (void)actionSaveCertsForValidation;
 
-- (void)selectStore:(enum ENM_STORE_TYPE)storeToSelect;
+- (void)selectStore:(enum CERT_STORE_TYPE)storeToSelect;
 
 - (void)applyFiltering;
 
 - (NSArray*)extendedKeyUsageFromCert:(X509*)x509Cert;
+
+- (NSIndexSet*)storesAvailableForPageType:(enum ENM_SEL_CERT_PAGE_TYPE)listType;
+- (enum CERT_STORE_TYPE)defaultStoreForPageType:(enum ENM_SEL_CERT_PAGE_TYPE)listType;
+
+- (NSMutableArray*)currentSelectedStoreCertificates;
+- (NSMutableDictionary*)currentStoreFilteringMap;
+- (NSMutableIndexSet*)currentStoreSelectedCertsIndex;
+
+- (void)actionSelectStoreMy;
+- (void)actionSelectStoreAdressBook;
+- (void)actionSelectStoreCa;
+- (void)actionSelectStoreRoot;
+
+- (void)constructSettingsMenu;
+
+- (NSString*)storeNameByType:(enum CERT_STORE_TYPE)storeType;
 
 @end

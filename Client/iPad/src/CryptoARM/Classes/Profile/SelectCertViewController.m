@@ -14,7 +14,6 @@
 @implementation SelectCertViewController
 
 @synthesize parentProfile;
-@synthesize filteredCertificatesMap;
 @synthesize filterString;
 @synthesize filterScope;
 
@@ -49,9 +48,8 @@
     {
         self.parentProfile = profile;
         pageType = listType;
-        currentSelectedStoreType = ST_DEFAULT;
+        currentSelectedStoreType = CST_MY;
         
-        filteredCertificatesMap = nil;
         isFiltered = NO;
         self.filterScope = 0;
         self.filterString = @"";
@@ -61,8 +59,6 @@
             checkedValid = [self constructImageWithStatus:[UIImage imageNamed:@"cert-valid.png"] andCheckButton:[UIImage imageNamed:@"checked.PNG"]];
             uncheckedValid = [self constructImageWithStatus:[UIImage imageNamed:@"cert-valid.png"] andCheckButton:[UIImage imageNamed:@"unchecked.PNG"]];
             //TODO: add invalid status images?
-            
-            personalStorageIndex = [[NSMutableIndexSet alloc] init];
             
             NSMutableArray *certsFromProfile;
             if( SCPT_RECIEVERS_CERTS == pageType)
@@ -74,31 +70,35 @@
                 certsFromProfile = [[NSMutableArray alloc] initWithArray:self.parentProfile.certsForCrlValidation];
             }
             
-            //TODO: cycle or manually process storages and add indexes
-            {
-                [self selectStore:currentSelectedStoreType];
+            NSIndexSet *availableStorages = [self storesAvailableForPageType:pageType];
+            [availableStorages enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+                [self selectStore:idx];
                 
                 //enumerate certs in profile
                 NSMutableIndexSet *foundProfileCertsIndex = [[NSMutableIndexSet alloc] init];
                 
+                NSArray *availableCertificates = [self currentSelectedStoreCertificates];
+                NSMutableIndexSet *currentSelectionIndex = [self currentStoreSelectedCertsIndex];
+                
                 for (id currentProfileCertObject in certsFromProfile)
                 {
-                    for( int i = 0; i < (availableCertificates->stack.num); i++ )
+                    for( int i = 0; i < availableCertificates.count; i++ )
                     {
                         //skip already founded certificates
-                        if( [personalStorageIndex containsIndex:(NSUInteger)i] )
+                        if( [currentSelectionIndex containsIndex:(NSUInteger)i] )
                         {
                             continue;
                         }
                         
+                        CertificateInfo *storageCert = [availableCertificates objectAtIndex:i];
                         if( SCPT_RECIEVERS_CERTS == pageType )
                         {
                             CertificateInfo* currentProfileCert = (CertificateInfo*)currentProfileCertObject;
                             
-                            if( !X509_issuer_and_serial_cmp(currentProfileCert.x509, sk_X509_value(availableCertificates, i)) )
+                            if( !X509_issuer_and_serial_cmp(currentProfileCert.x509, storageCert.x509) )
                             {
                                 //if cert is match, remember it's index in store and index in profile array
-                                [personalStorageIndex addIndex:(NSInteger)i];
+                                [currentSelectionIndex addIndex:(NSInteger)i];
                                 [foundProfileCertsIndex addIndex:[certsFromProfile indexOfObject:currentProfileCert]];
                                 break;
                             }
@@ -107,17 +107,13 @@
                         {
                             NSString *currentProfileCertIdString = (NSString*)currentProfileCertObject;
                             
-                            CertificateInfo *storageCert = [[CertificateInfo alloc] initWithX509:sk_X509_value(availableCertificates, i)];
                             if( [Profile isCertificate:storageCert correspondsToIdString:currentProfileCertIdString] )
                             {
                                 //if cert is match, remember it's index in store and index in profile array
-                                [personalStorageIndex addIndex:(NSInteger)i];
+                                [currentSelectionIndex addIndex:(NSInteger)i];
                                 [foundProfileCertsIndex addIndex:[certsFromProfile indexOfObject:currentProfileCertIdString]];
-                                [storageCert release];
                                 break;
                             }
-                            
-                            [storageCert release];
                         }
                     }   
                 }
@@ -125,10 +121,13 @@
                 //remove already founded certs from array to enumerate smaller number of certs in next store
                 [certsFromProfile removeObjectsAtIndexes:foundProfileCertsIndex];
                 [foundProfileCertsIndex release];
-            }
+            }];
+
             
             [certsFromProfile release];
         }
+        
+        [self constructSettingsMenu];
     }
     return self;
 }
@@ -138,14 +137,24 @@
     [checkedValid release];
     [uncheckedValid release];
     
-    if( personalStorageIndex )
+    if( storagesDictionary )
     {
-        [personalStorageIndex release];
+        [storagesDictionary release];
     }
     
-    if( filteredCertificatesMap )
+    if( filteredCertificatsMapsDictionary )
     {
-        [filteredCertificatesMap release];
+        [filteredCertificatsMapsDictionary release];
+    }
+    
+    if( selectedCertificatesIndexesDictionary )
+    {
+        [selectedCertificatesIndexesDictionary release];
+    }
+    
+    if( settingsMenu )
+    {
+        [settingsMenu release];
     }
     
     [super dealloc];
@@ -201,17 +210,7 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 
-    //TODO: default store depends from page type
-    switch (pageType)
-    {
-//        case SCPT_RECIEVERS_CERTS:
-//            //...
-//            break;
-
-        default:
-            [self selectStore:ST_DEFAULT];
-            break;
-    }
+    [self selectStore:[self defaultStoreForPageType:pageType]];
     
     self.tableView.contentOffset = CGPointMake(0,  44);
 }
@@ -223,8 +222,6 @@
     // e.g. self.myOutlet = nil;
     
     [searchController release];
-    
-    sk_X509_free(availableCertificates);
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -266,10 +263,10 @@
     // Return the number of rows in the section.
     if( isFiltered )
     {
-        return filteredCertificatesMap.count;
+        return [self currentStoreFilteringMap].count;
     }
     
-    return sk_X509_num(availableCertificates);
+    return [self currentSelectedStoreCertificates].count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -282,14 +279,15 @@
     }
     
     // Configure the cell...
-    X509 *currentCert = nil;
+    CertificateInfo *currentCert = nil;
     NSNumber *certIndex = nil;
+    NSArray *availableCertificates = [self currentSelectedStoreCertificates];
     if( isFiltered )
     {
-        certIndex = [filteredCertificatesMap objectForKey:[NSNumber numberWithInt:indexPath.row]];
+        certIndex = [[self currentStoreFilteringMap] objectForKey:[NSNumber numberWithInt:indexPath.row]];
         if( certIndex )
         {
-            currentCert = sk_X509_value(availableCertificates, certIndex.intValue);
+            currentCert = [[self currentSelectedStoreCertificates] objectAtIndex:certIndex.intValue];
         }
         else
         {
@@ -298,16 +296,15 @@
     }
     else
     {
-        currentCert = sk_X509_value(availableCertificates, indexPath.row);
+        currentCert = [availableCertificates objectAtIndex:indexPath.row];
     }
-    CertificateInfo *currentCertObject = [[CertificateInfo alloc] initWithX509:currentCert];
-    
-    cell.textLabel.text = [Crypto getDNFromX509_NAME:currentCertObject.subject withNid:NID_commonName];
+
+    cell.textLabel.text = [Crypto getDNFromX509_NAME:currentCert.subject withNid:NID_commonName];
     cell.detailTextLabel.numberOfLines = 2;
     
     
     //-------------------------------------
-    time_t validTo = currentCertObject.validTo; // cert expires date
+    time_t validTo = currentCert.validTo; // cert expires date
     
     // Set language from CryptoARM settings pane
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -338,13 +335,11 @@
     [formatter release];
     
     //-------------------------------------
-    NSString *certIssuer = [Crypto getDNFromX509_NAME:currentCertObject.issuer withNid:NID_commonName];
+    NSString *certIssuer = [Crypto getDNFromX509_NAME:currentCert.issuer withNid:NID_commonName];
     //-------------------------------------                               
     
     
     cell.detailTextLabel.text = [NSString stringWithFormat:@"Кем выдан:%@\nИстекает: %@", certIssuer, certExpirationDate];
-    
-    [currentCertObject release];
     
     switch (pageType) {
         case SCPT_SIGN_CERT:
@@ -357,9 +352,8 @@
         case SCPT_VALIDATION_CERTS:
         {
             //TODO: check certificate status and draw appropriate image
-            //TODO: select index relative to current displaying store
             NSUInteger mappedIndex = isFiltered ? certIndex.intValue : indexPath.row;
-            if( [personalStorageIndex containsIndex:mappedIndex] )
+            if( [[self currentStoreSelectedCertsIndex] containsIndex:mappedIndex] )
             {
                 cell.imageView.image = checkedValid;
             }
@@ -373,11 +367,6 @@
         default:
             break;
     }
-    
-//    if( certIndex )
-//    {
-//        [certIndex release];
-//    }
     
     return cell;
 }
@@ -434,14 +423,15 @@
      [detailViewController release];
      */
     
-    X509 *selectedCert = nil;
+    CertificateInfo *selectedCert = nil;
     NSNumber *certIndex = nil;
+    NSArray *availableCertificates = [self currentSelectedStoreCertificates];
     if( isFiltered )
     {
-        certIndex = [filteredCertificatesMap objectForKey:[NSNumber numberWithInt:indexPath.row]];
+        certIndex = [[self currentStoreFilteringMap] objectForKey:[NSNumber numberWithInt:indexPath.row]];
         if( certIndex )
         {
-            selectedCert = sk_X509_value(availableCertificates, certIndex.intValue);
+            selectedCert = [availableCertificates objectAtIndex:certIndex.intValue];
         }
         else
         {
@@ -450,14 +440,14 @@
     }
     else
     {
-        selectedCert = sk_X509_value(availableCertificates, indexPath.row);
+        selectedCert = [availableCertificates objectAtIndex:indexPath.row];
     }
     
     
     switch (pageType) {
         case SCPT_SIGN_CERT:
         {
-            self.parentProfile.signCertificate = [[[CertificateInfo alloc] initWithX509:selectedCert] autorelease];
+            self.parentProfile.signCertificate = selectedCert;
             [parentNavController.navCtrlr popViewControllerAnimated:YES];
         }
             break;
@@ -475,7 +465,7 @@
                 }
             }
             
-            self.parentProfile.encryptCertificate = [[[CertificateInfo alloc] initWithX509:selectedCert] autorelease];
+            self.parentProfile.encryptCertificate = selectedCert;
             
             if( self.parentProfile.encryptToSender )
             {
@@ -496,16 +486,15 @@
         case SCPT_RECIEVERS_CERTS:
         case SCPT_VALIDATION_CERTS:
         {
-            //TODO: cycle through available storages
             NSUInteger selectedIndex = isFiltered ? certIndex.intValue : indexPath.row;
             
-            if( [personalStorageIndex containsIndex:selectedIndex] )
+            if( [[self currentStoreSelectedCertsIndex] containsIndex:selectedIndex] )
             {
-                [personalStorageIndex removeIndex:selectedIndex];
+                [[self currentStoreSelectedCertsIndex] removeIndex:selectedIndex];
             }
             else
             {
-                [personalStorageIndex addIndex:selectedIndex];
+                [[self currentStoreSelectedCertsIndex] addIndex:selectedIndex];
             }
             
             [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -514,7 +503,7 @@
             
         case SCPT_DECRYPT_CERT:
         {
-            self.parentProfile.decryptCertificate = [[[CertificateInfo alloc] initWithX509:selectedCert] autorelease];
+            self.parentProfile.decryptCertificate = selectedCert;
             [parentNavController.navCtrlr popViewControllerAnimated:YES];
         }
             break;
@@ -522,11 +511,6 @@
         default:
             break;
     }
-
-//    if( certIndex )
-//    {
-//        [certIndex release];
-//    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -537,7 +521,7 @@
 - (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     //TODO: show storage title
-    return @"Storage title";
+    return [self storeNameByType:currentSelectedStoreType];
 }
 
 #pragma mark - NavigationSource protocol support
@@ -585,11 +569,38 @@
 
 - (SettingsMenuSource*)settingsMenu
 { 
-    return nil;
+    return settingsMenu;
 }
 
 - (void)constructSettingsMenu
 {
+    if( settingsMenu )
+    {
+        return;
+    }
+    
+    settingsMenu = [[SettingsMenuSource alloc] initWithTitle:NSLocalizedString(@"Хранилища сертификатов", @"Хранилища сертификатов")];
+    
+    NSIndexSet *availableStorages = [self storesAvailableForPageType:pageType];
+    if( [availableStorages containsIndex:CST_MY] )
+    {
+        [settingsMenu addMenuItem:[self storeNameByType:CST_MY] withAction:@selector(actionSelectStoreMy) forTarget:self];
+    }
+    
+    if( [availableStorages containsIndex:CST_ADDRESS_BOOK] )
+    {
+        [settingsMenu addMenuItem:[self storeNameByType:CST_ADDRESS_BOOK] withAction:@selector(actionSelectStoreAdressBook) forTarget:self];
+    }
+    
+    if( [availableStorages containsIndex:CST_CA] )
+    {
+        [settingsMenu addMenuItem:[self storeNameByType:CST_CA] withAction:@selector(actionSelectStoreCa) forTarget:self];
+    }
+    
+    if( [availableStorages containsIndex:CST_ROOT] )
+    {
+        [settingsMenu addMenuItem:[self storeNameByType:CST_ROOT] withAction:@selector(actionSelectStoreRoot) forTarget:self];
+    }
 }
 
 - (NSArray*)getAdditionalButtons
@@ -656,16 +667,26 @@
 
 - (NSMutableArray*)resultArrayFromIndexes
 {
-    NSMutableArray *resultArray = [[NSMutableArray alloc] initWithCapacity:personalStorageIndex.count]; //+ count of other indexes
-    
-    //TODO: enumerate through storages for each index
+    NSInteger selectedCertificatesCount = 0;
+
+    NSEnumerator *indexesEnumerator = [selectedCertificatesIndexesDictionary objectEnumerator];
+    NSIndexSet *currentIndexSet;
+    while((currentIndexSet = [indexesEnumerator nextObject]))
     {
-        [personalStorageIndex enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-            CertificateInfo *certInfo = [[CertificateInfo alloc] initWithX509:sk_X509_value(availableCertificates, idx)];
-            [resultArray addObject:certInfo];
-            [certInfo release];
-        }];
+        selectedCertificatesCount += currentIndexSet.count;
     }
+    
+    NSMutableArray *resultArray = [[NSMutableArray alloc] initWithCapacity:selectedCertificatesCount];
+    
+    // enumerate through storages for each index set
+    [selectedCertificatesIndexesDictionary enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        //NSArray *availableCertificates = [self currentSelectedStoreCertificates];
+        NSArray *availableCertificates = [storagesDictionary objectForKey:key];
+        [(NSIndexSet*)obj enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+            CertificateInfo *certInfo = [availableCertificates objectAtIndex:idx];
+            [resultArray addObject:certInfo];
+        }];
+    }];
     
     return resultArray;
 }
@@ -691,117 +712,30 @@
     [parentNavController.navCtrlr popViewControllerAnimated:YES];
 }
 
-- (void)selectStore:(enum ENM_STORE_TYPE)storeToSelect
+- (void)actionSelectStoreMy
 {
-    //TODO: check dictionary. If certificates from requested store already readed into
-    //      dictionary, load them from dictinary instead of reading from store
-    
-    //TODO: filter certs with policies
-    // Filtering certificates by usages
-    NSArray *filteringOids = nil;
-    switch (pageType) {
-//        case SCPT_SIGN_CERT:
-//            <#statements#>
-//            break;
-            
-        case SCPT_ENCRYPT_CERT:
-            filteringOids = parentProfile.encryptCertFilter;
-            break;
-            
-        default:
-            break;
-    }
-    
-    // extract certs bound to the person record
-    ABMutableMultiValueRef urlMultiValue = ABMultiValueCreateMutable(kABMultiStringPropertyType);
-    
-    // TODO: implement rebuilding stack after change certificates set
-    availableCertificates = sk_X509_new_null();
-    [Crypto getCertificatesFromURL:availableCertificates withURLCertList:urlMultiValue andStore:@"AddressBook"];
-    
-    //TODO: remove debug initialization
-    STACK_OF(X509_INFO)* infoStack = sk_X509_INFO_new_null();
-    for( int i = 0; i < sk_X509_INFO_num(infoStack); i++)
-    {
-        X509_INFO *currentCert = sk_X509_INFO_value(infoStack, i);
-
-        //Oids filtering code
-        if( filteringOids && filteringOids.count )
-        {
-            BOOL oidNotFound = YES;
-            
-            NSArray *currentCertUsages = [self extendedKeyUsageFromCert:currentCert->x509];
-            if( !currentCertUsages )
-            {
-                //No usages found - cert unable to correspond to any usage from filter
-                continue;
-            }
-            
-            // Enumerate oids from filter
-            for (CertUsage *currentFilteringOid in filteringOids)
-            {
-                // Enumerate oids from certificate
-                for (NSString *currentCertUsageId in currentCertUsages) {
-                    if( [currentFilteringOid.usageId compare:currentCertUsageId] == NSOrderedSame )
-                    {
-                        oidNotFound = NO;
-                        // Proceed to next OID from filter
-                        break;
-                    }
-                }
-                
-                // If OID not found we can discard this certificate
-                if( oidNotFound )
-                {
-                    break;
-                }
-            }
-            
-            // Discarding certificate
-            if( oidNotFound )
-            {
-                continue;
-            }
-        }
-        
-        sk_X509_push(availableCertificates, currentCert->x509);
-    }
-    
-    CFRelease(urlMultiValue);
-    
-//    //Oids filtering code
-//    if( filteringOids )
-//    {
-//        for (CertUsage *currentOid in filteringOids)
-//        {
-//            //use this "if" before pushing certificate into array of available certificates
-//            //currentOid
-//        }
-//    }
- 
-
-    //TODO: put readed certificates to dictionary
+    [self selectStore:CST_MY];
+    [self.tableView reloadData];
 }
 
-- (NSArray*)extendedKeyUsageFromCert:(X509*)x509Cert
+- (void)actionSelectStoreAdressBook
 {
-    EXTENDED_KEY_USAGE *extKeyUsages = X509_get_ext_d2i(x509Cert, NID_ext_key_usage, NULL, NULL);
-    int usagesNumber = sk_ASN1_OBJECT_num(extKeyUsages);
-    if( usagesNumber < 0 )
-    {
-        return nil;
-    }
-    
-    NSMutableArray* resultEku = [[NSMutableArray alloc] initWithCapacity:usagesNumber];
-    
-    for( int i = 0; i < usagesNumber; i++ )
-    {
-        ASN1_OBJECT *currentUsage = sk_ASN1_OBJECT_value(extKeyUsages, i);
-        [resultEku addObject:[Crypto convertAsnObjectToString:currentUsage noName:YES]];
-    }
-    
-    return [resultEku autorelease];
+    [self selectStore:CST_ADDRESS_BOOK];
+    [self.tableView reloadData];
 }
+
+- (void)actionSelectStoreCa
+{
+    [self selectStore:CST_CA];
+    [self.tableView reloadData];
+}
+
+- (void)actionSelectStoreRoot
+{
+    [self selectStore:CST_ROOT];
+    [self.tableView reloadData];
+}
+
 
 #pragma mark - Search display delegate and search bar delegate
 
@@ -846,27 +780,27 @@
 {
     isFiltered = NO;
     [self.tableView reloadData];
-    
-    //self.tableView.contentOffset = CGPointMake(0,  searchController.searchBar.frame.size.height);
 }
 
 - (void)applyFiltering
 {
     NSUInteger certificatesFound = 0;
     
-    int certCount = sk_X509_num(availableCertificates);
-    NSMutableDictionary *tempIndexesDict = [[NSMutableDictionary alloc] initWithCapacity:certCount];
+    NSArray *availableCertificates = [self currentSelectedStoreCertificates];
+    int certCount = availableCertificates.count;
+    NSMutableDictionary *tempIndexesDict = [self currentStoreFilteringMap];
+    [tempIndexesDict removeAllObjects];
 
     for( int i = 0; i <  certCount; i++ )
     {
-        X509 *currentCert = sk_X509_value(availableCertificates, i);
+        CertificateInfo *currentCert = [availableCertificates objectAtIndex:i];
         
         switch (self.filterScope)
         {
             //subject name
             case SVI_SUBJECT:
             {
-                NSString *subjectName = [Profile getDnStringInMSStyle:currentCert->cert_info->subject];
+                NSString *subjectName = [Profile getDnStringInMSStyle:currentCert.x509->cert_info->subject];
                 
                 NSRange foundRange = [subjectName rangeOfString:self.filterString options:NSCaseInsensitiveSearch];
                 if( foundRange.location != NSNotFound )
@@ -880,7 +814,7 @@
             //issuer name
             case SVI_ISSUER:
             {
-                NSString *issuerName = [Profile getDnStringInMSStyle:currentCert->cert_info->issuer];
+                NSString *issuerName = [Profile getDnStringInMSStyle:currentCert.x509->cert_info->issuer];
                 
                 NSRange foundRange = [issuerName rangeOfString:self.filterString options:NSCaseInsensitiveSearch];
                 if( foundRange.location != NSNotFound )
@@ -895,9 +829,7 @@
             case SVI_VALID_FROM:
             case SVI_VALID_TO:
             {
-                CertificateInfo* curCert = [[CertificateInfo alloc] initWithX509:currentCert];
-                time_t currentCertTimeInterval = (SVI_VALID_FROM==self.filterScope) ? curCert.validFrom : curCert.validTo;
-                [curCert release];
+                time_t currentCertTimeInterval = (SVI_VALID_FROM==self.filterScope) ? currentCert.validFrom : currentCert.validTo;
                 NSDate *currentCertDate = [NSDate dateWithTimeIntervalSince1970:currentCertTimeInterval];
                 
                 NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -917,9 +849,238 @@
                 break;
         }
     }
+}
+
+#pragma mark - Additional methods
+
+- (void)selectStore:(enum CERT_STORE_TYPE)storeToSelect
+{
+    currentSelectedStoreType = storeToSelect;
     
-    self.filteredCertificatesMap = tempIndexesDict;
-    [tempIndexesDict release];
+    NSMutableArray *extractedCertificates = [self currentSelectedStoreCertificates];
+    if( extractedCertificates.count )
+    {
+        return;
+    }
+    
+    CertificateStore *selectingStore = [[CertificateStore alloc] initWithStoreType:storeToSelect];
+    [extractedCertificates addObjectsFromArray:selectingStore.certificates];
+    [selectingStore release];
+    
+    //TODO: filter certs with policies
+    // Filtering certificates by usages
+    NSArray *filteringOids = nil;
+    switch (pageType) {
+            //        case SCPT_SIGN_CERT:
+            //            <#statements#>
+            //            break;
+            
+        case SCPT_ENCRYPT_CERT:
+            filteringOids = parentProfile.encryptCertFilter;
+            break;
+            
+        default:
+            break;
+    }
+    
+    if( filteringOids )
+    {
+        NSMutableArray *filteredCertificates = [[NSMutableArray alloc] initWithCapacity:extractedCertificates.count];
+        BOOL oidNotFound;
+        
+        for (CertificateInfo *currentCert in extractedCertificates)
+        {
+            //Oids filtering code
+            oidNotFound = YES;
+            
+            NSArray *currentCertUsages = [self extendedKeyUsageFromCert:currentCert.x509];
+            if( !currentCertUsages )
+            {
+                //No usages found - cert unable to correspond to any usage from filter
+                continue;
+            }
+            
+            // Enumerate oids from filter
+            for (CertUsage *currentFilteringOid in filteringOids)
+            {
+                // Enumerate oids from certificate
+                for (NSString *currentCertUsageId in currentCertUsages) {
+                    if( [currentFilteringOid.usageId compare:currentCertUsageId] == NSOrderedSame )
+                    {
+                        oidNotFound = NO;
+                        // Proceed to next OID from filter
+                        break;
+                    }
+                }
+                
+                // If OID not found we can discard this certificate
+                if( oidNotFound )
+                {
+                    break;
+                }
+            }
+            
+            // Discarding certificate
+            if( oidNotFound )
+            {
+                continue;
+            }
+            
+            [filteredCertificates addObject:currentCert];
+        }
+        
+        [extractedCertificates addObjectsFromArray:filteredCertificates];
+        [filteredCertificates release];
+    }
+}
+
+- (NSArray*)extendedKeyUsageFromCert:(X509*)x509Cert
+{
+    EXTENDED_KEY_USAGE *extKeyUsages = X509_get_ext_d2i(x509Cert, NID_ext_key_usage, NULL, NULL);
+    int usagesNumber = sk_ASN1_OBJECT_num(extKeyUsages);
+    if( usagesNumber < 0 )
+    {
+        return nil;
+    }
+    
+    NSMutableArray* resultEku = [[NSMutableArray alloc] initWithCapacity:usagesNumber];
+    
+    for( int i = 0; i < usagesNumber; i++ )
+    {
+        ASN1_OBJECT *currentUsage = sk_ASN1_OBJECT_value(extKeyUsages, i);
+        [resultEku addObject:[Crypto convertAsnObjectToString:currentUsage noName:YES]];
+    }
+    
+    return [resultEku autorelease];
+}
+
+
+- (NSIndexSet*)storesAvailableForPageType:(enum ENM_SEL_CERT_PAGE_TYPE)listType
+{
+    NSMutableIndexSet *resultIdexSet = [[NSMutableIndexSet alloc] init];
+    
+    switch (listType) {
+        case SCPT_SIGN_CERT:
+        case SCPT_ENCRYPT_CERT:
+        case SCPT_RECIEVERS_CERTS:
+        case SCPT_VALIDATION_CERTS:
+        {
+            [resultIdexSet addIndex:CST_MY];
+            [resultIdexSet addIndex:CST_ADDRESS_BOOK];
+            [resultIdexSet addIndex:CST_CA];
+            [resultIdexSet addIndex:CST_ROOT];
+        }
+            break;
+            
+        case SCPT_DECRYPT_CERT:
+        {
+            [resultIdexSet addIndex:CST_MY];
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
+    return [resultIdexSet autorelease];
+}
+
+- (enum CERT_STORE_TYPE)defaultStoreForPageType:(enum ENM_SEL_CERT_PAGE_TYPE)listType
+{
+    switch (listType) {
+        case SCPT_SIGN_CERT:
+        case SCPT_ENCRYPT_CERT:
+        case SCPT_DECRYPT_CERT:
+        case SCPT_VALIDATION_CERTS:
+            return CST_MY;
+            break;
+            
+        case SCPT_RECIEVERS_CERTS:
+            return CST_ADDRESS_BOOK;
+            break;
+            
+        default:
+            break;
+    }
+    
+    return CST_MY;
+}
+
+- (NSMutableArray*)currentSelectedStoreCertificates
+{
+    if( !storagesDictionary )
+    {
+        storagesDictionary = [[NSMutableDictionary alloc] initWithCapacity:4];
+    }
+    
+    NSMutableArray *currentCertsArray = [storagesDictionary objectForKey:[NSNumber numberWithInt:currentSelectedStoreType]];
+    if( !currentCertsArray )
+    {
+        currentCertsArray = [[[NSMutableArray alloc] init] autorelease];
+        [storagesDictionary setObject:currentCertsArray forKey:[NSNumber numberWithInt:currentSelectedStoreType]];
+    }
+    
+    return currentCertsArray;
+}
+
+- (NSMutableDictionary*)currentStoreFilteringMap
+{
+    if( !filteredCertificatsMapsDictionary )
+    {
+        filteredCertificatsMapsDictionary = [[NSMutableDictionary alloc] initWithCapacity:4];
+    }
+    
+    NSMutableDictionary *currentFilteringMap = [filteredCertificatsMapsDictionary objectForKey:[NSNumber numberWithInt:currentSelectedStoreType]];
+    if( !currentFilteringMap )
+    {
+        currentFilteringMap = [[[NSMutableDictionary alloc] init] autorelease];
+        [filteredCertificatsMapsDictionary setObject:currentFilteringMap forKey:[NSNumber numberWithInt:currentSelectedStoreType]];
+    }
+    
+    return currentFilteringMap;
+}
+
+- (NSMutableIndexSet*)currentStoreSelectedCertsIndex
+{
+    if( !selectedCertificatesIndexesDictionary )
+    {
+        selectedCertificatesIndexesDictionary = [[NSMutableDictionary alloc] initWithCapacity:4];
+    }
+    
+    NSMutableIndexSet *currentFilteringMap = [selectedCertificatesIndexesDictionary objectForKey:[NSNumber numberWithInt:currentSelectedStoreType]];
+    if( !currentFilteringMap )
+    {
+        currentFilteringMap = [[[NSMutableIndexSet alloc] init] autorelease];
+        [selectedCertificatesIndexesDictionary setObject:currentFilteringMap forKey:[NSNumber numberWithInt:currentSelectedStoreType]];
+    }
+    
+    return currentFilteringMap;
+}
+
+- (NSString*)storeNameByType:(enum CERT_STORE_TYPE)storeType
+{
+    switch (storeType) {
+        case CST_MY:
+            return NSLocalizedString(@"Личное", @"Личное");
+            break;
+            
+        case CST_ADDRESS_BOOK:
+            return NSLocalizedString(@"Других пользователей", @"Других пользователей");
+            break;
+            
+        case CST_CA:
+            return NSLocalizedString(@"Промежуточные центры сертификации", @"Промежуточные центры сертификации");
+            break;
+            
+        case CST_ROOT:
+            return NSLocalizedString(@"Корневые сертификаты", @"Корневые сертификаты");
+            break;
+            
+        default:
+            break;
+    }
+    
+    return @"Name not supported for this type";
 }
 
 @end

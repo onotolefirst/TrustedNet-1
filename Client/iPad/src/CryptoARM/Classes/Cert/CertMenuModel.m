@@ -10,43 +10,19 @@
 
 @implementation CertMenuModel
 
+@synthesize store;
+@synthesize certArray;
+
 - (id) initWithStoreName:(NSString *)strStoreName
 {
     self = [super init];
-    certArray = sk_X509_new_null();
 
-    // create temporary certificate binding to the address book store record
-    ENGINE *e = ENGINE_by_id(CTIOSRSA_ENGINE_ID);
-    STORE *store = STORE_new_engine(e);
-    
-    STORE_ctrl(store, CTIOSRSA_STORE_CTRL_SET_NAME, 0, strStoreName, NULL);
-    
-    void *handle = nil;
-    OPENSSL_ITEM emptyAttrs[] = {{ STORE_ATTR_END }};
-    OPENSSL_ITEM emptyParams[] = {{ STORE_PARAM_KEY_NO_PARAMETERS }};
-    
-	if ((handle = STORE_list_certificate_start(store, emptyAttrs, emptyParams)))
-	{
-    	for (int i = 0; !STORE_list_certificate_endp(store, handle); i++)
-        {
-            X509 *cert = STORE_list_certificate_next(store, handle);
-            
-            if (cert)
-            {
-                sk_X509_push(certArray, cert);
-            }
-            else
-            {
-                // print error;
-            }
-        }
-	}
-    else
+    if( self )
     {
-        // print error;
+        //TODO: use store type from parameter
+        self.store = [[CertificateStore alloc] initWithStoreType:CST_MY];
+        self.certArray = self.store.certificates;
     }
-    
-    STORE_free(store);
     
     return self;
 }
@@ -72,14 +48,12 @@
 }
 
 - (NSInteger)mainMenuRowsInSection:(NSInteger)section{
-    if (nil != certArray)
+    if( self.certArray )
     {
-        return certArray->stack.num;
+        return self.certArray.count;
     }
-    else
-    {
-        return 0;
-    }
+    
+    return 0;
 }
 
 - (CGFloat)cellHeight:(NSIndexPath *)indexPath
@@ -89,10 +63,7 @@
 
 - (UIViewController<NavigationSource>*)getDetailControllerForElementAt:(NSIndexPath*)index
 {
-    X509 *selectedCert = sk_X509_value(certArray, index.row);
-    CertificateInfo *certInfo = [[[CertificateInfo alloc] initWithX509:selectedCert] autorelease];
-    
-    return [[[CertDetailViewController alloc] initWithCertInfo:certInfo] autorelease];
+    return [[[CertDetailViewController alloc] initWithCertInfo:[self.certArray objectAtIndex:index.row]] autorelease];
 }
 
 - (UITableViewCell*)fillCell:(UITableViewCell *)cell atIndex:(NSIndexPath *)idx inTableView:(UITableView *)tableView
@@ -105,10 +76,8 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"CertCellView" owner:self options:nil];
         cellView = (CertCellView *)[nib objectAtIndex:0];
 
-        X509 *selectedCert = sk_X509_value(certArray, idx.row);
-    
         // parsing X509_INFO
-        CertificateInfo *certInfo = [[CertificateInfo alloc] initWithX509:selectedCert];
+        CertificateInfo *certInfo = [self.certArray objectAtIndex:idx.row];
         time_t validTo = certInfo.validTo; // cert expires date
     
         // set language from CryptoARM settings pane

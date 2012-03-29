@@ -77,6 +77,7 @@
 		B3058C23149A0E98008A3F8C /* DDXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = B3058C1C149A0E98008A3F8C /* DDXMLNode.m */; };
 		B305A3EA14515708004EC85F /* ClosePanel.PNG in Resources */ = {isa = PBXBuildFile; fileRef = B305A3E914515708004EC85F /* ClosePanel.PNG */; };
 		B307238714CFD83D007BBE08 /* ProfileHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B307238614CFD83D007BBE08 /* ProfileHelper.m */; };
+		B30830C115204B3F0063DE1A /* CertificateStore.m in Sources */ = {isa = PBXBuildFile; fileRef = B30830C015204B3F0063DE1A /* CertificateStore.m */; };
 		B3096CD014E1023C00FAB5AF /* SelectCertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3096CCF14E1023C00FAB5AF /* SelectCertViewController.m */; };
 		B30EFABC14EA41BC0002065D /* Edit.png in Resources */ = {isa = PBXBuildFile; fileRef = B30EFABB14EA41BC0002065D /* Edit.png */; };
 		B30F1FCF14458BE90057AD45 /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = B30F1FCE14458BE90057AD45 /* folder.png */; };
@@ -104,6 +105,7 @@
 		B35CBF601420F1C200A2C262 /* 57-CryptoARM-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = B35CBF5C1420F1C200A2C262 /* 57-CryptoARM-logo.png */; };
 		B35CBF611420F1C200A2C262 /* 72-CryptoARM-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = B35CBF5D1420F1C200A2C262 /* 72-CryptoARM-logo.png */; };
 		B36DA4C3146A769000AF5676 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B36DA4C2146A769000AF5676 /* RootViewController.m */; };
+		B37123BA1521FE93005140D1 /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = B37123B91521FE93005140D1 /* gear.png */; };
 		B38A98D3150DEADD00339FB9 /* SelectOidViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B38A98D2150DEADD00339FB9 /* SelectOidViewController.m */; };
 		B38A9A7D144D61E1006EF2B2 /* ViewControllerWithFlipPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = B38A9A7C144D61E1006EF2B2 /* ViewControllerWithFlipPanel.m */; };
 		B39CE42814559A24003AA5FE /* StatisticsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B39CE42714559A24003AA5FE /* StatisticsHelper.m */; };
@@ -278,6 +280,8 @@
 		B305A3E914515708004EC85F /* ClosePanel.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ClosePanel.PNG; path = Resources/Images/ClosePanel.PNG; sourceTree = "<group>"; };
 		B307238514CFD83D007BBE08 /* ProfileHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProfileHelper.h; path = Classes/Profile/ProfileHelper.h; sourceTree = "<group>"; };
 		B307238614CFD83D007BBE08 /* ProfileHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProfileHelper.m; path = Classes/Profile/ProfileHelper.m; sourceTree = "<group>"; };
+		B30830BF15204B3F0063DE1A /* CertificateStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CertificateStore.h; path = Classes/Cert/CertStore/CertificateStore.h; sourceTree = "<group>"; };
+		B30830C015204B3F0063DE1A /* CertificateStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CertificateStore.m; path = Classes/Cert/CertStore/CertificateStore.m; sourceTree = "<group>"; };
 		B3096CCE14E1023C00FAB5AF /* SelectCertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectCertViewController.h; path = Classes/Profile/SelectCertViewController.h; sourceTree = "<group>"; };
 		B3096CCF14E1023C00FAB5AF /* SelectCertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectCertViewController.m; path = Classes/Profile/SelectCertViewController.m; sourceTree = "<group>"; };
 		B30EFABB14EA41BC0002065D /* Edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Edit.png; path = Resources/Images/Edit.png; sourceTree = "<group>"; };
@@ -323,7 +327,7 @@
 		B35CBF5D1420F1C200A2C262 /* 72-CryptoARM-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "72-CryptoARM-logo.png"; sourceTree = "<group>"; };
 		B36DA4C1146A769000AF5676 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootViewController.h; path = Classes/Detail/RootViewController.h; sourceTree = "<group>"; };
 		B36DA4C2146A769000AF5676 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RootViewController.m; path = Classes/Detail/RootViewController.m; sourceTree = "<group>"; };
-		B388CA54146C16FB0098B793 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gear.png; path = Resources/Images/gear.png; sourceTree = "<group>"; };
+		B37123B91521FE93005140D1 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gear.png; path = Resources/Images/gear.png; sourceTree = "<group>"; };
 		B38A98D1150DEADD00339FB9 /* SelectOidViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectOidViewController.h; path = Classes/Profile/SelectOidViewController.h; sourceTree = "<group>"; };
 		B38A98D2150DEADD00339FB9 /* SelectOidViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectOidViewController.m; path = Classes/Profile/SelectOidViewController.m; sourceTree = "<group>"; };
 		B38A9A7B144D61E1006EF2B2 /* ViewControllerWithFlipPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewControllerWithFlipPanel.h; path = Classes/ViewControllerWithFlipPanel.h; sourceTree = "<group>"; };
@@ -445,7 +449,7 @@
 				B3EBD4EF14457DA200243136 /* to-section.PNG */,
 				73F2E28C14B8361B00915BEA /* checked.PNG */,
 				73F2E28D14B8361B00915BEA /* unchecked.PNG */,
-				B388CA54146C16FB0098B793 /* gear.png */,
+				B37123B91521FE93005140D1 /* gear.png */,
 				B300ED1D146CF05100C3C88F /* chain.png */,
 			);
 			name = Images;
@@ -549,6 +553,7 @@
 				73FDCFAD14C9958800C02FA5 /* CertChainViewController.h */,
 				73FDCFAE14C9958800C02FA5 /* CertChainViewController.m */,
 				73FDCFAF14C9958800C02FA5 /* CertChainViewController.xib */,
+				B3DE0A7C151CA3AC00CAF78B /* Certificates Store */,
 			);
 			name = Cert;
 			sourceTree = "<group>";
@@ -733,7 +738,6 @@
 			isa = PBXGroup;
 			children = (
 				733A1F4F143DFAD400E569D1 /* barButtonRecipients.PNG */,
-				B388CA54146C16FB0098B793 /* gear.png */,
 				B305A3E914515708004EC85F /* ClosePanel.PNG */,
 				B3242F0114505EA900C02A1C /* att-green.png */,
 				B3242F0214505EA900C02A1C /* att-red.png */,
@@ -913,6 +917,15 @@
 			);
 			name = "interface-64x64";
 			path = "Resources/Images/interface-64x64";
+			sourceTree = "<group>";
+		};
+		B3DE0A7C151CA3AC00CAF78B /* Certificates Store */ = {
+			isa = PBXGroup;
+			children = (
+				B30830BF15204B3F0063DE1A /* CertificateStore.h */,
+				B30830C015204B3F0063DE1A /* CertificateStore.m */,
+			);
+			name = "Certificates Store";
 			sourceTree = "<group>";
 		};
 		B3EBD4DC1445660100243136 /* Supporting Files */ = {
@@ -1100,6 +1113,7 @@
 				73FDCFB114C9958800C02FA5 /* CertChainViewController.xib in Resources */,
 				B30527E614CEA3E600D43F1B /* ProfileViewController.xib in Resources */,
 				B30EFABC14EA41BC0002065D /* Edit.png in Resources */,
+				B37123BA1521FE93005140D1 /* gear.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1195,6 +1209,7 @@
 				B305091614FCFA4400EF1313 /* PolicyProfileHelper.m in Sources */,
 				B38A98D3150DEADD00339FB9 /* SelectOidViewController.m in Sources */,
 				B303EE631513210B0060DE59 /* SelectAlgorithm.m in Sources */,
+				B30830C115204B3F0063DE1A /* CertificateStore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1279,7 +1294,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
-				OTHER_LDFLAGS = "-lxml2";
+				OTHER_LDFLAGS = (
+					"-lxml2",
+					"-lsqlite3",
+				);
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -1306,7 +1324,10 @@
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				OTHER_LDFLAGS = "-lxml2";
+				OTHER_LDFLAGS = (
+					"-lxml2",
+					"-lsqlite3",
+				);
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -1330,6 +1351,10 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../lib\"",
+				);
+				OTHER_LDFLAGS = (
+					"-lxml2",
+					"-lsqlite3",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "57EA9A27-0226-442A-B98C-F71F90DE2547";
@@ -1355,6 +1380,10 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../lib\"",
+				);
+				OTHER_LDFLAGS = (
+					"-lxml2",
+					"-lsqlite3",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "57EA9A27-0226-442A-B98C-F71F90DE2547";

@@ -23,9 +23,12 @@
 #include <Openssl/ctiosrsa.h>
 #include <Openssl/store.h>
 
-@interface CertMenuModel : CommonNavigationItem {
-    STACK_OF(X509) *certArray;
-}
+#include "CertificateStore.h"
+
+@interface CertMenuModel : CommonNavigationItem
+
+@property (nonatomic, retain) CertificateStore *store;
+@property (nonatomic, retain) NSArray *certArray;
 
 - (id) initWithStoreName:(NSString *)strStoreName;
 
