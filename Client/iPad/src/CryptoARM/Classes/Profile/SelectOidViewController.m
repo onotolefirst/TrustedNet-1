@@ -12,6 +12,7 @@
 @implementation SelectOidViewController
 
 @synthesize parentProfile;
+@synthesize pageType;
 
 //- (id)initWithStyle:(UITableViewStyle)style
 //{
@@ -46,7 +47,7 @@
     return [resultImage retain];
 }
 
-- (id)initWithProfile:(id)profile
+- (id)initWithProfile:(id)profile andPageType:(enum OID_SELECT_PAGE_TYPE)pgType
 {
     self = [super init];
     if (self)
@@ -60,7 +61,22 @@
         
         selectedIndex = [[NSMutableIndexSet alloc] init];
         
-        for (CertUsage *currentProfileUsageItem in self.parentProfile.encryptCertFilter) {
+        pageType = pgType;
+        NSArray *loadingFilter;
+        switch (self.pageType) {
+            case OSPT_SIGN_FILTER:
+                loadingFilter = self.parentProfile.signCertFilter;
+                break;
+                
+            case OSPT_ENCRYPT_FILTER:
+                loadingFilter = self.parentProfile.encryptCertFilter;
+                break;
+                
+            default:
+                break;
+        }
+        
+        for (CertUsage *currentProfileUsageItem in loadingFilter) {
             for (CertUsage *currentStoreUsageItem in usagesHelper.certUsages) {
                 NSUInteger currentStoreIndex = [usagesHelper.certUsages indexOfObject:currentStoreUsageItem];
                 
@@ -328,7 +344,19 @@
         [resultArray addObject:certUsage];
     }];
     
-    self.parentProfile.encryptCertFilter = resultArray;
+    switch (self.pageType) {
+        case OSPT_SIGN_FILTER:
+            self.parentProfile.signCertFilter = resultArray;
+            break;
+            
+        case OSPT_ENCRYPT_FILTER:
+            self.parentProfile.encryptCertFilter = resultArray;
+            break;
+            
+        default:
+            break;
+    }
+    
     [resultArray release];
     
     [parentNavController.navCtrlr popViewControllerAnimated:YES];

@@ -13,14 +13,14 @@
 @synthesize store;
 @synthesize certArray;
 
-- (id) initWithStoreName:(NSString *)strStoreName
+- (id) initWithStoreType:(enum CERT_STORE_TYPE)initType
 {
     self = [super init];
 
     if( self )
     {
         //TODO: use store type from parameter
-        self.store = [[CertificateStore alloc] initWithStoreType:CST_MY];
+        self.store = [[CertificateStore alloc] initWithStoreType:initType];
         self.certArray = self.store.certificates;
     }
     
@@ -39,7 +39,28 @@
 
 - (NSString*)menuTitle
 {
-    return NSLocalizedString(@"MM_PRIVATE_CERTIFICATES", @"Private certificates");
+    switch (store.storeType) {
+        case CST_MY:
+            return NSLocalizedString(@"MM_PRIVATE_CERTIFICATES", @"Private certificates");
+            break;
+            
+        case CST_ADDRESS_BOOK:
+            return NSLocalizedString(@"MM_OTHER_PEOPLE_CERTIFICATES", @"MM_OTHER_PEOPLE_CERTIFICATES");
+            break;
+            
+        case CST_CA:
+            return NSLocalizedString(@"MM_INTERMEDAITE_CERTIFICATION_AUTHORITIES", @"MM_INTERMEDAITE_CERTIFICATION_AUTHORITIES");
+            break;
+            
+        case CST_ROOT:
+            return NSLocalizedString(@"MM_TRUSTED_ROOT_CERTIFICATION_AUTHORITIES", @"MM_TRUSTED_ROOT_CERTIFICATION_AUTHORITIES");
+            break;
+            
+        default:
+            break;
+    }
+    
+    return @"Unknown store type";
 }
 
 - (NSInteger)mainMenuSections
@@ -120,8 +141,6 @@
                             @"CERT_WHO_ISSUED"), [Crypto getDNFromX509_NAME:certInfo.issuer withNid:NID_commonName]];
         cellView.certValidTo.text = [NSString stringWithFormat:@"%@: %s %@ %s %@.", NSLocalizedString(@"CERT_EXPIRED", @"CERT_EXPIRED"), szDate, monthName, szYear, NSLocalizedString(@"YEAR_PREFIX", @"YEAR_PREFIX")];
         [cellView setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-
-        [certInfo release];
     }
 
     return cellView;

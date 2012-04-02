@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SettingsMenuSourceDelegate.h"
+
 @interface SettingsMenuSource : NSObject <UITableViewDelegate, UITableViewDataSource>
 {
     NSString *menuTitle;
@@ -26,5 +28,6 @@
 //- (void)insertMenuItem:(NSUInteger)index ...;
 
 @property (nonatomic, retain) UIPopoverController *menuPopover;
+@property (nonatomic, retain) id<SettingsMenuSourceDelegate> delegate;
 
 @end

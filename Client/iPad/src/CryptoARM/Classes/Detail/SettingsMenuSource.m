@@ -13,6 +13,7 @@
 @implementation SettingsMenuSource
 
 @synthesize menuPopover;
+@synthesize delegate;
 
 - (id)initWithTitle:(NSString*)title;
 {
@@ -74,6 +75,10 @@
     
     // Configure the cell...
     cell.textLabel.text = ((SettingsMenuItem*)[menuItemsArray objectAtIndex:indexPath.row]).title;
+    if( self.delegate )
+    {
+        cell.accessoryType = [self.delegate accessoryTypeForCell:indexPath];
+    }
 
     return cell;
 }

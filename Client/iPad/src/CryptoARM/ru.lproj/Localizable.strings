@@ -125,6 +125,14 @@
 "CERT_USAGE_OID_ALREADY_PRESENT" = "Данный объектный идентификатор уже присутствует в справочнике. Введите новый идентификатор или измените существующий.";
 "CERT_USAGE_CERTIFICATE_USAGES" = "Назначения сертификата";
 
+"CERT_USAGE_OID_NAME_SERVET_AUTH_CERT" = "Сертификат проверки подлинности сервера";
+"CERT_USAGE_OID_NAME_CLIENT_AUTH_CERT" = "Сертификат проверки подлинности клиента";
+"CERT_USAGE_OID_NAME_CODE_SIGNING_CERT" = "Сертификат подписи кода";
+"CERT_USAGE_OID_NAME_EMAIL_SECURITY_CERT" = "Сертификат защиты электронной почты";
+"CERT_USAGE_OID_NAME_TIMESTAMP_SIGNING_CERT" = "Сертификат подписи штампа времени";
+"CERT_USAGE_OID_NAME_OCSP_SESP_SIGNING_CERT" = "Сертификат подписи OCSP ответа";
+"CERT_USAGE_OID_NAME_IKE_MEDIATOR_CERT" = "Сертификат IKE-посредника IP-безопасности";
+
 // Operational profiles interface
 "PROFILES_TITLE" = "Операционные настройки";
 "PROFILE_TITLE" = "Операционная настройка";
@@ -168,11 +176,13 @@
 "PROFILE_PARAMETERS_RECIEVERS_CERTIFICATES" = "Сертификаты получатетей";
 "PROFILE_PARAMETERS_ENCRYPTING_CERTIFICATE" = "Сертификат расшифрования";
 "PROFILE_PARAMETERS_ENCRYPT_CERTIFICATES_FILTER" = "Фильтр назначений сертификатов шифрования";
+"PROFILE_PARAMETERS_SIGN_CERTIFICATES_FILTER" = "Фильтр назначений сертификатов подписи";
 "PROFILE_PARAMETERS_CERTIFICATES_FOR_VALIDATION_BY_ONLINE_CRL" = "Сертификаты для которых требуется загрузка CRL из УЦ";
 "PROFILE_PARAMETERS_SIGN_USAGE_COMMENT" = "Комментарий по использованию подписи";
 "PROFILE_PARAMETERS_SIGN_COMMENT" = "Комментарий подписи";
 "PROFILE_PARAMETERS_SECURE_DELETION" = "Гарантированное удаление";
 "PROFILE_PARAMETERS_REMOVE_SOURCE_FILE_AFTER_ENCRYPTION" = "Удалить исходный файл после шифрования";
+"PROFILE_PARAMETERS_ARCHIVE_AFTER_ENCRYPTION" = "Архивировать после шифрования";
 //"PROFILE_PARAMETERS_" = ;
 
 "PROFILE_PARAMETERS_OID_CREATION" = "Создание";

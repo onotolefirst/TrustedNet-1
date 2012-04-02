@@ -42,6 +42,8 @@
 #define TAG_ENCRYPT_PEM @"EncryptPEM"
 #define TAG_ENCRYPT_CERTIFICATE @"EncryptCertificate"
 #define TAG_ENCRYPT_RECIPIENTS_CERTIFICATE @"EncryptRecipientsCertificates"
+#define TAG_ENCRYPT_ARCHIVE_FILES @"EncryptArchiveFiles"
+
 #define TAG_DECRYPT_CERTIFICATE @"DecryptCertificate"
 #define TAG_VERIFIED_CERTIFICATES @"VerifiedCertificates"
 
@@ -56,6 +58,8 @@
 #define TAG_SIGN_PEM @"SignPEM"
 #define TAG_SIGN_ARCHIVE_FILES @"SignArchiveFiles"
 #define TAG_SIGN_TYPE @"SignType"
+
+#define TAG_ENCRYPT_DEL_SRC_FILE @"EncryptDeleteSourceFile"
 
 //#define TAG_ @""
 
@@ -110,8 +114,10 @@ enum profile_tag_type {
     PTT_SIGN_P7S = 37,
     PTT_SIGN_PEM = 38,
     PTT_SIGN_ARCHIVE_FILES = 39,
-    PTT_SIGN_TYPE = 40
+    PTT_SIGN_TYPE = 40,
     
+    PTT_ENCRYPT_ARCHIVE_FILES = 41,
+    PTT_ENCRYPT_DEL_SRC_FILE = 42
 };
 
 #endif

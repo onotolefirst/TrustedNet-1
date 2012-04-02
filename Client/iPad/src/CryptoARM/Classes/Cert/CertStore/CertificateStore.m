@@ -10,6 +10,8 @@
 
 @implementation CertificateStore
 
+@synthesize storeType;
+
 - (id)initWithStoreType:(enum CERT_STORE_TYPE)type;
 {
     self = [super init];

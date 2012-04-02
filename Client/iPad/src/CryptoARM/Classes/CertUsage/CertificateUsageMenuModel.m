@@ -20,7 +20,19 @@
     {
         savingFileName = [[NSString stringWithFormat:@"%@/%@", [PathHelper getOperationalSettinsDirectoryPath], [PathHelper getCertUsagesFileName]] copy];
         
-        usageHelper = [[CertUsageHelper alloc] initWithDictionary:savingFileName];
+        NSURL *usagesUrl = [NSURL fileURLWithPath:savingFileName];
+        NSError *fileCheckError = nil;
+
+        if( [usagesUrl checkResourceIsReachableAndReturnError:&fileCheckError] )
+        {
+            usageHelper = [[CertUsageHelper alloc] initWithDictionary:savingFileName];
+        }
+        else
+        {
+            usageHelper = [[CertUsageHelper alloc] init];
+            [CertUsageHelper fillWithCertUsageDefaultValues:usageHelper];
+            [usageHelper writeUsages:savingFileName];
+        }
         
         filteredUsages = [[NSMutableArray alloc] init];
         

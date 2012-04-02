@@ -29,6 +29,7 @@ enum EnmPageType {
     UISwitch *switchSignArchive;
     UISwitch *switchSignResourceIsFile;
     UISwitch *switchRemoveFileAfterEncryption;
+    UISwitch *switchEncryptArchive;
     
     UITextField *pinField;
     UITextField *commentField;
@@ -59,12 +60,14 @@ enum EnmPageType {
 - (void)switchSignResourceisFileAction;
 //- (void)switchRemoveFileAfterEncryption:(id)sender;
 - (void)switchRemoveFileAfterEncryptionAction;
+- (void)switchEncryptArchiveAction;
 
 - (void)selectSignCertAction;
 - (void)selectEncryptionCertAction;
 - (void)selectRecieversCertsAction;
 - (void)selectDecryptionCertAction;
 - (void)selectCertsForValidationAction;
+- (void)selectSigCertsFilter;
 - (void)selectEncCertsFilter;
 
 - (void)editSignPin:(id)sender;

@@ -35,7 +35,6 @@
         [self readUsages:dictionaryFileName];
     }
     return self;
-    
 }
 
 - (void)dealloc
@@ -217,6 +216,27 @@
 //    {
 //        NSLog(@"Warning: characters for unknown tag %u\nCharacters value: \"%@\"", curTagType, string);
 //    }
+}
+
+//+ (void)fillWithCertUsageDefaultValues:(CertUsageHelper*)certUsagesHelper
+//{
+//    [certUsagesHelper addUsage:[CertUsage createUsageWithId:@"1.3.6.1.5.5.7.3.1" andDescription:NSLocalizedString(@"CERT_USAGE_OID_NAME_SERVET_AUTH_CERT", @"Сертификат проверки подлинности сервера")]];
+//    [certUsagesHelper addUsage:[CertUsage createUsageWithId:@"1.3.6.1.5.5.7.3.2" andDescription:NSLocalizedString(@"CERT_USAGE_OID_NAME_CLIENT_AUTH_CERT", @"Сертификат проверки подлинности клиента")]];
+//    [certUsagesHelper addUsage:[CertUsage createUsageWithId:@"1.3.6.1.5.5.7.3.3" andDescription:NSLocalizedString(@"CERT_USAGE_OID_NAME_CODE_SIGNING_CERT", @"Сертификат подписи кода")]];
+//    [certUsagesHelper addUsage:[CertUsage createUsageWithId:@"1.3.6.1.5.5.7.3.4" andDescription:NSLocalizedString(@"CERT_USAGE_OID_NAME_EMAIL_SECURITY_CERT", @"Сертификат защиты электронной почты")]];
+//    [certUsagesHelper addUsage:[CertUsage createUsageWithId:@"1.3.6.1.5.5.7.3.8" andDescription:NSLocalizedString(@"CERT_USAGE_OID_NAME_TIMESTAMP_SIGNING_CERT", @"Сертификат подписи штампа времени")]];
+//    [certUsagesHelper addUsage:[CertUsage createUsageWithId:@"1.3.6.1.5.5.7.3.9" andDescription:NSLocalizedString(@"CERT_USAGE_OID_NAME_OCSP_SESP_SIGNING_CERT", @"Сертификат подписи OCSP ответа")]];
+//    [certUsagesHelper addUsage:[CertUsage createUsageWithId:@"1.3.6.1.5.5.7.2.2" andDescription:NSLocalizedString(@"CERT_USAGE_OID_NAME_IKE_MEDIATOR_CERT", @"Сертификат IKE-посредника IP-безопасности")]];
+//}
+
++ (void)fillWithSignUsageDefaultValues:(CertUsageHelper*)signUsagesHelper
+{
+    [signUsagesHelper addUsage:[CertUsage createUsageWithId:@"1.2.643.6.3.1.0" andDescription:NSLocalizedString(@"PROFILE_PARAMETERS_OID_CREATION", @"Создание")]];
+    [signUsagesHelper addUsage:[CertUsage createUsageWithId:@"1.2.643.6.3.1.1" andDescription:NSLocalizedString(@"PROFILE_PARAMETERS_OID_CORRECTED", @"Исправлено")]];
+    [signUsagesHelper addUsage:[CertUsage createUsageWithId:@"1.2.643.6.3.1.2" andDescription:NSLocalizedString(@"PROFILE_PARAMETERS_OID_ACQUAINT", @"Ознакомлен")]];
+    [signUsagesHelper addUsage:[CertUsage createUsageWithId:@"1.2.643.6.3.1.3" andDescription:NSLocalizedString(@"PROFILE_PARAMETERS_OID_AGREED", @"Согласовано")]];
+    [signUsagesHelper addUsage:[CertUsage createUsageWithId:@"1.2.643.6.3.1.4" andDescription:NSLocalizedString(@"PROFILE_PARAMETERS_OID_SIGNED", @"Подписано")]];
+    [signUsagesHelper addUsage:[CertUsage createUsageWithId:@"1.2.643.6.3.1.5" andDescription:NSLocalizedString(@"PROFILE_PARAMETERS_OID_AFFIRM", @"Утверждено")]];
 }
 
 @end

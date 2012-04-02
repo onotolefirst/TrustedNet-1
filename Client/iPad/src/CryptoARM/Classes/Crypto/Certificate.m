@@ -109,7 +109,7 @@ isAKIDCritical, authorityInformationAccess, isAuthorityAccessInfoCritical, isCDP
     
     // extract certificate version
     BIGNUM *bnVersion = ASN1_INTEGER_to_BN(x509->cert_info->version, NULL);
-    version = [NSString stringWithFormat:@"%u", (*bnVersion->d+1)]; // certificate version is numerated from 0
+    self.version = [NSString stringWithFormat:@"%u", (*bnVersion->d+1)]; // certificate version is numerated from 0
 
     // signature algorithm
     char *szAlg = (char*)malloc(100);
@@ -122,20 +122,20 @@ isAKIDCritical, authorityInformationAccess, isAuthorityAccessInfoCritical, isCDP
         && (nil != x509->cert_info->signature->parameter->value.asn1_string))
     {
         // if signature parameters are presented
-        signatureParam = [Utils asn1StringToNSString:x509->cert_info->signature->parameter->value.asn1_string];
+        self.signatureParam = [Utils asn1StringToNSString:x509->cert_info->signature->parameter->value.asn1_string];
     }
     else
     {
-        signatureParam = NSLocalizedString(@"NO", @"NO");
+        self.signatureParam = NSLocalizedString(@"NO", @"NO");
     }
 
     if (nil != x509->cert_info->key->public_key)
     {
-        publicKey = [Utils hexDataToString:x509->cert_info->key->public_key->data
+        self.publicKey = [Utils hexDataToString:x509->cert_info->key->public_key->data
                                     length:x509->cert_info->key->public_key->length isNeedSpacing:true];
     }
     
-    signature = [Utils hexDataToString:x509->signature->data length:x509->signature->length isNeedSpacing:true];
+    self.signature = [Utils hexDataToString:x509->signature->data length:x509->signature->length isNeedSpacing:true];
 
     // find key usage extension(with nid=83)
     X509_EXTENSION *keyUsageEx = nil;
@@ -224,11 +224,11 @@ isAKIDCritical, authorityInformationAccess, isAuthorityAccessInfoCritical, isCDP
 
         if (!mutableKeyUsage)
         {
-            keyUsageString = NSLocalizedString(@"KU_UNDEF", @"KU_UNDEF");
+            self.keyUsageString = NSLocalizedString(@"KU_UNDEF", @"KU_UNDEF");
         }
         else
         {
-            keyUsageString = [NSString stringWithString:mutableKeyUsage];
+            self.keyUsageString = [NSString stringWithString:mutableKeyUsage];
         }
         [mutableKeyUsage release];
     }
@@ -263,7 +263,7 @@ isAKIDCritical, authorityInformationAccess, isAuthorityAccessInfoCritical, isCDP
     if((iIndSKID >= 0) && (nil != (exSKID = X509_get_ext(x509, iIndSKID))))
     {
         ASN1_OCTET_STRING *skidDecoded = X509V3_EXT_d2i(exSKID);
-        skid = [Utils hexDataToString:skidDecoded->data length:skidDecoded->length isNeedSpacing:true];
+        self.skid = [Utils hexDataToString:skidDecoded->data length:skidDecoded->length isNeedSpacing:true];
         isSKIDCritical = X509_EXTENSION_get_critical(exSKID) > 0 ? true : false;
     }
     
@@ -277,7 +277,7 @@ isAKIDCritical, authorityInformationAccess, isAuthorityAccessInfoCritical, isCDP
         AUTHORITY_KEYID *akidDecoded = X509_get_ext_d2i(x509, NID_authority_key_identifier, NULL, NULL);
         if (nil != akidDecoded)
         {
-            akid = [Utils hexDataToString:akidDecoded->keyid->data length:akidDecoded->keyid->length isNeedSpacing:true];
+            self.akid = [Utils hexDataToString:akidDecoded->keyid->data length:akidDecoded->keyid->length isNeedSpacing:true];
         }
     }
     
@@ -372,13 +372,8 @@ isAKIDCritical, authorityInformationAccess, isAuthorityAccessInfoCritical, isCDP
 
 - (void)dealloc
 {
-    [cdpURLs release];
-    [authorityInformationAccess release];
-    [eku release];
     EVP_PKEY_free(private_key);
     
-    [signatureAlg release];
-
     [super dealloc];
 }
 

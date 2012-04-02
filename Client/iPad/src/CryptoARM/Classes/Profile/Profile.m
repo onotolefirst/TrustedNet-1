@@ -24,6 +24,7 @@
 @synthesize recieversCertificates;
 @synthesize decryptCertificate;
 @synthesize certsForCrlValidation;
+@synthesize signCertFilter;
 @synthesize encryptCertFilter;
 
 @synthesize creationDate;
@@ -41,6 +42,8 @@
 @synthesize signResource;
 @synthesize signResourceIsFile;
 
+@synthesize encryptArchiveFiles;
+
 
 - (id)initEmpty
 {
@@ -53,6 +56,7 @@
         self.encryptToSender = NO;
         self.signFormatType = FT_BASE64;
         self.encryptFormatType = FT_BASE64;
+        self.encryptArchiveFiles = NO;
     }
     return self;
 }
@@ -227,12 +231,14 @@
         [profileRoot addChild:[DDXMLElement elementWithName:TAG_DECRYPT_CERTIFICATE stringValue:[self dataToHexString:sst]]];
     }
     
-    if( self.encryptCertFilter )
+    if( self.encryptCertFilter || self.signCertFilter )
     {
         PolicyProfileHelper *policyHelper = [[PolicyProfileHelper alloc] init];
+        
         policyHelper.oidsForEnchipherParameters = (self.encryptCertFilter ? self.encryptCertFilter : [NSArray array]);
         policyHelper.dechipherParameters = policyHelper.enchipherParameters;
-        policyHelper.oidsForCreateSignature = [NSArray array];//TODO: add real signature oid filter
+        
+        policyHelper.oidsForCreateSignature = (self.signCertFilter ? self.signCertFilter : [NSArray array]);
         policyHelper.verifySignature = policyHelper.createSignature;
         
         [profileRoot addChild:[policyHelper generateXmlBranch]];
@@ -260,7 +266,7 @@
         NSData *sst = [Utils packCertsOnlyIntoSST:[NSArray arrayWithObject:self.signCertificate]];
         [profileRoot addChild:[DDXMLElement elementWithName:TAG_SIGN_CERTIFICATE stringValue:[self dataToHexString:sst]]];
     }
-
+    
     if( self.signCertPIN && self.signCertPIN.length )
     {
         NSString *encodedPin = [self dataToHexString:[Utils encryptPin:self.signCertPIN]];
@@ -276,7 +282,10 @@
     [profileRoot addChild:[DDXMLElement elementWithName:TAG_SIGN_PEM stringValue:[self bool2IntString:(self.signFormatType == FT_BASE64)]]];
     
     [profileRoot addChild:[DDXMLElement elementWithName:TAG_SIGN_ARCHIVE_FILES stringValue:[self bool2IntString:self.signArchiveFiles]]];
+    [profileRoot addChild:[DDXMLElement elementWithName:TAG_ENCRYPT_ARCHIVE_FILES stringValue:[self bool2IntString:self.encryptArchiveFiles]]];
     [profileRoot addChild:[DDXMLElement elementWithName:TAG_SIGN_TYPE stringValue:self.signType]];
+    
+    [profileRoot addChild:[DDXMLElement elementWithName:TAG_ENCRYPT_DEL_SRC_FILE stringValue:[self bool2IntString:self.removeFileAfterEncryption]]];
     
     //[profileRoot addChild:[DDXMLElement elementWithName:<#(NSString *)#> stringValue:<#(NSString *)#>]];
     //[profileRoot addChild:[DDXMLElement elementWithName:<#(NSString *)#> stringValue:[self bool2IntString:<#(BOOL)#>]]];
@@ -343,8 +352,13 @@
     
     newProfile.encryptToSender = self.encryptToSender;
     newProfile.encryptFormatType = self.encryptFormatType;
+    newProfile.encryptArchiveFiles = self.encryptArchiveFiles;
     
     // Cert policies
+    if( self.signCertFilter )
+    {
+        newProfile.signCertFilter = [[self.signCertFilter copyWithZone:zone] autorelease];
+    }
     if( self.encryptCertFilter )
     {
         newProfile.encryptCertFilter = [[self.encryptCertFilter copyWithZone:zone] autorelease];
@@ -353,7 +367,9 @@
     {
         newProfile.certsForCrlValidation = [[self.certsForCrlValidation copyWithZone:zone] autorelease];
     }
-
+    
+    newProfile.removeFileAfterEncryption = self.removeFileAfterEncryption;
+    
     return newProfile;
 }
 

@@ -23,15 +23,14 @@ enum CERT_STORE_TYPE {
 
 @interface CertificateStore : NSObject
 {
-    enum CERT_STORE_TYPE storeType;
-    
     ENGINE *e;
     STORE *store;
 }
 
-//@property (nonatomic, readonly) STACK_OF(X509)* x509Certificates;
 - (STACK_OF(X509)*)x509Certificates;
 @property (nonatomic, readonly) NSArray *certificates;
+
+@property (readonly) enum CERT_STORE_TYPE storeType;
 
 - (id)initWithStoreType:(enum CERT_STORE_TYPE)storeType;
 //initWithFileStore

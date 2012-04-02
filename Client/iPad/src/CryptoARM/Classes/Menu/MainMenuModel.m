@@ -130,19 +130,19 @@
     switch (indexPath.row)
     {
         case 0:
-            return [[[CertMenuModel alloc] initWithStoreName:@"My"] autorelease];
+            return [[[CertMenuModel alloc] initWithStoreType:CST_MY] autorelease];
             break;
             
         case 1:
-            return [[[CertMenuModel alloc] initWithStoreName:@"AddressBook"] autorelease];
+            return [[[CertMenuModel alloc] initWithStoreType:CST_ADDRESS_BOOK] autorelease];
             break;
             
         case 2:
-            return [[[CertMenuModel alloc] initWithStoreName:@"CA"] autorelease];
+            return [[[CertMenuModel alloc] initWithStoreType:CST_CA] autorelease];
             break;
             
         case 3:
-            return [[[CertMenuModel alloc] initWithStoreName:@"Root"] autorelease];
+            return [[[CertMenuModel alloc] initWithStoreType:CST_ROOT] autorelease];
             break;            
             
         case 6:

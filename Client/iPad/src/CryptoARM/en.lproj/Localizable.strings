@@ -138,6 +138,14 @@
 "PROFILE_SCOPE_DESCRIPTION" = "Description";
 "PROFILE_SCOPE_CREATION_DATE" = "Creation date";
 
+"CERT_USAGE_OID_NAME_SERVET_AUTH_CERT" = "The server authentication certificate";
+"CERT_USAGE_OID_NAME_CLIENT_AUTH_CERT" = "Client authentication certificate";
+"CERT_USAGE_OID_NAME_CODE_SIGNING_CERT" = "Code Signing Certificate";
+"CERT_USAGE_OID_NAME_EMAIL_SECURITY_CERT" = "Certificate of email security";
+"CERT_USAGE_OID_NAME_TIMESTAMP_SIGNING_CERT" = "Timestamp signing certificate";
+"CERT_USAGE_OID_NAME_OCSP_SESP_SIGNING_CERT" = "OCSP response signing certificate";
+"CERT_USAGE_OID_NAME_IKE_MEDIATOR_CERT" = "IKE-certified mediator IP-security";
+
 // Operational profile parameters panel
 "PROFILE_PARAMETERS_ENTER_PIN" = "Enter PIN code";
 "PROFILE_PARAMETERS_ABSENT" = "Absent";
@@ -167,11 +175,13 @@
 "PROFILE_PARAMETERS_RECIEVERS_CERTIFICATES" = "Recievers certificates";
 "PROFILE_PARAMETERS_ENCRYPTING_CERTIFICATE" = "Decrypting certificates";
 "PROFILE_PARAMETERS_ENCRYPT_CERTIFICATES_FILTER" = "Encrypting certificates filter";
+"PROFILE_PARAMETERS_SIGN_CERTIFICATES_FILTER" = "Фильтр назначений сертификатов подписи";
 "PROFILE_PARAMETERS_CERTIFICATES_FOR_VALIDATION_BY_ONLINE_CRL" = "Certificates that require loading CRL from CA";
 "PROFILE_PARAMETERS_SIGN_USAGE_COMMENT" = "Comment for signature usage";
 "PROFILE_PARAMETERS_SIGN_COMMENT" = "Signature comment";
 "PROFILE_PARAMETERS_SECURE_DELETION" = "Secure deletion";
 "PROFILE_PARAMETERS_REMOVE_SOURCE_FILE_AFTER_ENCRYPTION" = "Remove source file after encrypting";
+"PROFILE_PARAMETERS_ARCHIVE_AFTER_ENCRYPTION" = "Archive file after encryption";
 
 "PROFILE_PARAMETERS_OID_CREATION" = "Creation";
 "PROFILE_PARAMETERS_OID_CORRECTED" = "Corrected";

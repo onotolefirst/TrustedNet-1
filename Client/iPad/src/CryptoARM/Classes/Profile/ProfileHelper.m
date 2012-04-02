@@ -410,6 +410,14 @@
     {
         [tagStack addObject:[NSNumber numberWithInt:PTT_SIGN_TYPE]];
     }
+    else if( [elementName compare:TAG_ENCRYPT_ARCHIVE_FILES] == NSOrderedSame )
+    {
+        [tagStack addObject:[NSNumber numberWithInt:PTT_ENCRYPT_ARCHIVE_FILES]];
+    }
+    else if( [elementName compare:TAG_ENCRYPT_DEL_SRC_FILE] == NSOrderedSame )
+    {
+        [tagStack addObject:[NSNumber numberWithInt:PTT_ENCRYPT_DEL_SRC_FILE]];
+    }
     else
     {
         [tagStack addObject:[NSNumber numberWithInt:PTT_UNKNOWN]];
@@ -475,7 +483,7 @@
             switch (tagType) {
                 case PTT_POLICY_PROFILE:
                 {
-                    //TODO: add reading filter for sign certificates
+                    parsingProfile.signCertFilter = parsingPolicyProfile.oidsForCreateSignature;
                     parsingProfile.encryptCertFilter = parsingPolicyProfile.oidsForEnchipherParameters;
                     [parsingPolicyProfile release];
                     parsingPolicyProfile = nil;
@@ -665,6 +673,14 @@
 
         case PTT_UNKNOWN:
             //NSLog(@"Passing unsupported tag value");
+            break;
+            
+        case PTT_ENCRYPT_ARCHIVE_FILES:
+            parsingProfile.encryptArchiveFiles = [self parseStringToBool:string];
+            break;
+            
+        case PTT_ENCRYPT_DEL_SRC_FILE:
+            parsingProfile.removeFileAfterEncryption = [self parseStringToBool:string];
             break;
             
         case PTT_NONE:

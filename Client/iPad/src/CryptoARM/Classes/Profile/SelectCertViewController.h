@@ -27,7 +27,7 @@ enum ENM_SCOPE_VALUE_INDEX {
     SVI_VALID_TO = 3
     };
 
-@interface SelectCertViewController : CommonDetailController <NavigationSource, UITableViewDataSource, UITableViewDelegate, UISearchDisplayDelegate>
+@interface SelectCertViewController : CommonDetailController <NavigationSource, UITableViewDataSource, UITableViewDelegate, UISearchDisplayDelegate, SettingsMenuSourceDelegate>
 {
     enum ENM_SEL_CERT_PAGE_TYPE pageType;
     

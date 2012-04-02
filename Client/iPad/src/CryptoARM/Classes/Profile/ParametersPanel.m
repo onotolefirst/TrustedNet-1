@@ -207,7 +207,7 @@
             break;
             
         case PT_ENCRYPTION:
-            return 6;
+            return 7;
             break;
             
         case PT_DECRYPTION:
@@ -215,7 +215,7 @@
             break;
             
         case PT_CERTPOLICY:
-            return 2;
+            return 3;
             break;
             
         case PT_ADDITIONAL_SIGN_PARAMS:
@@ -279,19 +279,21 @@
             {
                 return self.parentProfile.recieversCertificates.count;
             }
-            
-            return 1;
         }
             break;
             
 //        case PT_DECRYPTION:
         case PT_CERTPOLICY:
         {
-            if( 0 == section && self.parentProfile.encryptCertFilter && (self.parentProfile.encryptCertFilter.count > 1) )
+            if( 0 == section && self.parentProfile.signCertFilter && (self.parentProfile.signCertFilter.count > 1) )
+            {
+                return self.parentProfile.signCertFilter.count;
+            }
+            else if( 1 == section && self.parentProfile.encryptCertFilter && (self.parentProfile.encryptCertFilter.count > 1) )
             {
                 return self.parentProfile.encryptCertFilter.count;
             }
-            else if( 1 == section && self.parentProfile.certsForCrlValidation && (self.parentProfile.certsForCrlValidation.count > 1) )
+            else if( 2 == section && self.parentProfile.certsForCrlValidation && (self.parentProfile.certsForCrlValidation.count > 1) )
             {
                 return self.parentProfile.certsForCrlValidation.count;
             }
@@ -317,12 +319,7 @@
                     }
                     else
                     {
-                        [signUsagesHelper addUsage:[CertUsage createUsageWithId:@"1.2.643.6.3.1.0" andDescription:NSLocalizedString(@"PROFILE_PARAMETERS_OID_CREATION", @"Создание")]];
-                        [signUsagesHelper addUsage:[CertUsage createUsageWithId:@"1.2.643.6.3.1.1" andDescription:NSLocalizedString(@"PROFILE_PARAMETERS_OID_CORRECTED", @"Исправлено")]];
-                        [signUsagesHelper addUsage:[CertUsage createUsageWithId:@"1.2.643.6.3.1.2" andDescription:NSLocalizedString(@"PROFILE_PARAMETERS_OID_ACQUAINT", @"Ознакомлен")]];
-                        [signUsagesHelper addUsage:[CertUsage createUsageWithId:@"1.2.643.6.3.1.3" andDescription:NSLocalizedString(@"PROFILE_PARAMETERS_OID_AGREED", @"Согласовано")]];
-                        [signUsagesHelper addUsage:[CertUsage createUsageWithId:@"1.2.643.6.3.1.4" andDescription:NSLocalizedString(@"PROFILE_PARAMETERS_OID_SIGNED", @"Подписано")]];
-                        [signUsagesHelper addUsage:[CertUsage createUsageWithId:@"1.2.643.6.3.1.5" andDescription:NSLocalizedString(@"PROFILE_PARAMETERS_OID_AFFIRM", @"Утверждено")]];
+                        [CertUsageHelper fillWithSignUsageDefaultValues:signUsagesHelper];
                         
                         [signUsagesHelper writeUsages:usagesFileName];
                     }
@@ -699,6 +696,13 @@
                     
                 case 5:
                 {
+                    NSString *cellLabel = NSLocalizedString(@"PROFILE_PARAMETERS_ARCHIVE_AFTER_ENCRYPTION", @"Архивировать после шифрования");
+                    [self composeCell:cell withSwitch:&switchEncryptArchive value:self.parentProfile.encryptArchiveFiles description:cellLabel andAction:@selector(switchEncryptArchiveAction)];
+                }
+                    break;
+                    
+                case 6:
+                {
                     NSString *cellLabel = NSLocalizedString(@"PROFILE_PARAMETERS_REMOVE_SOURCE_FILE_AFTER_ENCRYPTION", @"Удалить исходный файл после шифрования");
                     [self composeCell:cell withSwitch:&switchRemoveFileAfterEncryption value:self.parentProfile.removeFileAfterEncryption description:cellLabel andAction:@selector(switchRemoveFileAfterEncryptionAction)];
                 }
@@ -731,6 +735,25 @@
         case PT_CERTPOLICY:
             if( 0 == indexPath.section )
             {
+                if( self.parentProfile.signCertFilter && self.parentProfile.signCertFilter.count )
+                {
+                    CertUsage *curUsage = [self.parentProfile.signCertFilter objectAtIndex:indexPath.row];
+                    cell.textLabel.text = ((curUsage.usageDescription && curUsage.usageDescription.length) ? curUsage.usageDescription : curUsage.usageId);
+                }
+                else
+                {
+                    cell.textLabel.text = NSLocalizedString(@"PROFILE_PARAMETERS_CERTIFICATE_USAGE", @"Назначение сертификата");
+                    cell.textLabel.textColor = [UIColor grayColor];
+                }
+                
+                if( 0 == indexPath.row )
+                {
+                    [roundButton addTarget:self action:@selector(selectSigCertsFilter) forControlEvents:UIControlEventTouchUpInside];
+                    cell.accessoryView = roundButton;
+                }
+            }
+            else if( 1 == indexPath.section )
+            {
                 if( self.parentProfile.encryptCertFilter && self.parentProfile.encryptCertFilter.count )
                 {
                     CertUsage *curUsage = [self.parentProfile.encryptCertFilter objectAtIndex:indexPath.row];
@@ -748,7 +771,7 @@
                     cell.accessoryView = roundButton;
                 }
             }
-            else if( 1 == indexPath.section )
+            else if( 2 == indexPath.section )
             {
                 if( self.parentProfile.certsForCrlValidation && self.parentProfile.certsForCrlValidation.count )
                 {
@@ -1035,9 +1058,13 @@
         case PT_CERTPOLICY:
             if( 0 == section )
             {
-                return NSLocalizedString(@"PROFILE_PARAMETERS_ENCRYPT_CERTIFICATES_FILTER", @"Фильтр назначений сертификатов шифрования");
+                return NSLocalizedString(@"PROFILE_PARAMETERS_SIGN_CERTIFICATES_FILTER", @"Фильтр назначений сертификатов подписи");
             }
             else if( 1 == section )
+            {
+                return NSLocalizedString(@"PROFILE_PARAMETERS_ENCRYPT_CERTIFICATES_FILTER", @"Фильтр назначений сертификатов шифрования");
+            }
+            else if( 2 == section )
             {
                 return NSLocalizedString(@"PROFILE_PARAMETERS_CERTIFICATES_FOR_VALIDATION_BY_ONLINE_CRL", @"Сертификаты для которых требуется загрузка CRL из УЦ");
             }
@@ -1199,6 +1226,11 @@
     self.parentProfile.removeFileAfterEncryption = switchRemoveFileAfterEncryption.on;
 }
 
+- (void)switchEncryptArchiveAction
+{
+    self.parentProfile.encryptArchiveFiles = switchEncryptArchive.on;
+}
+
 - (void)selectSignCertAction
 {
     SelectCertViewController *newPanel = [[SelectCertViewController alloc] initWithProfile:self.parentProfile andSelectType:SCPT_SIGN_CERT];
@@ -1239,9 +1271,16 @@
     [newPage release];
 }
 
+- (void)selectSigCertsFilter
+{
+    SelectOidViewController *newPage = [[SelectOidViewController alloc] initWithProfile:self.parentProfile andPageType:OSPT_SIGN_FILTER];
+    [parentNavController pushNavController:newPage];
+    [newPage release];
+}
+
 - (void)selectEncCertsFilter
 {
-    SelectOidViewController *newPage = [[SelectOidViewController alloc] initWithProfile:self.parentProfile];
+    SelectOidViewController *newPage = [[SelectOidViewController alloc] initWithProfile:self.parentProfile andPageType:OSPT_ENCRYPT_FILTER];
     [parentNavController pushNavController:newPage];
     [newPage release];
 }

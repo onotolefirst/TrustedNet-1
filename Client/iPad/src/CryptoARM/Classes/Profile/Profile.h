@@ -49,8 +49,10 @@ enum ENM_FORMAT_TYPE {
 @property enum ENM_FORMAT_TYPE encryptFormatType;
 
 @property BOOL removeFileAfterEncryption;
+@property BOOL encryptArchiveFiles;
 
 // Cert policies
+@property (retain, nonatomic) NSArray *signCertFilter;
 @property (retain, nonatomic) NSArray *encryptCertFilter;
 @property (retain, nonatomic) NSArray *certsForCrlValidation;
 

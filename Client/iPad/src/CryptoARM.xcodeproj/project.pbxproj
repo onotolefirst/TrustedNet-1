@@ -312,6 +312,7 @@
 		B32E7B471469657D00365900 /* DetailNavController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DetailNavController.h; path = Classes/Detail/DetailNavController.h; sourceTree = "<group>"; };
 		B32E7B481469657D00365900 /* DetailNavController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DetailNavController.m; path = Classes/Detail/DetailNavController.m; sourceTree = "<group>"; };
 		B32E7B491469657D00365900 /* NavigationSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NavigationSource.h; path = Classes/Detail/NavigationSource.h; sourceTree = "<group>"; };
+		B33677AC152991C200EB9A7B /* SettingsMenuSourceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsMenuSourceDelegate.h; path = Classes/Detail/SettingsMenuSourceDelegate.h; sourceTree = "<group>"; };
 		B33B831B1445DA5300ED450B /* MainSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainSplitViewController.h; path = Classes/MainSplitViewController.h; sourceTree = "<group>"; };
 		B33B831C1445DA5300ED450B /* MainSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainSplitViewController.m; path = Classes/MainSplitViewController.m; sourceTree = "<group>"; };
 		B3459776144EBFF900AD0CEE /* FlipPanelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlipPanelView.h; path = Classes/FlipPanelView.h; sourceTree = "<group>"; };
@@ -657,6 +658,7 @@
 				B3E59760148CBFA300A358E0 /* SettingsMenuViewController.m */,
 				B3203DB1146AB44300A52D6C /* SettingsMenuSource.h */,
 				B3203DB2146AB44300A52D6C /* SettingsMenuSource.m */,
+				B33677AC152991C200EB9A7B /* SettingsMenuSourceDelegate.h */,
 				B3E5975C148CBF6A00A358E0 /* SettingsMenuItem.h */,
 				B3E5975D148CBF6A00A358E0 /* SettingsMenuItem.m */,
 			);

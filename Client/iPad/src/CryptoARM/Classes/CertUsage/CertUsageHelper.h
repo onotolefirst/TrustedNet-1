@@ -33,4 +33,8 @@
 
 @property (nonatomic, readonly) NSMutableArray *certUsages;
 
+// Writing default values for certificate usages not planned in first version
+//+ (void)fillWithCertUsageDefaultValues:(CertUsageHelper*)certUsagesHelper;
++ (void)fillWithSignUsageDefaultValues:(CertUsageHelper*)signUsagesHelper;
+
 @end

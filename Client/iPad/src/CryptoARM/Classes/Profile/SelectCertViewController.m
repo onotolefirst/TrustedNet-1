@@ -601,6 +601,8 @@
     {
         [settingsMenu addMenuItem:[self storeNameByType:CST_ROOT] withAction:@selector(actionSelectStoreRoot) forTarget:self];
     }
+    
+    settingsMenu.delegate = self;
 }
 
 - (NSArray*)getAdditionalButtons
@@ -867,13 +869,12 @@
     [extractedCertificates addObjectsFromArray:selectingStore.certificates];
     [selectingStore release];
     
-    //TODO: filter certs with policies
     // Filtering certificates by usages
     NSArray *filteringOids = nil;
     switch (pageType) {
-            //        case SCPT_SIGN_CERT:
-            //            <#statements#>
-            //            break;
+        case SCPT_SIGN_CERT:
+            filteringOids = parentProfile.signCertFilter;
+            break;
             
         case SCPT_ENCRYPT_CERT:
             filteringOids = parentProfile.encryptCertFilter;
@@ -883,7 +884,8 @@
             break;
     }
     
-    if( filteringOids )
+    //TODO: Проверить алгоритм фильтрации сертификатов
+    if( filteringOids && filteringOids.count )
     {
         NSMutableArray *filteredCertificates = [[NSMutableArray alloc] initWithCapacity:extractedCertificates.count];
         BOOL oidNotFound;
@@ -903,6 +905,8 @@
             // Enumerate oids from filter
             for (CertUsage *currentFilteringOid in filteringOids)
             {
+                oidNotFound = YES;
+                
                 // Enumerate oids from certificate
                 for (NSString *currentCertUsageId in currentCertUsages) {
                     if( [currentFilteringOid.usageId compare:currentCertUsageId] == NSOrderedSame )
@@ -929,6 +933,7 @@
             [filteredCertificates addObject:currentCert];
         }
         
+        [extractedCertificates removeAllObjects];
         [extractedCertificates addObjectsFromArray:filteredCertificates];
         [filteredCertificates release];
     }
@@ -1081,6 +1086,32 @@
     }
     
     return @"Name not supported for this type";
+}
+
+#pragma mark - SettingMenuSource delegate
+
+- (UITableViewCellAccessoryType)accessoryTypeForCell:(NSIndexPath *)cellIndex
+{
+    // Add checkmark to selected store line
+    UITableViewCellAccessoryType resultType = UITableViewCellAccessoryNone;
+    
+    NSIndexSet *availableStoresSet = [self storesAvailableForPageType:pageType];
+
+    // Correspondence of cert ID's (values) to index in menu (keys)
+    NSMutableDictionary *storesDictionary = [[NSMutableDictionary alloc] initWithCapacity:availableStoresSet.count];
+    [availableStoresSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+        [storesDictionary setObject:[NSNumber numberWithUnsignedInteger:idx] forKey:[NSNumber numberWithUnsignedInteger:storesDictionary.count]];
+    }];
+    
+    // Retrieve current cell store ID by cell index
+    NSNumber *currentCellStore = [storesDictionary objectForKey:[NSNumber numberWithUnsignedInteger:cellIndex.row]];
+    if( currentCellStore.unsignedIntegerValue == currentSelectedStoreType )
+    {
+        resultType = UITableViewCellAccessoryCheckmark;
+    }
+    
+    [storesDictionary release];
+    return resultType;
 }
 
 @end

@@ -30,6 +30,6 @@
 @property (nonatomic, retain) CertificateStore *store;
 @property (nonatomic, retain) NSArray *certArray;
 
-- (id) initWithStoreName:(NSString *)strStoreName;
+- (id) initWithStoreType:(enum CERT_STORE_TYPE)initType;
 
 @end

@@ -11,9 +11,6 @@
 #pragma mark Memory management
 
 - (void)dealloc {
-    [textColor release];
-    [arrayOU release];
-    [certInfo release];
     [settingsMenu release];
     
     [chainPopover release];
@@ -32,7 +29,7 @@
     autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin |
         UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
 
-    certInfo = [[CertificateInfo alloc] initFromCopy:cert];
+    certInfo = [[CertificateInfo alloc] initWithX509:cert.x509];
 
     // multiple OU values in cert dn
     arrayOU = [[NSArray alloc] initWithArray:[Crypto getMultipleDNFromX509_NAME:certInfo.issuer withNid:NID_organizationalUnitName]];
@@ -40,7 +37,10 @@
     [self constructSettingsMenu];
 
     //TODO: create chain view controller and insert to popover instead of tempController
-    CertChainViewController* tempController = [[CertChainViewController alloc] initWithNibName:@"CertChainViewController" bundle:nil andCert:cert->x509];
+    //CertChainViewController* tempController = [[CertChainViewController alloc] initWithNibName:@"CertChainViewController" bundle:nil andCert:cert->x509];
+    
+    // Replaced by an empty initialization, because application hangs for 1 or 2 seconds when initializing with non-existent bundle and falls when trying to display chain view
+    CertChainViewController* tempController = [[CertChainViewController alloc] init];
     chainPopover = [[UIPopoverController alloc] initWithContentViewController:tempController];
     [tempController release];
 
