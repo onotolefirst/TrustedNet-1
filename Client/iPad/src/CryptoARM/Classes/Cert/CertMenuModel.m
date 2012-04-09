@@ -85,7 +85,12 @@
 
 - (UIViewController<NavigationSource>*)getDetailControllerForElementAt:(NSIndexPath*)index
 {
-    return [[[CertDetailViewController alloc] initWithCertInfo:[self.certArray objectAtIndex:index.row]] autorelease];
+    CertDetailViewController *certDetail = [[CertDetailViewController alloc] initWithCertInfo:[self.certArray objectAtIndex:index.row]];
+    if( self.store.storeType == CST_MY )
+    {
+        certDetail.parentStore = self.store;
+    }
+    return [certDetail autorelease];
 }
 
 - (UITableViewCell*)fillCell:(UITableViewCell *)cell atIndex:(NSIndexPath *)idx inTableView:(UITableView *)tableView

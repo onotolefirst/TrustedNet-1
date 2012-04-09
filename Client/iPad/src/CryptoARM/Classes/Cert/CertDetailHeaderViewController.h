@@ -19,7 +19,6 @@
 @property (retain, nonatomic) IBOutlet UITableView *headerTable;
 
 @property (nonatomic, readonly) CertificateInfo *cert;
-//TODO: is this property required?
 @property (nonatomic, retain) CertificateStore *store;
 
 @property (nonatomic, retain) NSString *keyIdentifier;

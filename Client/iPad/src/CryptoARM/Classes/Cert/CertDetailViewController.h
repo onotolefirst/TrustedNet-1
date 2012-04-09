@@ -33,6 +33,7 @@
 @property (nonatomic, assign) int autoresizingMask;
 
 @property (nonatomic, retain) CertDetailHeaderViewController *tableHeader;
+@property (nonatomic, retain) CertificateStore *parentStore;
 
 - (void)dismissPopovers;
 

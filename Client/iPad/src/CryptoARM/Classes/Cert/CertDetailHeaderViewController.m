@@ -15,7 +15,7 @@
 @synthesize store;
 @synthesize keyIdentifier;
 
-- (id)initWithCert:(CertificateInfo*)certForInit //andStoreType:(enum CERT_STORE_TYPE)type
+- (id)initWithCert:(CertificateInfo*)certForInit
 {
     self = [super init];
     if (self) {
@@ -157,8 +157,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    //TODO: учесть тип хранилища
-    return 2;
+    if( self.store && (self.store.storeType == CST_MY) )
+    {
+        return 2;
+    }
+    
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

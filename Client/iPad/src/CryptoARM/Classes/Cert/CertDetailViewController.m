@@ -4,12 +4,9 @@
 @implementation CertDetailViewController
 @synthesize textColor, arrayOU, certInfo, autoresizingMask;
 @synthesize tableHeader;
+@synthesize parentStore;
 
-#pragma mark -
-#pragma mark View lifecycle
-
-#pragma mark -
-#pragma mark Memory management
+#pragma mark - Memory management
 
 - (void)dealloc {
     [settingsMenu release];
@@ -66,6 +63,11 @@
     CertDetailHeaderViewController *headerController = [[CertDetailHeaderViewController alloc] initWithCert:self.certInfo];
     self.tableHeader = headerController;
     [headerController release];
+    
+    if( self.parentStore )
+    {
+        headerController.store = self.parentStore;
+    }
   
     tblView.tableHeaderView = self.tableHeader.view;
 
@@ -96,6 +98,8 @@
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
+
+#pragma mark - View lifecycle
 
 - (void)viewWillAppear:(BOOL)animated {
     // Update the view with current data before it is displayed.
