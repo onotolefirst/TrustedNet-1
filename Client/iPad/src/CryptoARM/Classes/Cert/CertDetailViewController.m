@@ -3,6 +3,7 @@
 
 @implementation CertDetailViewController
 @synthesize textColor, arrayOU, certInfo, autoresizingMask;
+@synthesize tableHeader;
 
 #pragma mark -
 #pragma mark View lifecycle
@@ -29,7 +30,7 @@
     autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin |
         UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
 
-    certInfo = [[CertificateInfo alloc] initWithX509:cert.x509];
+    self.certInfo = cert;
 
     // multiple OU values in cert dn
     arrayOU = [[NSArray alloc] initWithArray:[Crypto getMultipleDNFromX509_NAME:certInfo.issuer withNid:NID_organizationalUnitName]];
@@ -57,71 +58,29 @@
 {    
     [super viewDidLoad];
     
-    // set page text color;
-    textColor = [UIColor colorWithRed:0.294 green:0.537 blue:0.816 alpha:1.000];
-        
-    UITableView *tblView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame] style:UITableViewStyleGrouped];   
+    UITableView *tblView = [[UITableView alloc] initWithFrame:self.navigationController.view.bounds style:UITableViewStyleGrouped];
     tblView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     tblView.dataSource = self;
     tblView.delegate = self;
-    
-    UIView *viewCellHeader = [[UIView alloc] initWithFrame:CGRectMake(0,0,768,165)];
-    UILabel* certTitleName = [[UILabel alloc] initWithFrame:CGRectMake(160,50,229,21)];
-    
-    // set cert title name
-    [certTitleName setText:NSLocalizedString(@"CERT_TITLE", @"CERT_TITLE")];
-    [certTitleName setFont:[UIFont systemFontOfSize:20]];
-    [certTitleName setTextColor:textColor];
-    [certTitleName setBackgroundColor:[UIColor clearColor]];
-    [certTitleName sizeToFit];
-    [certTitleName setAutoresizingMask:autoresizingMask];
-    [viewCellHeader addSubview:certTitleName];
-    
-    // set UIImageView with certificate status picture
-    UIImageView *imgCertStatus = [[UIImageView alloc] initWithFrame:CGRectMake(15,29,128,128)];
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"cert-valid" ofType:@"png"];
-    NSData *certImageData = [NSData dataWithContentsOfFile:filePath];
-    [imgCertStatus setImage:[UIImage imageWithData:certImageData]];
-    [viewCellHeader addSubview:imgCertStatus];
 
-    // set  as viewable container for certificate status
-    UIView *certStatusContainer = [[UIView alloc] initWithFrame:CGRectMake(160,96,563,44)];
-    [certStatusContainer setAutoresizingMask:autoresizingMask | UIViewAutoresizingFlexibleWidth];
-    [certStatusContainer setBackgroundColor:[UIColor whiteColor]];
-    [certStatusContainer.layer setCornerRadius:9.0f];
-    
-    UIColor *colorBorder = [UIColor colorWithRed:0.603 green:0.603 blue:0.603 alpha:1.000];
-    [certStatusContainer.layer setBorderColor:colorBorder.CGColor];
-    [certStatusContainer.layer setBorderWidth:1.0f];
-    
-    UILabel *lblCertStatus = [[UILabel alloc] initWithFrame:CGRectMake(260,0,290,40)];
-    [lblCertStatus setTextAlignment:UITextAlignmentRight];
-    [lblCertStatus setText:NSLocalizedString(@"CERT_VALID", @"CERT_VALID")];
-    [lblCertStatus setAutoresizingMask:autoresizingMask];
-    [lblCertStatus setTextColor:textColor];
-    [certStatusContainer addSubview:lblCertStatus];
+    CertDetailHeaderViewController *headerController = [[CertDetailHeaderViewController alloc] initWithCert:self.certInfo];
+    self.tableHeader = headerController;
+    [headerController release];
+  
+    tblView.tableHeaderView = self.tableHeader.view;
 
-    UILabel *lblCertStatusTitle = [[UILabel alloc] initWithFrame:CGRectMake(15,0,230,40)]; 
-    [lblCertStatusTitle setText:NSLocalizedString(@"CERT_STATUS", @"CERT_STATUS")];
-    [lblCertStatusTitle setAutoresizingMask:autoresizingMask];
-    [lblCertStatusTitle setTextColor:textColor];
-    [certStatusContainer addSubview:lblCertStatusTitle];
-    
-    // add view as header in the table view
-    [viewCellHeader addSubview:certStatusContainer];
-    
-    [tblView setTableHeaderView:viewCellHeader];
+    //View tweaks for older iOS versions
+    if( [[UIDevice currentDevice].systemVersion compare:@"5.0"] == NSOrderedAscending )
+    {
+        tblView.backgroundView = nil;
+        tblView.backgroundColor = [UIColor colorWithRed:(CGFloat)217/255 green:(CGFloat)219/255 blue:(CGFloat)225/255 alpha:1];
+    }
+
     [tblView reloadData];
-
+    
     self.view = tblView;
     
     [tblView release];
-    [viewCellHeader release];
-    [certTitleName release];
-    [lblCertStatus release];
-    [certStatusContainer release];
-    [imgCertStatus release];
-    [lblCertStatusTitle release];
 }
 
 - (void)viewDidUnload
@@ -205,7 +164,13 @@
     
         // right section in the cell
         [cell.textLabel setFont:[UIFont systemFontOfSize:14]];
-        [cell.textLabel setTextColor:textColor];
+
+        //View tweaks for older iOS versions
+        if( [[UIDevice currentDevice].systemVersion compare:@"5.0"] != NSOrderedAscending )
+        {
+            cell.textLabel.textColor = self.textColor;
+        }
+        
         [cell.textLabel setTextAlignment:UITextAlignmentRight];
 
         // set not valid before and  not valid after strings

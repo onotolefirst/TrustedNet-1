@@ -817,11 +817,6 @@
 {    
     [super viewDidLoad];
     
-	CRYPTO_malloc_init();
-	ERR_load_crypto_strings();
-	OpenSSL_add_all_algorithms();
-	ENGINE_load_builtin_engines();
-    
     // create temporary certificate binding to the address book store record
     ENGINE *e = ENGINE_by_id(CTIOSRSA_ENGINE_ID);
     STORE *store = STORE_new_engine(e);

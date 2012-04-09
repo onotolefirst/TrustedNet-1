@@ -56,7 +56,12 @@ isAKIDCritical, authorityInformationAccess, isAuthorityAccessInfoCritical, isCDP
     return self;
 }
 
--(id) initWithX509:(X509 *)cert {
+-(id) initWithX509:(X509 *)cert
+{
+    return [self initWithX509:cert doNotCopy:NO];
+}
+
+-(id) initWithX509:(X509 *)cert doNotCopy:(BOOL)noCopyFlag {
     self = [super init];
     
     private_key = EVP_PKEY_new();
@@ -69,7 +74,35 @@ isAKIDCritical, authorityInformationAccess, isAuthorityAccessInfoCritical, isCDP
         return self;
     }
     
-    self.x509 = X509_dup(cert);
+    needToFreeX509 = noCopyFlag;
+    if( noCopyFlag )
+    {
+        self.x509 = cert;
+    }
+    else
+    {
+        X509 *duplicatedCert = X509_dup(cert);
+        //duplicatedCert->aux = X509_CERT_AUX
+        { //TODO: remove copy crutch
+            int keyIdLen = 0;
+            unsigned char *keyId = X509_keyid_get0(cert, &keyIdLen);
+            if( keyId )
+            {
+                X509_keyid_set1(duplicatedCert, keyId, keyIdLen);
+            }
+            
+            keyIdLen = 0;
+            keyId = NULL;
+            keyId = X509_alias_get0(cert, &keyIdLen);
+            if( keyId )
+            {
+                X509_alias_set1(duplicatedCert, keyId, keyIdLen);
+            }
+            //duplicatedCert->aux->
+        }
+        self.x509 = duplicatedCert;
+    }
+    
     self.subject = X509_get_subject_name(self.x509);    
     self.issuer = X509_get_issuer_name(self.x509);
     self.validTo = [Utils getTimeFromASN1:(X509_get_notAfter(self.x509))]; // cert expires date
@@ -373,6 +406,11 @@ isAKIDCritical, authorityInformationAccess, isAuthorityAccessInfoCritical, isCDP
 - (void)dealloc
 {
     EVP_PKEY_free(private_key);
+    
+    if( needToFreeX509 )
+    {
+        X509_free(x509);
+    }
     
     [super dealloc];
 }

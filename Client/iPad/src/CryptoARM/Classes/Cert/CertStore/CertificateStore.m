@@ -11,6 +11,7 @@
 @implementation CertificateStore
 
 @synthesize storeType;
+@synthesize store;
 
 - (id)initWithStoreType:(enum CERT_STORE_TYPE)type;
 {
@@ -21,16 +22,6 @@
         
         if( (CST_MY == storeType) || (CST_ADDRESS_BOOK == storeType) || (CST_CA == storeType) || (CST_ROOT == storeType) )
         {
-            //init OpenSSL
-            CRYPTO_malloc_init();
-            ERR_load_crypto_strings();
-            OpenSSL_add_all_algorithms();
-            ENGINE_load_builtin_engines();
-            
-            // Uncomment for full logging from engine
-            // Works only with debug libraries
-            //LOG_set_level(LL_ALL);
-            
             e = ENGINE_by_id(CTIOSRSA_ENGINE_ID);
             store = STORE_new_engine(e);
             
@@ -90,20 +81,46 @@
 
 - (NSArray*)certificates
 {
-    STACK_OF(X509*) storeCerts = self.x509Certificates;
-    
-    int certsCount = sk_X509_num(storeCerts);
-    NSMutableArray *resultArray = [[NSMutableArray alloc] initWithCapacity:certsCount];
-    
-    for( int i = 0; i < certsCount; i++ )
+    if( (CST_MY == storeType) || (CST_ADDRESS_BOOK == storeType) || (CST_CA == storeType) || (CST_ROOT == storeType) )
     {
-        CertificateInfo *currentCert = [[CertificateInfo alloc] initWithX509:sk_X509_value(storeCerts, i)];
-        [resultArray addObject:currentCert];
-        [currentCert release];
+        //STACK_OF(X509) *resultCertificates = sk_X509_new_null();
+        NSMutableArray *resultCertificates = [[NSMutableArray alloc] init];
+        
+        void *handle = nil;
+        OPENSSL_ITEM emptyAttrs[] = {{ STORE_ATTR_END }};
+        OPENSSL_ITEM emptyParams[] = {{ STORE_PARAM_KEY_NO_PARAMETERS }};
+        
+        if ((handle = STORE_list_certificate_start(store, emptyAttrs, emptyParams)))
+        {
+            for (int i = 0; !STORE_list_certificate_endp(store, handle); i++)
+            {
+                X509 *cert = STORE_list_certificate_next(store, handle);
+                
+                if (cert)
+                {
+                    CertificateInfo *addingCert = [[CertificateInfo alloc] initWithX509:cert doNotCopy:YES];
+                    [resultCertificates addObject:addingCert];
+                    [addingCert release];
+                }
+                else
+                {
+                    NSLog(@"Error: Error reading certificate with index %d from store \"%s\"", i, [CertificateStore storeNameByTypeId:storeType]);
+                }
+            }
+        }
+        else
+        {
+            NSLog(@"Error: Unable read certificates from store \"%s\"", [CertificateStore storeNameByTypeId:storeType]);
+        }
+        
+        return [resultCertificates autorelease];
+    }
+    else
+    {
+        //TODO: read other store types
     }
     
-    sk_X509_free(storeCerts);
-    return [resultArray autorelease];
+    return nil;
 }
 
 - (void)addCertificate:(X509*)newCert

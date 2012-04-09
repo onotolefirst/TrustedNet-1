@@ -27,6 +27,8 @@ enum CERT_STORE_TYPE {
     STORE *store;
 }
 
+@property (nonatomic, readonly) STORE *store;
+
 - (STACK_OF(X509)*)x509Certificates;
 @property (nonatomic, readonly) NSArray *certificates;
 

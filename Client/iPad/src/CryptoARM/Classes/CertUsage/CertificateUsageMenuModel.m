@@ -20,17 +20,29 @@
     {
         savingFileName = [[NSString stringWithFormat:@"%@/%@", [PathHelper getOperationalSettinsDirectoryPath], [PathHelper getCertUsagesFileName]] copy];
         
-        NSURL *usagesUrl = [NSURL fileURLWithPath:savingFileName];
-        NSError *fileCheckError = nil;
+        BOOL dictionaryFileExists = NO;
+        //check file existance for various iOS versions
+        //TODO: use obly old style checking?
+        if( [[UIDevice currentDevice].systemVersion compare:@"5.0"] == NSOrderedAscending )
+        {
+            dictionaryFileExists = [[NSFileManager defaultManager] fileExistsAtPath:savingFileName];
+        }
+        else
+        {
+            NSURL *usagesUrl = [NSURL fileURLWithPath:savingFileName];
+            NSError *fileCheckError = nil;
+            dictionaryFileExists = [usagesUrl checkResourceIsReachableAndReturnError:&fileCheckError];
+        }
 
-        if( [usagesUrl checkResourceIsReachableAndReturnError:&fileCheckError] )
+        if( dictionaryFileExists )
         {
             usageHelper = [[CertUsageHelper alloc] initWithDictionary:savingFileName];
         }
         else
         {
             usageHelper = [[CertUsageHelper alloc] init];
-            [CertUsageHelper fillWithCertUsageDefaultValues:usageHelper];
+            // Initializing by default values will be supported in further versions
+            //[CertUsageHelper fillWithCertUsageDefaultValues:usageHelper];
             [usageHelper writeUsages:savingFileName];
         }
         

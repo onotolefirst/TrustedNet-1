@@ -7,6 +7,8 @@
 #import "DetailNavController.h"
 #import "CertChainViewController.h"
 
+#import "CertDetailHeaderViewController.h"
+
 @interface CertDetailViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,NavigationSource,UITextFieldDelegate> {
     UIColor *textColor;
     CertificateInfo *certInfo;
@@ -29,6 +31,8 @@
 @property (nonatomic, retain) CertificateInfo *certInfo;
 @property (nonatomic, retain) NSArray *arrayOU;
 @property (nonatomic, assign) int autoresizingMask;
+
+@property (nonatomic, retain) CertDetailHeaderViewController *tableHeader;
 
 - (void)dismissPopovers;
 

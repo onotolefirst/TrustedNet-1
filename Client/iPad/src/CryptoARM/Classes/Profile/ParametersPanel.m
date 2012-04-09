@@ -308,12 +308,9 @@
                 {
                     NSString *usagesFileName = [[NSString stringWithFormat:@"%@/%@", [PathHelper getOperationalSettinsDirectoryPath], [PathHelper getSignUsagesFileName]] copy];
                     
-                    NSURL *usagesUrl = [NSURL fileURLWithPath:usagesFileName];
-                    NSError *fileCheckError = nil;
-                    
                     CertUsageHelper *signUsagesHelper = [[CertUsageHelper alloc] init];
                     
-                    if( [usagesUrl checkResourceIsReachableAndReturnError:&fileCheckError] )
+                    if( [[NSFileManager defaultManager] fileExistsAtPath:usagesFileName ] )
                     {
                         [signUsagesHelper readUsages:usagesFileName];
                     }

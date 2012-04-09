@@ -8,6 +8,8 @@
 
 #import "CertMenuModel.h"
 
+#include "openssl/pkcs12.h"
+
 @implementation CertMenuModel
 
 @synthesize store;
@@ -19,8 +21,7 @@
 
     if( self )
     {
-        //TODO: use store type from parameter
-        self.store = [[CertificateStore alloc] initWithStoreType:initType];
+        store = [[CertificateStore alloc] initWithStoreType:initType];
         self.certArray = self.store.certificates;
     }
     
@@ -123,10 +124,12 @@
         NSDateFormatter * dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setLocale:locale];
         [dateFormatter setFormatterBehavior:NSDateFormatterBehaviorDefault];
+        [locale release];
     
         // get the name of the month
         [dateFormatter setDateFormat:@"MMMM"];
         NSString * monthName = [dateFormatter stringFromDate:expiresDate];
+        [dateFormatter release];
     
         // extract date and year from time_t
         char szDate[5], szYear[5];

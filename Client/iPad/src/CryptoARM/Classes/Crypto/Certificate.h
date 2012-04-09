@@ -43,10 +43,13 @@
     bool isCDPCritical;
     int keyUsage;
     @public X509 *x509;
+    
+    BOOL needToFreeX509;
 }
 
 // to init with copy of some class object. Please use it instead simple assignment
 - (id) initFromCopy:(CertificateInfo*)cert;
+- (id) initWithX509:(X509 *)cert doNotCopy:(BOOL)noCopyFlag;
 - (id) initWithX509:(X509 *)cert;
 
 @property (nonatomic, retain) NSString* serialNumber;

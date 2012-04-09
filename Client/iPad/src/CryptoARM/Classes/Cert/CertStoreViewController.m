@@ -37,12 +37,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    // extract all unattached certificates with attached to current person record certificates
-    CRYPTO_malloc_init();
-	ERR_load_crypto_strings();
-	OpenSSL_add_all_algorithms();
-	ENGINE_load_builtin_engines();
-
     // initialize array of records in the address book
     ABAddressBookRef addressBook = ABAddressBookCreate();
     NSArray * people = (NSArray *)ABAddressBookCopyArrayOfAllPeople(addressBook);
@@ -294,10 +288,10 @@
                 issuerAndSerial.serial = cert->cert_info->serialNumber;
                     
                 unsigned char *szHash = (unsigned char *)malloc(256);
-                unsigned char *szHashValue = (unsigned char *)malloc(256);
+//                unsigned char *szHashValue = (unsigned char *)malloc(256);
                     
                 szHash[0] = '\0';
-                szHashValue[0] = '\0';
+//                szHashValue[0] = '\0';
                 unsigned int length = 0;
                     
                 if (PKCS7_ISSUER_AND_SERIAL_digest(&issuerAndSerial, EVP_sha1(), szHash, &length) <= 0)
@@ -306,14 +300,16 @@
                 }
 
                 NSString *hexData = [Utils hexDataToString:szHash length:length isNeedSpacing:NO];
-                int len = 0;
-                szHashValue = X509_keyid_get0(cert, &len);
+//                int len = 0;
+//                szHashValue = X509_keyid_get0(cert, &len);
 
                 // add URL to the person
                 NSMutableString *strCertURL = [[NSMutableString alloc] initWithCString:"cryptoarm://certificate/" encoding:NSASCIIStringEncoding];
                 [strCertURL appendString:[NSString stringWithCString:[hexData cStringUsingEncoding:NSASCIIStringEncoding] encoding:NSASCIIStringEncoding]];
                     
                 ABMultiValueAddValueAndLabel(urlMultiValue, strCertURL, kABOtherLabel, NULL);
+                
+                free(szHash);
             }
                 
             CFErrorRef *errorAddrBook;

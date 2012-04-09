@@ -28,6 +28,19 @@ NSString *kSelectedLanguage = @"application_language";
 {
     // Override point for customization after application launch.
     
+    
+    //init OpenSSL
+    CRYPTO_malloc_init();
+    ERR_load_crypto_strings();
+    OpenSSL_add_all_algorithms();
+    ENGINE_load_builtin_engines();
+
+//    // Uncomment for full logging from engine
+//    // Works only with debug libraries
+//    LOG_set_level(LL_ALL);
+
+    
+    
     //  checking for application operational settings directory existence
     NSError *directoryError = nil;
     NSString *directoryPath = [PathHelper getOperationalSettinsDirectoryPath:&directoryError];
@@ -37,18 +50,18 @@ NSString *kSelectedLanguage = @"application_language";
     }
     else
     {
-        NSURL *appSettingDirUrl = [NSURL fileURLWithPath:directoryPath isDirectory:YES];
         NSError *checkError = nil;
         
-        if( ![appSettingDirUrl checkResourceIsReachableAndReturnError:&checkError] )
+        BOOL fileIsDirectory = YES;
+        if( ![[NSFileManager defaultManager] fileExistsAtPath:directoryPath isDirectory:&fileIsDirectory] )
         {
             NSDictionary *attrubutes = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:448] forKey:NSFilePosixPermissions];
-            [[NSFileManager defaultManager] createDirectoryAtPath:appSettingDirUrl.path withIntermediateDirectories:YES attributes:attrubutes error:&checkError];
+            [[NSFileManager defaultManager] createDirectoryAtPath:directoryPath withIntermediateDirectories:YES attributes:attrubutes error:&checkError];
         }
         
         if( checkError )
         {
-            NSLog(@"Error: Unable create folder \"%@\" with error:\n\t%@", appSettingDirUrl.path, checkError);
+            NSLog(@"Error: Unable create folder \"%@\" with error:\n\t%@", directoryPath, checkError);
         }
     }
     
