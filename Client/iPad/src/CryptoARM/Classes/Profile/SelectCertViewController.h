@@ -27,12 +27,16 @@ enum ENM_SCOPE_VALUE_INDEX {
     SVI_VALID_TO = 3
     };
 
+enum ENM_IMAGE_INDEX {
+    II_CHECKED_VALID = 1,
+    II_UNCHECKED_VALID = 2
+    };
+
 @interface SelectCertViewController : CommonDetailController <NavigationSource, UITableViewDataSource, UITableViewDelegate, UISearchDisplayDelegate, SettingsMenuSourceDelegate>
 {
     enum ENM_SEL_CERT_PAGE_TYPE pageType;
     
-    UIImage *checkedValid;
-    UIImage *uncheckedValid;
+    NSMutableDictionary *indexedImages;
     
     enum CERT_STORE_TYPE currentSelectedStoreType;
     

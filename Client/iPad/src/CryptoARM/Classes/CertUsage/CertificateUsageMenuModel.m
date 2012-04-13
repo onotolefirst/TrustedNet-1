@@ -22,17 +22,16 @@
         
         BOOL dictionaryFileExists = NO;
         //check file existance for various iOS versions
-        //TODO: use obly old style checking?
-        if( [[UIDevice currentDevice].systemVersion compare:@"5.0"] == NSOrderedAscending )
-        {
-            dictionaryFileExists = [[NSFileManager defaultManager] fileExistsAtPath:savingFileName];
-        }
-        else
-        {
-            NSURL *usagesUrl = [NSURL fileURLWithPath:savingFileName];
-            NSError *fileCheckError = nil;
-            dictionaryFileExists = [usagesUrl checkResourceIsReachableAndReturnError:&fileCheckError];
-        }
+//        if( [[UIDevice currentDevice].systemVersion compare:@"5.0"] == NSOrderedAscending )
+//        {
+        dictionaryFileExists = [[NSFileManager defaultManager] fileExistsAtPath:savingFileName];
+//        }
+//        else
+//        {
+//            NSURL *usagesUrl = [NSURL fileURLWithPath:savingFileName];
+//            NSError *fileCheckError = nil;
+//            dictionaryFileExists = [usagesUrl checkResourceIsReachableAndReturnError:&fileCheckError];
+//        }
 
         if( dictionaryFileExists )
         {

@@ -5,13 +5,13 @@
 @synthesize textColor, arrayOU, certInfo, autoresizingMask;
 @synthesize tableHeader;
 @synthesize parentStore;
+@synthesize chainPopover;
 
 #pragma mark - Memory management
 
 - (void)dealloc {
     [settingsMenu release];
     
-    [chainPopover release];
     if( chainButton )
     {
         [chainButton release];
@@ -33,14 +33,6 @@
     arrayOU = [[NSArray alloc] initWithArray:[Crypto getMultipleDNFromX509_NAME:certInfo.issuer withNid:NID_organizationalUnitName]];
 
     [self constructSettingsMenu];
-
-    //TODO: create chain view controller and insert to popover instead of tempController
-    //CertChainViewController* tempController = [[CertChainViewController alloc] initWithNibName:@"CertChainViewController" bundle:nil andCert:cert->x509];
-    
-    // Replaced by an empty initialization, because application hangs for 1 or 2 seconds when initializing with non-existent bundle and falls when trying to display chain view
-    CertChainViewController* tempController = [[CertChainViewController alloc] init];
-    chainPopover = [[UIPopoverController alloc] initWithContentViewController:tempController];
-    [tempController release];
 
     return self;
 }
@@ -477,7 +469,20 @@
         [parentController dismissPopovers];
     }
     
-    [chainPopover presentPopoverFromBarButtonItem:chainButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    if( !self.chainPopover )
+    {
+        CertChainViewController *chainController = [[CertChainViewController alloc] initWithCertificate:self.certInfo];
+        UIPopoverController *tmpPopover = [[UIPopoverController alloc] initWithContentViewController:chainController];
+        
+        [chainController setPopoverContentSize:tmpPopover];
+        chainController.delegate = self;
+        self.chainPopover = tmpPopover;
+        
+        [chainController release];
+        [tmpPopover release];
+    }
+    
+    [self.chainPopover presentPopoverFromBarButtonItem:chainButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 - (void)setParentNavigationController:(UIViewController*)navController
@@ -514,7 +519,10 @@
 
 - (void)dismissPopovers
 {
-    [chainPopover dismissPopoverAnimated:YES];
+    if( self.chainPopover )
+    {
+        [self.chainPopover dismissPopoverAnimated:YES];
+    }
 }
 
 - (Class)getSavingObjcetClass
@@ -527,6 +535,28 @@
 {
     //TODO: implement, if necessary
     return nil;
+}
+
+#pragma mark - Cert hcain view delegate
+
+- (void)pushCert:(CertificateInfo*)cert
+{
+    if( !parentController || !cert )
+    {
+        return;
+    }
+    
+    CertDetailViewController *nextCertViewcontroller = [[CertDetailViewController alloc] initWithCertInfo:cert];
+
+    nextCertViewcontroller.parentNavigationController = parentController;
+    [parentController pushNavController:nextCertViewcontroller];
+    
+    [nextCertViewcontroller release];
+
+    if( chainPopover )
+    {
+        [chainPopover dismissPopoverAnimated:YES];
+    }
 }
 
 @end

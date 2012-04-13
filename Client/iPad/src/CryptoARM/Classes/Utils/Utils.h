@@ -53,4 +53,8 @@ struct SST_Entry {
 + (NSData*)encryptPin:(NSString*)encodingPin;
 + (NSString*)decryptPin:(NSData*)pinData;
 
++ (NSString*)formatDateForCertificateView:(NSDate*)formattingDate;
+
++ (UIImage*)constructImageWithIcon:(UIImage*)iconImage andAccessoryIcon:(UIImage*)accessoryIcon;
+
 @end

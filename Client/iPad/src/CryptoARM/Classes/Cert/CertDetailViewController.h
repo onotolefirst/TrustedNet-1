@@ -9,7 +9,7 @@
 
 #import "CertDetailHeaderViewController.h"
 
-@interface CertDetailViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,NavigationSource,UITextFieldDelegate> {
+@interface CertDetailViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,NavigationSource,UITextFieldDelegate,CertChainViewDelegate> {
     UIColor *textColor;
     CertificateInfo *certInfo;
     NSArray *arrayOU;
@@ -17,7 +17,6 @@
     
     SettingsMenuSource *settingsMenu;
     
-    UIPopoverController *chainPopover;
     UIBarButtonItem *chainButton;
     
     DetailNavController *parentController;
@@ -34,6 +33,8 @@
 
 @property (nonatomic, retain) CertDetailHeaderViewController *tableHeader;
 @property (nonatomic, retain) CertificateStore *parentStore;
+
+@property (nonatomic, retain) UIPopoverController *chainPopover;
 
 - (void)dismissPopovers;
 

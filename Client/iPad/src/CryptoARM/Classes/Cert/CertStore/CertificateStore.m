@@ -83,7 +83,6 @@
 {
     if( (CST_MY == storeType) || (CST_ADDRESS_BOOK == storeType) || (CST_CA == storeType) || (CST_ROOT == storeType) )
     {
-        //STACK_OF(X509) *resultCertificates = sk_X509_new_null();
         NSMutableArray *resultCertificates = [[NSMutableArray alloc] init];
         
         void *handle = nil;

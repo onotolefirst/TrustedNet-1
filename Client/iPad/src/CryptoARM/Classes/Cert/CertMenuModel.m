@@ -105,49 +105,13 @@
 
         // parsing X509_INFO
         CertificateInfo *certInfo = [self.certArray objectAtIndex:idx.row];
-        time_t validTo = certInfo.validTo; // cert expires date
-    
-        // set language from CryptoARM settings pane
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSArray* languages = [defaults objectForKey:@"AppleLanguages"];
-        NSString* selectedLanguage = [languages objectAtIndex:0];
-        NSString *localeIdentifier = @"en"; //default value
-    
-        if ([selectedLanguage isEqualToString:@"ru"])
-        {
-            localeIdentifier = @"ru_RU";
-        }
-        else if ([selectedLanguage isEqualToString:@"en"])
-        {
-            localeIdentifier = @"en_EN";
-        }
-    
-        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:localeIdentifier];
-        NSDate *expiresDate = [NSDate dateWithTimeIntervalSince1970:validTo];
-    
-        // this converts the date to a string
-        NSDateFormatter * dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setLocale:locale];
-        [dateFormatter setFormatterBehavior:NSDateFormatterBehaviorDefault];
-        [locale release];
-    
-        // get the name of the month
-        [dateFormatter setDateFormat:@"MMMM"];
-        NSString * monthName = [dateFormatter stringFromDate:expiresDate];
-        [dateFormatter release];
-    
-        // extract date and year from time_t
-        char szDate[5], szYear[5];
-        szDate[0] = '\0'; szYear[0] = '\0';
-        strftime(szDate, 5, "%d", localtime(&validTo));
-        strftime(szYear, 5, "%Y", localtime(&validTo));    
-
+        
         // set cell info
         [cellView.certImageView performSelectorOnMainThread:@selector(setImage:) withObject: [UIImage imageNamed:@"cert-valid.png"] waitUntilDone:YES];        
         cellView.certSubject.text = [Crypto getDNFromX509_NAME:certInfo.subject withNid:NID_commonName];
         cellView.certIssuer.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"CERT_WHO_ISSUED",
                             @"CERT_WHO_ISSUED"), [Crypto getDNFromX509_NAME:certInfo.issuer withNid:NID_commonName]];
-        cellView.certValidTo.text = [NSString stringWithFormat:@"%@: %s %@ %s %@.", NSLocalizedString(@"CERT_EXPIRED", @"CERT_EXPIRED"), szDate, monthName, szYear, NSLocalizedString(@"YEAR_PREFIX", @"YEAR_PREFIX")];
+        cellView.certValidTo.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"CERT_EXPIRED", @"CERT_EXPIRED"), [Utils formatDateForCertificateView:[NSDate dateWithTimeIntervalSince1970:certInfo.validTo]]];
         [cellView setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     }
 

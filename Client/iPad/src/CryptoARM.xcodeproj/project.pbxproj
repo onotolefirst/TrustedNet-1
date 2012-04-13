@@ -52,8 +52,6 @@
 		73F39D14148E7F1400F95B36 /* WizardEncryptViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73F39D13148E7F1400F95B36 /* WizardEncryptViewController.xib */; };
 		73F74E341495FFAA003DD7C1 /* CertListPopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73F74E321495FFAA003DD7C1 /* CertListPopoverViewController.m */; };
 		73F74E351495FFAA003DD7C1 /* CertListPopoverViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73F74E331495FFAA003DD7C1 /* CertListPopoverViewController.xib */; };
-		73FDCFB014C9958800C02FA5 /* CertChainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73FDCFAE14C9958800C02FA5 /* CertChainViewController.m */; };
-		73FDCFB114C9958800C02FA5 /* CertChainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73FDCFAF14C9958800C02FA5 /* CertChainViewController.xib */; };
 		73FF3EEC148B9A2D00194AC9 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 73FF3EEB148B9A2D00194AC9 /* libsqlite3.dylib */; };
 		73FF581D141F81F6002B897A /* MainMenuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 73FF581C141F81F6002B897A /* MainMenuModel.m */; };
 		73FF5824141F823A002B897A /* CertCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73FF581F141F823A002B897A /* CertCellView.m */; };
@@ -81,6 +79,7 @@
 		B3096CD014E1023C00FAB5AF /* SelectCertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3096CCF14E1023C00FAB5AF /* SelectCertViewController.m */; };
 		B30EFABC14EA41BC0002065D /* Edit.png in Resources */ = {isa = PBXBuildFile; fileRef = B30EFABB14EA41BC0002065D /* Edit.png */; };
 		B30F1FCF14458BE90057AD45 /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = B30F1FCE14458BE90057AD45 /* folder.png */; };
+		B310FC5B153717630069D12F /* chain-element.png in Resources */ = {isa = PBXBuildFile; fileRef = B310FC5A153717620069D12F /* chain-element.png */; };
 		B313839714AB4F6300F3960E /* MenuListController.m in Sources */ = {isa = PBXBuildFile; fileRef = B313839514AB4F6200F3960E /* MenuListController.m */; };
 		B313839814AB4F6300F3960E /* MenuListController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B313839614AB4F6300F3960E /* MenuListController.xib */; };
 		B31546D614710C11007725F9 /* CertificateUsageMenuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B31546D514710C11007725F9 /* CertificateUsageMenuModel.m */; };
@@ -160,6 +159,7 @@
 		B3EA75901455A9300009358C /* StatisticsPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = B3EA758F1455A9300009358C /* StatisticsPanel.xib */; };
 		B3EBD4F014457DA200243136 /* to-root.PNG in Resources */ = {isa = PBXBuildFile; fileRef = B3EBD4EE14457DA200243136 /* to-root.PNG */; };
 		B3EBD4F114457DA200243136 /* to-section.PNG in Resources */ = {isa = PBXBuildFile; fileRef = B3EBD4EF14457DA200243136 /* to-section.PNG */; };
+		B3F7A70F1535697000E86771 /* CertChainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3F7A70E1535697000E86771 /* CertChainViewController.m */; };
 		B3FCD87A1421D655005AF5B4 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B3FCD8791421D655005AF5B4 /* Settings.bundle */; };
 /* End PBXBuildFile section */
 
@@ -236,9 +236,6 @@
 		73F74E311495FFAA003DD7C1 /* CertListPopoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CertListPopoverViewController.h; path = Classes/Cert/CertListPopoverViewController.h; sourceTree = "<group>"; };
 		73F74E321495FFAA003DD7C1 /* CertListPopoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CertListPopoverViewController.m; path = Classes/Cert/CertListPopoverViewController.m; sourceTree = "<group>"; };
 		73F74E331495FFAA003DD7C1 /* CertListPopoverViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CertListPopoverViewController.xib; path = Classes/Cert/CertListPopoverViewController.xib; sourceTree = "<group>"; };
-		73FDCFAD14C9958800C02FA5 /* CertChainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CertChainViewController.h; path = Classes/Cert/CertChainViewController.h; sourceTree = "<group>"; };
-		73FDCFAE14C9958800C02FA5 /* CertChainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CertChainViewController.m; path = Classes/Cert/CertChainViewController.m; sourceTree = "<group>"; };
-		73FDCFAF14C9958800C02FA5 /* CertChainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CertChainViewController.xib; path = Classes/Cert/CertChainViewController.xib; sourceTree = "<group>"; };
 		73FF3EEB148B9A2D00194AC9 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		73FF581B141F81F6002B897A /* MainMenuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainMenuModel.h; path = Classes/Menu/MainMenuModel.h; sourceTree = "<group>"; };
 		73FF581C141F81F6002B897A /* MainMenuModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 2; name = MainMenuModel.m; path = Classes/Menu/MainMenuModel.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -289,6 +286,8 @@
 		B30EFABB14EA41BC0002065D /* Edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Edit.png; path = Resources/Images/Edit.png; sourceTree = "<group>"; };
 		B30F1FCE14458BE90057AD45 /* folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = folder.png; path = Resources/Images/folder.png; sourceTree = "<group>"; };
 		B310E1C21519EB4B00C52BF9 /* XmlTags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XmlTags.h; path = Classes/XmlTags.h; sourceTree = "<group>"; };
+		B310FC581536C7810069D12F /* CertChainViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CertChainViewDelegate.h; path = Classes/Cert/CertChainViewDelegate.h; sourceTree = "<group>"; };
+		B310FC5A153717620069D12F /* chain-element.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "chain-element.png"; path = "Resources/Images/chain-element.png"; sourceTree = "<group>"; };
 		B313839414AB4F6200F3960E /* MenuListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuListController.h; path = Classes/MenuNavigation/MenuListController.h; sourceTree = "<group>"; };
 		B313839514AB4F6200F3960E /* MenuListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuListController.m; path = Classes/MenuNavigation/MenuListController.m; sourceTree = "<group>"; };
 		B313839614AB4F6300F3960E /* MenuListController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MenuListController.xib; path = Classes/MenuNavigation/MenuListController.xib; sourceTree = "<group>"; };
@@ -399,6 +398,8 @@
 		B3EA758F1455A9300009358C /* StatisticsPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = StatisticsPanel.xib; path = Classes/Detail/StatisticsPanel.xib; sourceTree = "<group>"; };
 		B3EBD4EE14457DA200243136 /* to-root.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "to-root.PNG"; path = "Resources/Images/to-root.PNG"; sourceTree = "<group>"; };
 		B3EBD4EF14457DA200243136 /* to-section.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "to-section.PNG"; path = "Resources/Images/to-section.PNG"; sourceTree = "<group>"; };
+		B3F7A70D1535697000E86771 /* CertChainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CertChainViewController.h; path = Classes/Cert/CertChainViewController.h; sourceTree = "<group>"; };
+		B3F7A70E1535697000E86771 /* CertChainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CertChainViewController.m; path = Classes/Cert/CertChainViewController.m; sourceTree = "<group>"; };
 		B3FCD8791421D655005AF5B4 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -740,9 +741,9 @@
 				73F74E311495FFAA003DD7C1 /* CertListPopoverViewController.h */,
 				73F74E321495FFAA003DD7C1 /* CertListPopoverViewController.m */,
 				73F74E331495FFAA003DD7C1 /* CertListPopoverViewController.xib */,
-				73FDCFAD14C9958800C02FA5 /* CertChainViewController.h */,
-				73FDCFAE14C9958800C02FA5 /* CertChainViewController.m */,
-				73FDCFAF14C9958800C02FA5 /* CertChainViewController.xib */,
+				B3F7A70D1535697000E86771 /* CertChainViewController.h */,
+				B3F7A70E1535697000E86771 /* CertChainViewController.m */,
+				B310FC581536C7810069D12F /* CertChainViewDelegate.h */,
 			);
 			name = Detail;
 			sourceTree = "<group>";
@@ -775,6 +776,7 @@
 				7315FAC7147523B600245953 /* Default.png */,
 				731304DA14126D8F008F51FF /* Default-Landscape.png */,
 				B30EFABB14EA41BC0002065D /* Edit.png */,
+				B310FC5A153717620069D12F /* chain-element.png */,
 			);
 			name = "Temporary images";
 			sourceTree = "<group>";
@@ -1135,12 +1137,12 @@
 				73F2E28F14B8361B00915BEA /* unchecked.PNG in Resources */,
 				7306C7C914BC0245001DC2CD /* CertCellViewWithTick.xib in Resources */,
 				B322EC6914C9470300A8236A /* DetailNavController.xib in Resources */,
-				73FDCFB114C9958800C02FA5 /* CertChainViewController.xib in Resources */,
 				B30527E614CEA3E600D43F1B /* ProfileViewController.xib in Resources */,
 				B30EFABC14EA41BC0002065D /* Edit.png in Resources */,
 				B37123BA1521FE93005140D1 /* gear.png in Resources */,
 				B381E7831529F69C00D7F17E /* CertDetailHeaderViewController.xib in Resources */,
 				B3045902152AEEFE00BD9BB8 /* key.png in Resources */,
+				B310FC5B153717630069D12F /* chain-element.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1225,7 +1227,6 @@
 				732C9AC814A3631F00A3ECC0 /* AddressBookCertificateBindingManager.m in Sources */,
 				73140DD014B5916600FBD7ED /* CertStoreViewController.m in Sources */,
 				73140DE014B596FA00FBD7ED /* CertificateStoreCellView.m in Sources */,
-				73FDCFB014C9958800C02FA5 /* CertChainViewController.m in Sources */,
 				B322EC6F14C9626A00A8236A /* PathHelper.m in Sources */,
 				B3D2222814CD6BF0002A2BC5 /* ProfileMenuModel.m in Sources */,
 				B30527E514CEA3E600D43F1B /* ProfileViewController.m in Sources */,
@@ -1238,6 +1239,7 @@
 				B303EE631513210B0060DE59 /* SelectAlgorithm.m in Sources */,
 				B30830C115204B3F0063DE1A /* CertificateStore.m in Sources */,
 				B381E7821529F69C00D7F17E /* CertDetailHeaderViewController.m in Sources */,
+				B3F7A70F1535697000E86771 /* CertChainViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

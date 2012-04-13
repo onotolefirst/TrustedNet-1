@@ -378,4 +378,62 @@ const NSString *productGUID = @"0AA8B7A5-0B41-4B53-9B18-B38B475CE41D";
     return [resultString autorelease];
 }
 
++ (NSString*)formatDateForCertificateView:(NSDate*)formattingDate
+{
+    // Set language from CryptoARM settings pane
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSArray* languages = [defaults objectForKey:@"AppleLanguages"];
+    NSString* selectedLanguage = [languages objectAtIndex:0];
+    NSString *localeIdentifier = @"ru_RU";
+    
+    if ([selectedLanguage isEqualToString:@"ru"])
+    {
+        localeIdentifier = @"ru_RU";
+    }
+    else if ([selectedLanguage isEqualToString:@"en"])
+    {
+        localeIdentifier = @"en_EN";
+    }
+    
+    NSLocale * locale = [[NSLocale alloc] initWithLocaleIdentifier:localeIdentifier];
+    //NSDate *dateOfExpiration = [NSDate dateWithTimeIntervalSince1970:validTo];
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.locale = locale;
+    formatter.dateStyle = NSDateFormatterLongStyle;
+    formatter.timeStyle = NSDateFormatterNoStyle;
+    
+    NSString *resultDate = [formatter stringFromDate:formattingDate];
+    
+    [locale release];
+    [formatter release];
+
+    return resultDate;
+}
+
++ (UIImage*)constructImageWithIcon:(UIImage*)iconImage andAccessoryIcon:(UIImage*)accessoryIcon
+{
+    UIView *imageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 110, 80)];
+    
+    UIImageView *accessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(4, 28, 25, 24)];
+    accessoryView.image = accessoryIcon;
+    UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(30, 0, 80, 80)];
+    iconView.image = iconImage;
+    
+    [imageView addSubview:iconView];
+    [imageView addSubview:accessoryView];
+    
+    UIGraphicsBeginImageContext(imageView.bounds.size);
+    [imageView.layer renderInContext:UIGraphicsGetCurrentContext()];
+
+    UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    [imageView release];
+    [accessoryView release];
+    [iconView release];
+    
+    return resultImage;
+}
+
 @end

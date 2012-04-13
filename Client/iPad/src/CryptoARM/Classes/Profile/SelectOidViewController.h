@@ -17,14 +17,18 @@ enum OID_SELECT_PAGE_TYPE {
     OSPT_ENCRYPT_FILTER = 1
     };
 
+enum INDEXED_OID_IMAGES {
+    IOI_UNCHECKED = 0,
+    IOI_CHECKED = 1
+    };
+
 @interface SelectOidViewController : CommonDetailController <NavigationSource, UITableViewDataSource, UITableViewDelegate>
 {
     CertUsageHelper *usagesHelper;
     
     NSMutableIndexSet *selectedIndex;
     
-    UIImage *checkedOid;
-    UIImage *uncheckedOid;
+    NSMutableDictionary *images;
 }
 
 - (id)initWithProfile:(Profile *)profile andPageType:(enum OID_SELECT_PAGE_TYPE)pgType;

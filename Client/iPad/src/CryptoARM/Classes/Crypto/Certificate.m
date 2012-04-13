@@ -82,7 +82,6 @@ isAKIDCritical, authorityInformationAccess, isAuthorityAccessInfoCritical, isCDP
     else
     {
         X509 *duplicatedCert = X509_dup(cert);
-        //duplicatedCert->aux = X509_CERT_AUX
         { //TODO: remove copy crutch
             int keyIdLen = 0;
             unsigned char *keyId = X509_keyid_get0(cert, &keyIdLen);
@@ -98,7 +97,6 @@ isAKIDCritical, authorityInformationAccess, isAuthorityAccessInfoCritical, isCDP
             {
                 X509_alias_set1(duplicatedCert, keyId, keyIdLen);
             }
-            //duplicatedCert->aux->
         }
         self.x509 = duplicatedCert;
     }

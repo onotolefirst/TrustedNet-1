@@ -2,22 +2,30 @@
 //  CertChainViewController.m
 //  CryptoARM
 //
-//  Created by Денис Бурдин on 20.01.12.
+//  Created by Sergey Mityukov on 11.04.12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import "CertChainViewController.h"
 
-@implementation CertChainViewController
-@synthesize menuTable, chainMenuPopover;
+#include "Crypto.h"
+#include <Openssl/ctiosrsa.h>
+#include <Openssl/store.h>
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andCert:(X509 *)someCert
+
+@implementation CertChainViewController
+
+@synthesize certChain;
+@synthesize delegate;
+
+- (id)initWithCertificate:(CertificateInfo*)cert
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        cert = someCert;
+    self = [super init];
+    if (self)
+    {
+        //self.startCert = cert;
+        self.certChain = [self buildChainForCert:cert];
     }
-    
     return self;
 }
 
@@ -30,54 +38,18 @@
 }
 
 #pragma mark - View lifecycle
+
 - (void)viewDidLoad
 {
-	X509_STORE *x509store = X509_STORE_new();
-	X509_LOOKUP_METHOD *m = NULL;
-	X509_STORE_CTX ctx = {NULL};
-    ENGINE *g_e = ENGINE_by_id(CTIOSRSA_ENGINE_ID);
-
-	if (!ENGINE_ctrl(g_e, CTIOSRSA_ENGINE_CTRL_GET_X509_LOOKUP_METHOD, 0, &m, 0) <= 0)
-	{
-        if (X509_STORE_add_lookup(x509store, m))
-        {
-            if (X509_STORE_CTX_init(&ctx, x509store, cert, NULL))
-            {
-                if (X509_verify_cert(&ctx) <= 0)
-                {
-                    // int iCode = X509_STORE_CTX_get_error(&ctx);
-                    // BIO_printf(g_bioErr, "Certificate verification failed (code = %d '%s')\n",
-                    //         iCode, X509_verify_cert_error_string(iCode));
-                }
-
-                stCertChain = X509_STORE_CTX_get_chain(&ctx);
-                X509_STORE_CTX_cleanup(&ctx);
-            }
-            else
-            {
-                // Initializing store context failed
-            }
-        }
-        else
-        {
-            // ERROR!
-        }
-    }
-    else
-    {
-        // Allocating x509store failed
-    }
-
-    menuTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 44, self.view.bounds.size.width, self.view.bounds.size.height-44) style:UITableViewStylePlain];
-    
-    menuTable.delegate = self;
-    menuTable.dataSource = self;
-    
-    menuTable.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    [menuTable reloadData];
-    self.view = menuTable;
-    
     [super viewDidLoad];
+
+    // Uncomment the following line to preserve selection between presentations.
+    // self.clearsSelectionOnViewWillAppear = NO;
+ 
+    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
 - (void)viewDidUnload
@@ -85,8 +57,26 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-    
-    [self setMenuTable:nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -95,114 +85,222 @@
 	return YES;
 }
 
-- (CGFloat)calculateMenuHeight
-{
-    return 60 * ([menuTable numberOfRowsInSection:0]) + 35;
-}
-
-- (void)dealloc
-{
-    [menuTable release];
-    
-    if (chainMenuPopover)
-    {
-        [chainMenuPopover dismissPopoverAnimated:YES];
-    }
-    
-    [super dealloc];
-}
-
 #pragma mark - Table view data source
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 60;
-}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    return sk_X509_num(stCertChain);
+    if( self.certChain )
+    {
+        return self.certChain.count;
+    }
+    
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *CellIdentifier = [NSString stringWithFormat:@"Cert chain cell %d %d", indexPath.section, indexPath.row];
+    static NSString *CellIdentifier = @"Chain-Cell";
     
-    CertCellView *cellView = (CertCellView *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if(cellView == nil)
-    {
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"CertCellView" owner:self options:nil];
-        cellView = (CertCellView *)[nib objectAtIndex:0];
-        
-        X509 *selectedCert = sk_X509_value(stCertChain, indexPath.row);
-        
-        // parsing X509_INFO
-        CertificateInfo *certInfo = [[CertificateInfo alloc] initWithX509:selectedCert];
-        time_t validTo = certInfo.validTo; // cert expires date
-        
-        // set language from CryptoARM settings pane
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSArray* languages = [defaults objectForKey:@"AppleLanguages"];
-        NSString* selectedLanguage = [languages objectAtIndex:0];
-        NSString *localeIdentifier = @"en"; //default value
-        
-        if ([selectedLanguage isEqualToString:@"ru"])
-        {
-            localeIdentifier = @"ru_RU";
-        }
-        else if ([selectedLanguage isEqualToString:@"en"])
-        {
-            localeIdentifier = @"en_EN";
-        }
-        
-        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:localeIdentifier];
-        NSDate *expiresDate = [NSDate dateWithTimeIntervalSince1970:validTo];
-        
-        // this converts the date to a string
-        NSDateFormatter * dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setLocale:locale];
-        [dateFormatter setFormatterBehavior:NSDateFormatterBehaviorDefault];
-        
-        // get the name of the month
-        [dateFormatter setDateFormat:@"MMMM"];
-        NSString * monthName = [dateFormatter stringFromDate:expiresDate];
-        
-        // extract date and year from time_t
-        char szDate[5], szYear[5];
-        szDate[0] = '\0'; szYear[0] = '\0';
-        strftime(szDate, 5, "%d", localtime(&validTo));
-        strftime(szYear, 5, "%Y", localtime(&validTo));    
-        
-        // set cell info
-        [cellView.certImageView performSelectorOnMainThread:@selector(setImage:) withObject: [UIImage imageNamed:@"cert-valid.png"] waitUntilDone:YES];        
-        cellView.certSubject.text = [Crypto getDNFromX509_NAME:certInfo.subject withNid:NID_commonName];
-        cellView.certIssuer.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"CERT_WHO_ISSUED",
-                                                                                           @"CERT_WHO_ISSUED"), [Crypto getDNFromX509_NAME:certInfo.issuer withNid:NID_commonName]];
-        cellView.certValidTo.text = [NSString stringWithFormat:@"%@: %s %@ %s %@.", NSLocalizedString(@"CERT_EXPIRED", @"CERT_EXPIRED"), szDate, monthName, szYear, NSLocalizedString(@"YEAR_PREFIX", @"YEAR_PREFIX")];
-        [cellView setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-        
-        [certInfo release];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
     }
     
-    return cellView;
+    // Configure the cell...
+
+    //Find cert type
+    int certType = (indexPath.row==0) ? 0 : CIP_WITH_CHAIN_CONNECTOR;
+
+    {
+        CertificateInfo *currentCert = [certChain objectAtIndex:0];
+        int idLength = 0;
+        unsigned char *keyIdData = X509_keyid_get0(currentCert.x509, &idLength);
+        
+        if( keyIdData )
+        {
+            certType |= CIP_PERSONAL;
+        }
+    }
+
+    if( !(certType & CIP_PERSONAL) )
+    {
+        if( indexPath.row == (certChain.count-1) )
+        {
+            certType |= CIP_OTHER;
+        }
+        else if( indexPath.row == 0 )
+        {
+            certType |= CIP_ROOT;
+        }
+        else
+        {
+            certType |= CIP_INTERMEDIATE;
+        }
+    }
+
+    //TODO: check cert status and put appropriate status image
+    certType |= CIP_VALID;
+    
+    cell.imageView.image = [self getImageForElementType:certType];
+
+    cell.indentationLevel = indexPath.row;
+    cell.indentationWidth = 40;
+    
+    CertificateInfo *currentCert = [self.certChain objectAtIndex:indexPath.row];
+    cell.textLabel.text = [Crypto getDNFromX509_NAME:currentCert.subject withNid:NID_commonName];
+    
+    cell.detailTextLabel.lineBreakMode = UILineBreakModeTailTruncation;
+    cell.detailTextLabel.numberOfLines = 2;
+    
+    NSString *issuerDescription = NSLocalizedString(@"CERT_WHO_ISSUED", @"Кем выдан");
+    NSString *issuerValue = [Crypto getDNFromX509_NAME:currentCert.issuer withNid:NID_commonName];
+    
+    NSString *expireDate = [Utils formatDateForCertificateView:[NSDate dateWithTimeIntervalSince1970:currentCert.validTo]];
+    NSString *expireDescription = NSLocalizedString(@"CERT_EXPIRED", @"Истекает");
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: %@\n%@: %@", issuerDescription, issuerValue, expireDescription, expireDate];
+    
+    return cell;
 }
 
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [chainMenuPopover dismissPopoverAnimated:YES];
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if( indexPath.row == (self.certChain.count - 1) || !self.delegate )
+    {
+        return;
+    }
+    
+    [self.delegate pushCert:[certChain objectAtIndex:indexPath.row]];
 }
 
-- (void)setPopoverController:(UIPopoverController *)controller
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    chainMenuPopover = controller;
+    return 60;
+}
+
+#pragma mark - Utility functions
+
+- (NSArray*)buildChainForCert:(CertificateInfo*)cert
+{
+    NSMutableArray *resultChain = [[NSMutableArray alloc] init];
+    
+    X509_LOOKUP_METHOD *m = NULL;
+    X509_STORE_CTX ctx = {0};
+    
+    ENGINE *workingEngine = ENGINE_by_id(CTIOSRSA_ENGINE_ID);
+    
+    //TODO: Why macro not resolves by preprocessor?
+    //if( workingEngine && (CTIOSRSA_ENGINE_get_x509_lookup_method(workingEngine, &m) <= 0) )
+    if( workingEngine && (ENGINE_ctrl(workingEngine, 570+1, 0, &m, 0) <= 0) )
+    {
+        NSLog(@"Unable to get lookup method");
+        return [resultChain autorelease];
+    }
+    
+    X509_STORE *x509store = X509_STORE_new();
+    if( !X509_STORE_add_lookup(x509store, m) )
+    {
+        NSLog(@"Unable to add lookup method into store");
+        return [resultChain autorelease];
+    }
+    
+    if( !X509_STORE_CTX_init(&ctx, x509store, cert.x509, NULL) )
+    {
+        NSLog(@"Unable to init store context");
+        return [resultChain autorelease];
+    }
+    
+    //NSLog(@"Verify result: %d", X509_verify_cert(&ctx));
+    X509_verify_cert(&ctx);
+    
+    STACK_OF(X509) *chain = X509_STORE_CTX_get_chain(&ctx);
+    
+    CertificateInfo *tmpCert;
+    while( chain && sk_X509_num(chain) )
+    {
+        tmpCert = [[CertificateInfo alloc] initWithX509:sk_X509_pop(chain) doNotCopy:YES];
+        [resultChain addObject:tmpCert];
+        [tmpCert release];
+    }
+    
+    return [resultChain autorelease];
+}
+
+- (void)setPopoverContentSize:(UIPopoverController*)parentPopover
+{
+    [self.tableView sizeToFit];
+    CGSize size = self.tableView.contentSize;
+    parentPopover.popoverContentSize = size;
+}
+
+- (UIImage*)getImageForElementType:(int)elementType
+{
+    NSNumber *elementKey = [NSNumber numberWithInt:elementType];
+    UIImage *resultImage = [indexedImages objectForKey:elementKey];
+    
+    if( resultImage )
+    {
+        return resultImage;
+    }
+    
+    UIImage *chainElement = nil;
+    UIImage *certImage = nil;
+    
+    if( elementType & CIP_PERSONAL )
+    {
+        if( elementType & CIP_VALID )
+        {
+            certImage = [UIImage imageNamed:@"cert-private-other.png"];
+        }
+        //TODO: add images for other certificates statuses
+//        else if( elementType & CIP_VALID_CRL_EXPIRE )
+//        {
+//            
+//        }
+//        else if( elementType & CIP_INVALID )
+//        {
+//            
+//        }
+    }
+    else if( elementType & CIP_OTHER )
+    {
+        if( elementType & CIP_VALID )
+        {
+            certImage = [UIImage imageNamed:@"cert-valid.png"];
+        }
+    }
+    else if( elementType & CIP_INTERMEDIATE )
+    {
+        if( elementType & CIP_VALID )
+        {
+            certImage = [UIImage imageNamed:@"cert-intermediate-valid.png"];
+        }
+    }
+    else if( elementType & CIP_ROOT )
+    {
+        if( elementType & CIP_VALID )
+        {
+            certImage = [UIImage imageNamed:@"cert-root.png"];
+        }
+    }
+    
+    if( CIP_WITH_CHAIN_CONNECTOR & elementType )
+    {
+        chainElement = [UIImage imageNamed:@"chain-element.png"];
+    }
+        
+    resultImage = [Utils constructImageWithIcon:certImage andAccessoryIcon:chainElement];
+    
+    [indexedImages setObject:resultImage forKey:elementKey];
+    return resultImage;
 }
 
 @end

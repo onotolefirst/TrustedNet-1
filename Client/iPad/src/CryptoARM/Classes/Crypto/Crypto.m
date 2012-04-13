@@ -198,8 +198,10 @@ void list_ciph(const EVP_CIPHER *cph, const char *from, const char *to, void *ou
         for (CFIndex j = 0; j < ABMultiValueGetCount(multiURLCertList); j++)
         {
             // check the extracted url to find 'cryptoarm' prefix
-            NSArray *arrUrlComponents = [[NSString stringWithString:ABMultiValueCopyValueAtIndex(multiURLCertList, j)] componentsSeparatedByString:@"/"];
-            NSString *strCertHashID = [[NSString alloc] init];
+            CFTypeRef type = ABMultiValueCopyValueAtIndex(multiURLCertList, j);
+            NSArray *arrUrlComponents = [[NSString stringWithString:type] componentsSeparatedByString:@"/"];
+            CFRelease(type);
+            NSString *strCertHashID = @"";
             
             NSRange subStrRange = [[arrUrlComponents objectAtIndex:0] rangeOfString:@"cryptoarm"]; // this is the prefix for the application
             if (subStrRange.location != NSNotFound)

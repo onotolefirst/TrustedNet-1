@@ -17,30 +17,6 @@
 @synthesize filterString;
 @synthesize filterScope;
 
-- (UIImage*)constructImageWithStatus:(UIImage*)statusImage andCheckButton:(UIImage*)checkButton
-{
-    UIView *imageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 110, 80)];
-    
-    UIImageView *checkView = [[UIImageView alloc] initWithFrame:CGRectMake(4, 28, 25, 24)];
-    checkView.image = checkButton;
-    UIImageView *statusView = [[UIImageView alloc] initWithFrame:CGRectMake(30, 0, 80, 80)];
-    statusView.image = statusImage;
-    
-    [imageView addSubview:statusView];
-    [imageView addSubview:checkView];
-    
-    UIGraphicsBeginImageContext(imageView.bounds.size);
-    [imageView.layer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    [imageView release];
-    [checkView release];
-    [statusView release];
-    
-    return [resultImage retain];
-}
-
 - (id)initWithProfile:(Profile *)profile andSelectType:(enum ENM_SEL_CERT_PAGE_TYPE)listType;
 {
     self = [super init];
@@ -56,9 +32,13 @@
         
         if( (SCPT_RECIEVERS_CERTS == pageType) || (SCPT_VALIDATION_CERTS == pageType) )
         {
-            checkedValid = [self constructImageWithStatus:[UIImage imageNamed:@"cert-valid.png"] andCheckButton:[UIImage imageNamed:@"checked.PNG"]];
-            uncheckedValid = [self constructImageWithStatus:[UIImage imageNamed:@"cert-valid.png"] andCheckButton:[UIImage imageNamed:@"unchecked.PNG"]];
-            //TODO: add invalid status images?
+            indexedImages = [[NSMutableDictionary alloc] initWithCapacity:2];
+            
+            UIImage *tmpImage = [Utils constructImageWithIcon:[UIImage imageNamed:@"cert-valid.png"] andAccessoryIcon:[UIImage imageNamed:@"checked.PNG"]];
+            [indexedImages setObject:tmpImage forKey:[NSNumber numberWithInt:II_CHECKED_VALID]];
+            
+            tmpImage = [Utils constructImageWithIcon:[UIImage imageNamed:@"cert-valid.png"] andAccessoryIcon:[UIImage imageNamed:@"unchecked.PNG"]];
+            [indexedImages setObject:tmpImage forKey:[NSNumber numberWithInt:II_UNCHECKED_VALID]];
             
             NSMutableArray *certsFromProfile;
             if( SCPT_RECIEVERS_CERTS == pageType)
@@ -134,8 +114,10 @@
 
 - (void)dealloc
 {
-    [checkedValid release];
-    [uncheckedValid release];
+    if( indexedImages )
+    {
+        [indexedImages release];
+    }
     
     if( storagesDictionary )
     {
@@ -304,35 +286,8 @@
     
     
     //-------------------------------------
-    time_t validTo = currentCert.validTo; // cert expires date
-    
-    // Set language from CryptoARM settings pane
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSArray* languages = [defaults objectForKey:@"AppleLanguages"];
-    NSString* selectedLanguage = [languages objectAtIndex:0];
-    NSString *localeIdentifier = @"ru_RU";
-    
-    if ([selectedLanguage isEqualToString:@"ru"])
-    {
-        localeIdentifier = @"ru_RU";
-    }
-    else if ([selectedLanguage isEqualToString:@"en"])
-    {
-        localeIdentifier = @"en_EN";
-    }
-    
-    NSLocale * locale = [[NSLocale alloc] initWithLocaleIdentifier:localeIdentifier];
-    NSDate *dateOfExpiration = [NSDate dateWithTimeIntervalSince1970:validTo];
-    
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    formatter.locale = locale;
-    formatter.dateStyle = NSDateFormatterLongStyle;
-    formatter.timeStyle = NSDateFormatterNoStyle;
-    
-    NSString *certExpirationDate = [formatter stringFromDate:dateOfExpiration];
-    
-    [locale release];
-    [formatter release];
+
+    NSString *certExpirationDate = [Utils formatDateForCertificateView:[NSDate dateWithTimeIntervalSince1970:currentCert.validTo]];
     
     //-------------------------------------
     NSString *certIssuer = [Crypto getDNFromX509_NAME:currentCert.issuer withNid:NID_commonName];
@@ -355,11 +310,11 @@
             NSUInteger mappedIndex = isFiltered ? certIndex.intValue : indexPath.row;
             if( [[self currentStoreSelectedCertsIndex] containsIndex:mappedIndex] )
             {
-                cell.imageView.image = checkedValid;
+                cell.imageView.image = [indexedImages objectForKey:[NSNumber numberWithInt:II_CHECKED_VALID]];
             }
             else
             {
-                cell.imageView.image = uncheckedValid;
+                cell.imageView.image = [indexedImages objectForKey:[NSNumber numberWithInt:II_UNCHECKED_VALID]];
             }
         }
             break;
@@ -520,7 +475,6 @@
 
 - (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    //TODO: show storage title
     return [self storeNameByType:currentSelectedStoreType];
 }
 
@@ -884,7 +838,6 @@
             break;
     }
     
-    //TODO: Проверить алгоритм фильтрации сертификатов
     if( filteringOids && filteringOids.count )
     {
         NSMutableArray *filteredCertificates = [[NSMutableArray alloc] initWithCapacity:extractedCertificates.count];

@@ -23,30 +23,6 @@
 //    return self;
 //}
 
-- (UIImage*)constructImageWithStatus:(UIImage*)statusImage andCheckButton:(UIImage*)checkButton
-{
-    UIView *imageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 110, 80)];
-    
-    UIImageView *checkView = [[UIImageView alloc] initWithFrame:CGRectMake(4, 28, 25, 24)];
-    checkView.image = checkButton;
-    UIImageView *statusView = [[UIImageView alloc] initWithFrame:CGRectMake(30, 0, 80, 80)];
-    statusView.image = statusImage;
-    
-    [imageView addSubview:statusView];
-    [imageView addSubview:checkView];
-    
-    UIGraphicsBeginImageContext(imageView.bounds.size);
-    [imageView.layer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    [imageView release];
-    [checkView release];
-    [statusView release];
-    
-    return [resultImage retain];
-}
-
 - (id)initWithProfile:(id)profile andPageType:(enum OID_SELECT_PAGE_TYPE)pgType
 {
     self = [super init];
@@ -93,8 +69,12 @@
             }
         }
         
-        checkedOid = [self constructImageWithStatus:[UIImage imageNamed:@"OID.png"] andCheckButton:[UIImage imageNamed:@"checked.PNG"]];
-        uncheckedOid = [self constructImageWithStatus:[UIImage imageNamed:@"OID.png"] andCheckButton:[UIImage imageNamed:@"unchecked.PNG"]];
+        images  = [[NSMutableDictionary alloc] initWithCapacity:2];
+        
+        UIImage *tmpImage = [Utils constructImageWithIcon:[UIImage imageNamed:@"OID.png"] andAccessoryIcon:[UIImage imageNamed:@"checked.PNG"]];
+        [images setObject:tmpImage forKey:[NSNumber numberWithInt:IOI_CHECKED]];
+        tmpImage = [Utils constructImageWithIcon:[UIImage imageNamed:@"OID.png"] andAccessoryIcon:[UIImage imageNamed:@"unchecked.PNG"]];
+        [images setObject:tmpImage forKey:[NSNumber numberWithInt:IOI_UNCHECKED]];
     }
     return self;
 }
@@ -110,8 +90,7 @@
 - (void)dealloc
 {
     [usagesHelper release];
-    [checkedOid release];
-    [uncheckedOid release];
+    [images release];
     [selectedIndex release];
     
     [super dealloc];
@@ -208,11 +187,11 @@
     
     if( [selectedIndex containsIndex:indexPath.row] )
     {
-        cell.imageView.image = checkedOid;
+        cell.imageView.image = [images objectForKey:[NSNumber numberWithInt:IOI_CHECKED]];
     }
     else
     {
-        cell.imageView.image = uncheckedOid;
+        cell.imageView.image = [images objectForKey:[NSNumber numberWithInt:IOI_UNCHECKED]];
     }
     
     return cell;
