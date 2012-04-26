@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-#import "Certificate.h"
 #import "CertificateStore.h"
 
 @interface CertDetailHeaderViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+{
+    int currentCertStatus;
+}
 
 - (id)initWithCert:(CertificateInfo*)certForInit;
 
@@ -23,7 +25,7 @@
 
 @property (nonatomic, retain) NSString *keyIdentifier;
 
-- (NSInteger)getCertStatus;
-- (NSString*)getCertStatusDescription;
+- (void)updateCertStatus;
+- (void)updateCertStatus:(int)certStatus;
 
 @end

@@ -4,12 +4,14 @@
 #import "../Crypto/Certificate.h"
 #import "../Crypto/Crypto.h"
 
-#import "DetailNavController.h"
 #import "CertChainViewController.h"
 
+#import "CommonDetailController.h"
 #import "CertDetailHeaderViewController.h"
+#import "CheckStatusDialogViewControllerDelegate.h"
 
-@interface CertDetailViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,NavigationSource,UITextFieldDelegate,CertChainViewDelegate> {
+@interface CertDetailViewController : CommonDetailController <UITableViewDataSource, UITableViewDelegate, NavigationSource, UITextFieldDelegate, CertChainViewDelegate, UIAlertViewDelegate, CheckStatusDialogViewControllerDelegate, NSURLConnectionDataDelegate>
+{
     UIColor *textColor;
     CertificateInfo *certInfo;
     NSArray *arrayOU;
@@ -18,8 +20,6 @@
     SettingsMenuSource *settingsMenu;
     
     UIBarButtonItem *chainButton;
-    
-    DetailNavController *parentController;
 }
 
 - (id) initWithCertInfo:(CertificateInfo*) cert;
@@ -36,8 +36,22 @@
 
 @property (nonatomic, retain) UIPopoverController *chainPopover;
 
+// CRL loading properties
+@property (nonatomic, retain) NSURLConnection *crlLoadingConnection;
+@property (nonatomic, retain) NSMutableArray *cdpList;
+@property (nonatomic, retain) UIView *activityView;
+@property (nonatomic, retain) NSMutableData *crlData;
+
 - (void)dismissPopovers;
 
 - (void)chainButtonAction:(id)sender;
+
+- (void)actionForCheckStatus;
+- (void)actionForExportingCert;
+- (void)actionForSendByEMail;
+- (void)actionForPrintCertificate;
+- (void)actionForRemoveCertificate;
+
+- (void)startNextCrlLoadingFromCdpList;
 
 @end

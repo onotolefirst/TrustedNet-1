@@ -118,10 +118,9 @@
 
     {
         CertificateInfo *currentCert = [certChain objectAtIndex:0];
-        int idLength = 0;
-        unsigned char *keyIdData = X509_keyid_get0(currentCert.x509, &idLength);
+        NSData *keyId = currentCert.privateKeyId;
         
-        if( keyIdData )
+        if( keyId && keyId.length )
         {
             certType |= CIP_PERSONAL;
         }
@@ -143,15 +142,29 @@
         }
     }
 
-    //TODO: check cert status and put appropriate status image
-    certType |= CIP_VALID;
+    CertificateInfo *currentCert = [self.certChain objectAtIndex:indexPath.row];
+    switch ([CertificateInfo simplifyedStatusByDetailedStatus:[currentCert verify]]) {
+        case CSS_VALID:
+            certType |= CIP_VALID;
+            break;
+            
+        case CSS_INVALID:
+            certType |= CIP_INVALID;
+            break;
+            
+        case CSS_INSUFFICIENT_INFO:
+            certType |= CIP_INSUFFICIENT_INFO;
+            break;
+            
+        default:
+            break;
+    }
     
     cell.imageView.image = [self getImageForElementType:certType];
 
     cell.indentationLevel = indexPath.row;
     cell.indentationWidth = 40;
     
-    CertificateInfo *currentCert = [self.certChain objectAtIndex:indexPath.row];
     cell.textLabel.text = [Crypto getDNFromX509_NAME:currentCert.subject withNid:NID_commonName];
     
     cell.detailTextLabel.lineBreakMode = UILineBreakModeTailTruncation;
@@ -218,7 +231,6 @@
         return [resultChain autorelease];
     }
     
-    //NSLog(@"Verify result: %d", X509_verify_cert(&ctx));
     X509_verify_cert(&ctx);
     
     STACK_OF(X509) *chain = X509_STORE_CTX_get_chain(&ctx);
@@ -260,18 +272,19 @@
         {
             certImage = [UIImage imageNamed:@"cert-private-other.png"];
         }
-        //TODO: add images for other certificates statuses
-//        else if( elementType & CIP_VALID_CRL_EXPIRE )
-//        {
-//            
-//        }
-//        else if( elementType & CIP_INVALID )
-//        {
-//            
-//        }
+        else if( elementType & CIP_INSUFFICIENT_INFO )
+        {
+            //TODO: add appropriate image for status "insufficient info"
+            certImage = [UIImage imageNamed:@"cert-intermediate-invalid.png"];
+        }
+        else if( elementType & CIP_INVALID )
+        {
+            certImage = [UIImage imageNamed:@"cert-intermediate-invalid.png"];
+        }
     }
     else if( elementType & CIP_OTHER )
     {
+        //TODO: add images for other certificates statuses
         if( elementType & CIP_VALID )
         {
             certImage = [UIImage imageNamed:@"cert-valid.png"];
@@ -290,6 +303,12 @@
         {
             certImage = [UIImage imageNamed:@"cert-root.png"];
         }
+    }
+    
+    if( !certImage )
+    {
+        //TODO: add image with "insufficient info" status
+        certImage = [UIImage imageNamed:@"cert-intermediate-invalid.png"];
     }
     
     if( CIP_WITH_CHAIN_CONNECTOR & elementType )

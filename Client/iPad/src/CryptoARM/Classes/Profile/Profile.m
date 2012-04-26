@@ -116,7 +116,6 @@
     return [result autorelease];
 }
 
-//TODO: move to utils?
 + (NSString*)certificateIdForValidationFromCert:(CertificateInfo*)cert
 {
     NSString *subject = [Profile getDnStringInMSStyle:cert.subject];

@@ -1,11 +1,22 @@
 
 #import "CertDetailViewController.h"
 
+#import "CertMenuModel.h"
+#import "CheckStatusDialogViewController.h"
+
+#define ACT_INDICATOR_SIZE 60
+
 @implementation CertDetailViewController
+
 @synthesize textColor, arrayOU, certInfo, autoresizingMask;
 @synthesize tableHeader;
 @synthesize parentStore;
 @synthesize chainPopover;
+
+@synthesize crlLoadingConnection;
+@synthesize cdpList;
+@synthesize activityView;
+@synthesize crlData;
 
 #pragma mark - Memory management
 
@@ -464,9 +475,9 @@
 
 - (void)chainButtonAction:(id)sender
 {
-    if( parentController )
+    if( parentNavController )
     {
-        [parentController dismissPopovers];
+        [parentNavController dismissPopovers];
     }
     
     if( !self.chainPopover )
@@ -487,7 +498,7 @@
 
 - (void)setParentNavigationController:(UIViewController*)navController
 {
-    parentController = (DetailNavController*)navController;
+    parentNavController = (DetailNavController*)navController;
 }
 
 - (BOOL)preserveController
@@ -509,12 +520,11 @@
     
     settingsMenu = [[SettingsMenuSource alloc] initWithTitle:NSLocalizedString(@"CERT_MANAGE_CERTIFICATE", @"Управление сертификатом")];
     
-    NSString *strVal = NSLocalizedString(@"CERT_CHECK_CERT_STATUS", @"Проверить статус");
-    [settingsMenu addMenuItem:strVal withAction:nil forTarget:nil];
-    [settingsMenu addMenuItem:NSLocalizedString(@"CERT_EXPORT_CERTIFICATE", @"Экспорт сертификата") withAction:nil forTarget:nil];
-    [settingsMenu addMenuItem:NSLocalizedString(@"CERT_SEND_CERT_BY_EMAIL", @"Отправить по E-Mail") withAction:nil forTarget:nil];
-    [settingsMenu addMenuItem:NSLocalizedString(@"CERT_PRINT_CERTIFICATE", @"Печать сертификата") withAction:nil forTarget:nil];
-    [settingsMenu addMenuItem:NSLocalizedString(@"CERT_DELETE_CERTIFICATE", @"Удалить сертификат") withAction:nil forTarget:nil];
+    [settingsMenu addMenuItem:NSLocalizedString(@"CERT_CHECK_CERT_STATUS", @"Проверить статус") withAction:@selector(actionForCheckStatus) forTarget:self];
+    [settingsMenu addMenuItem:NSLocalizedString(@"CERT_EXPORT_CERTIFICATE", @"Экспорт сертификата") withAction:@selector(actionForExportingCert) forTarget:self];
+    [settingsMenu addMenuItem:NSLocalizedString(@"CERT_SEND_CERT_BY_EMAIL", @"Отправить по E-Mail") withAction:@selector(actionForSendByEMail) forTarget:self];
+    [settingsMenu addMenuItem:NSLocalizedString(@"CERT_PRINT_CERTIFICATE", @"Печать сертификата") withAction:@selector(actionForPrintCertificate) forTarget:self];
+    [settingsMenu addMenuItem:NSLocalizedString(@"CERT_DELETE_CERTIFICATE", @"Удалить сертификат") withAction:@selector(actionForRemoveCertificate) forTarget:self];
 }
 
 - (void)dismissPopovers
@@ -527,29 +537,33 @@
 
 - (Class)getSavingObjcetClass
 {
-    //TODO: implement, if necessary
-    return [self class];
+    return [CertMenuModel class];
 }
 
 - (id<MenuDataRefreshinProtocol>)createSavingObject
 {
-    //TODO: implement, if necessary
-    return nil;
+    if( !self.parentStore )
+    {
+        NSLog(@"Error: Unable create saving object for certificate without information about store.");
+        return nil;
+    }
+    
+    return [[[CertMenuModel alloc] initWithStore:self.parentStore] autorelease];
 }
 
 #pragma mark - Cert hcain view delegate
 
 - (void)pushCert:(CertificateInfo*)cert
 {
-    if( !parentController || !cert )
+    if( !parentNavController || !cert )
     {
         return;
     }
     
     CertDetailViewController *nextCertViewcontroller = [[CertDetailViewController alloc] initWithCertInfo:cert];
 
-    nextCertViewcontroller.parentNavigationController = parentController;
-    [parentController pushNavController:nextCertViewcontroller];
+    nextCertViewcontroller.parentNavigationController = parentNavController;
+    [parentNavController pushNavController:nextCertViewcontroller];
     
     [nextCertViewcontroller release];
 
@@ -557,6 +571,251 @@
     {
         [chainPopover dismissPopoverAnimated:YES];
     }
+}
+
+#pragma mark - Alert view delegate
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if( 0 == buttonIndex )
+    {
+        return;
+    }
+    
+    CertMenuModel *certSaver = (CertMenuModel*)[self getSavingObject];
+    if( certSaver )
+    {
+        [certSaver removeElement:self.certInfo];
+        
+        if( 2 == buttonIndex )
+        {
+            [certSaver removeElement:self.certInfo.privateKeyId];
+        }
+    }
+    
+    [parentNavController.navCtrlr popViewControllerAnimated:YES];
+    [parentNavController refreshMenuData];
+}
+
+#pragma mark - Check status dialog delegate
+
+- (void)statusVerifying:(BOOL)notCancelled withParameters:(int)verifyingParameters;
+{
+    [self dismissModalViewControllerAnimated:YES];
+    
+    if( !notCancelled )
+    {
+        return;
+    }
+    
+    if( !( verifyingParameters & CCT_ONLINE_CRL ) )
+    {
+        //simple verification
+        [self.tableHeader updateCertStatus:[self.certInfo verify]];
+        [parentNavController refreshMenuData];
+        return;
+    }
+    
+    self.cdpList = [NSMutableArray arrayWithArray:self.certInfo.cdpURLs];
+    
+    if( !self.cdpList || !self.cdpList.count )
+    {
+        NSString *title = NSLocalizedString(@"CERT_CHECK_STATUS_ERROR", @"Ошибка проверки статуса");
+        NSString *message = NSLocalizedString(@"CERT_UNABLE_LOAD_CRL", @"Не удалось загрузить СОС");
+        
+        UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        
+        [messageDialog show];
+        [messageDialog release];
+        
+        return;
+    }
+    
+    //setting up activity indicator
+    if( !self.activityView )
+    {
+        UIView *transparentView = [[UIView alloc] initWithFrame:self.view.bounds];
+        UIActivityIndicatorView *actIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        
+        transparentView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.33];
+        actIndicator.frame = CGRectMake(transparentView.bounds.size.width/2 - ACT_INDICATOR_SIZE/2, transparentView.bounds.size.height/2 - ACT_INDICATOR_SIZE/2, ACT_INDICATOR_SIZE, ACT_INDICATOR_SIZE);
+        [actIndicator startAnimating];
+        
+        [transparentView addSubview:actIndicator];
+        self.activityView = transparentView;
+        
+        [actIndicator release];
+        [transparentView release];
+    }
+    else
+    {
+        self.activityView.frame = self.view.bounds;
+    }
+    
+    [self.view addSubview:self.activityView];
+    self.view.userInteractionEnabled = NO;
+
+    [self startNextCrlLoadingFromCdpList];
+}
+
+- (void)startNextCrlLoadingFromCdpList
+{
+    if( !self.cdpList || !self.cdpList.count )
+    {
+        NSLog(@"Error: startNextCrlLoadingFromCdpList called with empty or nil CDP list (%@)", self.cdpList);
+        return;
+    }
+
+    // Create asynchronous connection
+    NSString *currentUrl = [self.cdpList objectAtIndex:0];
+    NSURLConnection *tmpConnection = [[NSURLConnection alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:currentUrl]] delegate:self];
+    
+    self.crlLoadingConnection = tmpConnection;
+    [tmpConnection release];
+    
+    [self.cdpList removeObject:currentUrl];
+}
+
+#pragma mark - URL connection delegate
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    if( !self.crlData )
+    {
+        self.crlData = [NSMutableData data];
+    }
+    
+    [self.crlData appendData:data];
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    NSLog(@"Error while loadin CRL: %@", error);
+    self.crlData = nil;
+    
+    if( self.cdpList && self.cdpList.count )
+    {
+        [self startNextCrlLoadingFromCdpList];
+        return;
+    }
+    else
+    {
+        self.cdpList = nil;
+    }
+    
+    [self.activityView removeFromSuperview];
+    self.view.userInteractionEnabled = YES;
+    
+    NSString *title = NSLocalizedString(@"CERT_CHECK_STATUS_ERROR", @"Ошибка проверки статуса");
+    NSString *message = NSLocalizedString(@"CERT_FAIL_TO_LOAD_CRL", @"Не удалось загрузить СОС");
+    
+    UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    
+    [messageDialog show];
+    [messageDialog release];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    // install loaded CRL
+    {
+        X509_CRL *tmpCrl = NULL;
+        const unsigned char *crlDataBuffer = self.crlData.bytes;
+        X509_CRL *decodedCrl = d2i_X509_CRL(&tmpCrl, &crlDataBuffer, self.crlData.length);
+        if( !decodedCrl )
+        {
+            BIO *bioCRL = BIO_new_mem_buf((void*)self.crlData.bytes, self.crlData.length);
+            decodedCrl = PEM_read_bio_X509_CRL(bioCRL, NULL, NULL, NULL);
+        }
+        
+        if( decodedCrl )
+        {
+            [CertificateStore addCRL:decodedCrl];
+        }
+    }
+    
+    // verify certificate and update status
+    [self.tableHeader updateCertStatus:[self.certInfo verify]];
+    [parentNavController refreshMenuData];
+
+    // remove activity indicator
+    self.crlData = nil;
+    [self.activityView removeFromSuperview];
+    self.view.userInteractionEnabled = YES;
+}
+
+#pragma mark - Actions
+
+- (void)actionForCheckStatus
+{
+    CheckStatusDialogViewController *checkStatusDialog = [[CheckStatusDialogViewController alloc] initWithCertificate:self.certInfo];
+    
+    checkStatusDialog.delegate = self;
+    checkStatusDialog.modalPresentationStyle = UIModalPresentationFormSheet;
+    
+    [self presentModalViewController:checkStatusDialog animated:YES];
+    [checkStatusDialog release];
+}
+
+- (void)actionForExportingCert
+{
+    //TODO: implement
+    NSLog(@"actionForExportingCert");
+}
+
+- (void)actionForSendByEMail
+{
+    //TODO: implement
+    NSLog(@"actionForSendByEMail");
+}
+
+- (void)actionForPrintCertificate
+{
+    NSLog(@"actionForPrintCertificate");
+}
+
+- (void)actionForRemoveCertificate
+{
+    NSString *removeCertDialogTitle = NSLocalizedString(@"CERT_DEL_CERT_DLG_TITLE", @"Удаление сертификата");
+    NSString *removeCertDialogDescription = NSLocalizedString(@"CERT_DEL_CERT_DLG_DESCRIPTION", @"Будет произведено удаление сертификата из хранилища %@. Продолжить?");
+    NSString *storageNameForDescription = nil;
+    
+    switch (self.parentStore.storeType) {
+        case CST_MY:
+            storageNameForDescription = NSLocalizedString(@"CERT_DEL_CERT_DLG_STORE_DESCR_MY", @"личных сертификатов");
+            break;
+            
+        case CST_ADDRESS_BOOK:
+            storageNameForDescription = NSLocalizedString(@"CERT_DEL_CERT_DLG_STORE_DESCR_ADDR_BOOK", @"сертификатов других пользователей");
+            break;
+            
+        case CST_CA:
+            storageNameForDescription = NSLocalizedString(@"CERT_DEL_CERT_DLG_STORE_DESCR_CA", @"промежуточных центров сертификации");
+            break;
+            
+        case CST_ROOT:
+            storageNameForDescription = NSLocalizedString(@"CERT_DEL_CERT_DLG_STORE_DESCR_ROOT", @"корневых центров сертификации");
+            break;
+            
+        default:
+            storageNameForDescription = @"";
+            break;
+    }
+    
+    NSString *removeDialogFullDescription = [NSString stringWithFormat:removeCertDialogDescription, storageNameForDescription];
+    
+    UIAlertView *alertDialog = [[UIAlertView alloc] initWithTitle:removeCertDialogTitle message:removeDialogFullDescription delegate:nil cancelButtonTitle:NSLocalizedString(@"NO", @"Нет") otherButtonTitles:NSLocalizedString(@"YES", @"Да"), nil];
+    
+    NSData *keyId = self.certInfo.privateKeyId;
+    if( keyId && keyId.length )
+    {
+        [alertDialog addButtonWithTitle:NSLocalizedString(@"CERT_DEL_CERT_DLG_REMOVE_ALSO_PRIVATE_KEY", @"Удалить вместе с сертификатом закрытый ключ")];
+    }
+    
+    alertDialog.delegate = self;
+    
+    [alertDialog show];
+    [alertDialog release];
 }
 
 @end

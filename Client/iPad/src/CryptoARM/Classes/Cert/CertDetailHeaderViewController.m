@@ -57,21 +57,12 @@
         self.headerTable.backgroundView = nil;
     }
     
-    //Draw certificate status image
-    switch ([self getCertStatus]) {
-        case 0:
-            self.statusImage.image = [UIImage imageNamed:@"cert-valid.png"];
-            break;
-            
-        default:
-            break;
-    }
+    [self updateCertStatus];
     
     // Certificate private key displaying
     // TODO: create interface for private key?
-    int idLength = 0;
-    unsigned char *keyIdData = X509_keyid_get0(self.cert.x509, &idLength);
-    if( keyIdData )
+    NSData *keyId = self.cert.privateKeyId;
+    if( keyId && keyId.length )
     {
         if( !self.store )
         {
@@ -84,8 +75,8 @@
         OPENSSL_ITEM attrs[2] = {0};
         
         attrs[0].code = STORE_ATTR_KEYID;
-        attrs[0].value = (void*)keyIdData;
-        attrs[0].value_size = idLength;
+        attrs[0].value = (void*)keyId.bytes;
+        attrs[0].value_size = keyId.length;
         attrs[1].code = STORE_ATTR_END;
         
         EVP_PKEY *keyFromStore = STORE_get_private_key(self.store.store, attrs, params);
@@ -119,7 +110,7 @@
             }
             else //if( resultVal == -1 )
             {
-                self.keyIdentifier = [Utils hexDataToString:keyIdData length:idLength isNeedSpacing:1];
+                self.keyIdentifier = [Utils hexDataToString:(unsigned char*)keyId.bytes length:keyId.length isNeedSpacing:1];
             }
             
             [nameBuffer release];
@@ -186,7 +177,10 @@
             cell.textLabel.text = @"Статус сертификата";
             
             UILabel *statusLabel = [[UILabel alloc] init];
-            statusLabel.text = [self getCertStatusDescription];
+            //TODO: for full description
+            //       - send YES to withDetails parameter
+            //       - fix status label width in table header for long description
+            statusLabel.text = [CertificateInfo getCertStatusDescriptionForCertStatus:currentCertStatus withDetails:NO];
             
             CGSize stringSize = [statusLabel.text sizeWithFont:statusLabel.font];
             statusLabel.frame = CGRectMake(0, 0, stringSize.width, stringSize.height);
@@ -271,26 +265,35 @@
 
 #pragma mark - status functions
 
-- (NSInteger)getCertStatus
+- (void)updateCertStatus
 {
-    //TODO: Implement - return status value after verifying? or remove method and use method from CertificateInfo
-    return 0;
+    [self updateCertStatus:[self.cert verify]];
 }
 
-- (NSString*)getCertStatusDescription
+- (void)updateCertStatus:(int)certStatus
 {
-    NSInteger certStatus = [self getCertStatus];
+    currentCertStatus = certStatus;
     
-    switch (certStatus) {
-        case 0:
-            return @"Действителен";
+    //Draw certificate status image
+    switch ([CertificateInfo simplifyedStatusByDetailedStatus:currentCertStatus]) {
+        // Valid
+        case CSS_VALID:
+            self.statusImage.image = [UIImage imageNamed:@"cert-valid.png"];
             break;
             
+        // Invalid
+        case CSS_INVALID:
+            self.statusImage.image = [UIImage imageNamed:@"cert-invalid.png"];
+            break;
+            
+        // Insufficient info
+        case CSS_INSUFFICIENT_INFO:
         default:
+            self.statusImage.image = [UIImage imageNamed:@"cert-invalid.png"];
             break;
     }
     
-    return @"Статус неизвестен";
+    [self.headerTable reloadData];
 }
 
 @end

@@ -16,6 +16,8 @@
 // status
 "CERT_STATUS" = "Статус сертификата";
 "CERT_VALID" = "Действителен";
+"CERT_INVALID" = "Не действителен";
+"CERT_UNKNOWN_STATUS" = "Статус неизвестен";
 
 "CERT_TITLE" = "Сертификат";
 "CERT_WHO_ISSUED" = "Кем выдан";
@@ -55,6 +57,20 @@
 "CERT_SEND_CERT_BY_EMAIL" = "Отправить по E-Mail";
 "CERT_PRINT_CERTIFICATE" = "Печать сертификата";
 "CERT_DELETE_CERTIFICATE" = "Удалить сертификат";
+
+"CERT_DEL_CERT_DLG_TITLE" = "Удаление сертификата";
+"CERT_DEL_CERT_DLG_DESCRIPTION" = "Будет произведено удаление сертификата из хранилища %@. Продолжить?";
+"CERT_DEL_CERT_DLG_STORE_DESCR_MY" = "личных сертификатов";
+"CERT_DEL_CERT_DLG_STORE_DESCR_ADDR_BOOK" = "сертификатов других пользователей";
+"CERT_DEL_CERT_DLG_STORE_DESCR_CA" = "промежуточных центров сертификации";
+"CERT_DEL_CERT_DLG_STORE_DESCR_ROOT" = "корневых центров сертификации";
+"CERT_DEL_CERT_DLG_REMOVE_ALSO_PRIVATE_KEY" = "Удалить также закрытый ключ";
+
+"CERT_CHECK_STATUS_ERROR" = "Ошибка проверки статуса";
+"CERT_UNABLE_LOAD_CRL" = "Невозможно загрузить СОС. Отсутствуют точки распространения.";
+"CERT_FAIL_TO_LOAD_CRL" = "Не удалось загрузить СОС";
+
+"CERT_CHECK_STATUS_DLG_TITLE" = "Проверка статуса сертификата";
 
 ///////////////////////////////////////////////////
 // Authority Information Access - Access methods

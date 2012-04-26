@@ -16,6 +16,12 @@
 
 #include "../Utils/Utils.h"
 
+enum CERT_SIMPLIFYED_STATUS {
+    CSS_VALID = 0,
+    CSS_INVALID = 1,
+    CSS_INSUFFICIENT_INFO = 2
+    };
+
 @interface CertificateInfo : NSObject
 {
     NSString* serialNumber;
@@ -78,5 +84,12 @@
 @property (nonatomic, assign) bool isAuthorityAccessInfoCritical;
 @property (nonatomic, assign) bool isCDPCritical;
 @property (nonatomic, assign) int keyUsage;
+
+@property (nonatomic, retain) NSData* privateKeyId;
+
+- (int)verify;
+
++ (enum CERT_SIMPLIFYED_STATUS)simplifyedStatusByDetailedStatus:(int)detailedStatus;
++ (NSString*)getCertStatusDescriptionForCertStatus:(int)certStatus withDetails:(BOOL)withDetails;
 
 @end

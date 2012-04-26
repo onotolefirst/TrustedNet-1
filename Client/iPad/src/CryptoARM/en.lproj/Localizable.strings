@@ -16,6 +16,8 @@
 // status
 "CERT_STATUS" = "Certificate status";
 "CERT_VALID" = "Valid";
+"CERT_INVALID" = "Invalid";
+"CERT_UNKNOWN_STATUS" = "Unknown status";
 
 "CERT_TITLE" = "Certificate";
 "CERT_WHO_ISSUED" = "Issuer";
@@ -55,6 +57,20 @@
 "CERT_SEND_CERT_BY_EMAIL" = "Send by E-Mail";
 "CERT_PRINT_CERTIFICATE" = "Print certificate";
 "CERT_DELETE_CERTIFICATE" = "Delete certificate";
+
+"CERT_DEL_CERT_DLG_TITLE" = "Removing certificate";
+"CERT_DEL_CERT_DLG_DESCRIPTION" = "Will be made removing the certificate from store of %@. Continue?";
+"CERT_DEL_CERT_DLG_STORE_DESCR_MY" = "personal certificates";
+"CERT_DEL_CERT_DLG_STORE_DESCR_ADDR_BOOK" = "other users certificates";
+"CERT_DEL_CERT_DLG_STORE_DESCR_CA" = "intermediate CA";
+"CERT_DEL_CERT_DLG_STORE_DESCR_ROOT" = "root certification authorities";
+"CERT_DEL_CERT_DLG_REMOVE_ALSO_PRIVATE_KEY" = "Delete also the private key";
+
+"CERT_CHECK_STATUS_ERROR" = "Error while verifying certificate";
+"CERT_UNABLE_LOAD_CRL" = "Unable to load CRL. Distribution points is absent.";
+"CERT_FAIL_TO_LOAD_CRL" = "Faild to load CRL.";
+
+"CERT_CHECK_STATUS_DLG_TITLE" = "Certificate status verification";
 
 ///////////////////////////////////////////////////
 // Authority Information Access - Access methods

@@ -34,11 +34,28 @@
         {
             indexedImages = [[NSMutableDictionary alloc] initWithCapacity:2];
             
-            UIImage *tmpImage = [Utils constructImageWithIcon:[UIImage imageNamed:@"cert-valid.png"] andAccessoryIcon:[UIImage imageNamed:@"checked.PNG"]];
-            [indexedImages setObject:tmpImage forKey:[NSNumber numberWithInt:II_CHECKED_VALID]];
-            
-            tmpImage = [Utils constructImageWithIcon:[UIImage imageNamed:@"cert-valid.png"] andAccessoryIcon:[UIImage imageNamed:@"unchecked.PNG"]];
-            [indexedImages setObject:tmpImage forKey:[NSNumber numberWithInt:II_UNCHECKED_VALID]];
+            {
+                //TODO: add appropriate images for certificates
+                UIImage *tmpImage = [Utils constructImageWithIcon:[UIImage imageNamed:@"cert-valid.png"] andAccessoryIcon:[UIImage imageNamed:@"checked.PNG"]];
+                [indexedImages setObject:tmpImage forKey:[NSNumber numberWithInt:(IF_VALID | IF_CHECKED)]];
+                
+                tmpImage = [Utils constructImageWithIcon:[UIImage imageNamed:@"cert-valid.png"] andAccessoryIcon:[UIImage imageNamed:@"unchecked.PNG"]];
+                [indexedImages setObject:tmpImage forKey:[NSNumber numberWithInt:IF_VALID]];
+                
+                
+                tmpImage = [Utils constructImageWithIcon:[UIImage imageNamed:@"cert-invalid.png"] andAccessoryIcon:[UIImage imageNamed:@"checked.PNG"]];
+                [indexedImages setObject:tmpImage forKey:[NSNumber numberWithInt:(IF_INVALID | IF_CHECKED)]];
+                
+                tmpImage = [Utils constructImageWithIcon:[UIImage imageNamed:@"cert-invalid.png"] andAccessoryIcon:[UIImage imageNamed:@"unchecked.PNG"]];
+                [indexedImages setObject:tmpImage forKey:[NSNumber numberWithInt:IF_INVALID]];
+                
+                
+                tmpImage = [Utils constructImageWithIcon:[UIImage imageNamed:@"cert-invalid.png"] andAccessoryIcon:[UIImage imageNamed:@"checked.PNG"]];
+                [indexedImages setObject:tmpImage forKey:[NSNumber numberWithInt:(IF_UNKNOWN | IF_CHECKED)]];
+                
+                tmpImage = [Utils constructImageWithIcon:[UIImage imageNamed:@"cert-invalid.png"] andAccessoryIcon:[UIImage imageNamed:@"unchecked.PNG"]];
+                [indexedImages setObject:tmpImage forKey:[NSNumber numberWithInt:IF_UNKNOWN]];
+            }
             
             NSMutableArray *certsFromProfile;
             if( SCPT_RECIEVERS_CERTS == pageType)
@@ -299,23 +316,51 @@
     switch (pageType) {
         case SCPT_SIGN_CERT:
         case SCPT_ENCRYPT_CERT:
-            //TODO: check certificate status and draw appropriate image
-            [cell.imageView setImage:[UIImage imageNamed:@"cert-valid.png"]];
+            switch ([CertificateInfo simplifyedStatusByDetailedStatus:[currentCert verify]])
+            {
+                case CSS_VALID:
+                    [cell.imageView setImage:[UIImage imageNamed:@"cert-valid.png"]];
+                    break;
+                    
+                case CSS_INVALID:
+                    [cell.imageView setImage:[UIImage imageNamed:@"cert-invalid.png"]];
+                    break;
+                    
+                case CSS_INSUFFICIENT_INFO:
+                default:
+                    [cell.imageView setImage:[UIImage imageNamed:@"cert-invalid.png"]];
+                    break;
+            }
             break;
             
         case SCPT_RECIEVERS_CERTS:
         case SCPT_VALIDATION_CERTS:
         {
             //TODO: check certificate status and draw appropriate image
+            int imageFlags = 0;
             NSUInteger mappedIndex = isFiltered ? certIndex.intValue : indexPath.row;
             if( [[self currentStoreSelectedCertsIndex] containsIndex:mappedIndex] )
             {
-                cell.imageView.image = [indexedImages objectForKey:[NSNumber numberWithInt:II_CHECKED_VALID]];
+                imageFlags |= IF_CHECKED;
             }
-            else
+            
+            switch ([CertificateInfo simplifyedStatusByDetailedStatus:[currentCert verify]])
             {
-                cell.imageView.image = [indexedImages objectForKey:[NSNumber numberWithInt:II_UNCHECKED_VALID]];
+                case CSS_VALID:
+                    imageFlags |= IF_VALID;
+                    break;
+                    
+                case CSS_INVALID:
+                    imageFlags |= IF_INVALID;
+                    break;
+                    
+                case CSS_INSUFFICIENT_INFO:
+                default:
+                    imageFlags |= IF_UNKNOWN;
+                    break;
             }
+            
+            cell.imageView.image = [indexedImages objectForKey:[NSNumber numberWithInt:imageFlags]];
         }
             break;
             

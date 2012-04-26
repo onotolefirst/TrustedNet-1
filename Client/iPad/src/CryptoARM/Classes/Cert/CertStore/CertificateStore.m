@@ -38,6 +38,8 @@
     [super dealloc];
 }
 
+#pragma mark - Working with certificates
+
 - (STACK_OF(X509)*)x509Certificates
 {
     if( (CST_MY == storeType) || (CST_ADDRESS_BOOK == storeType) || (CST_CA == storeType) || (CST_ROOT == storeType) )
@@ -135,23 +137,47 @@
     }
 }
 
-//TODO: method not tested
 - (void)removeCertificate:(X509*)removingCert
 {
-    int keyIdLen = -1;
-    unsigned char *keyId = X509_keyid_get0(removingCert, &keyIdLen);
-
     BIGNUM *serialInBignum = ASN1_INTEGER_to_BN(removingCert->cert_info->serialNumber, NULL);
     
     OPENSSL_ITEM attrs[] = {
-        {STORE_ATTR_KEYID, keyId, keyIdLen },
-        {STORE_ATTR_ISSUERKEYID, removingCert->cert_info->issuerUID->data, removingCert->cert_info->issuerUID->length},
-        {STORE_ATTR_SUBJECTKEYID, removingCert->cert_info->subjectUID->data, removingCert->cert_info->subjectUID->length},
         {STORE_ATTR_ISSUER, removingCert->cert_info->issuer, sizeof(removingCert->cert_info->issuer)},
-        {STORE_ATTR_ISSUER, removingCert->cert_info->subject, sizeof(removingCert->cert_info->subject)},
+        {STORE_ATTR_SUBJECT, removingCert->cert_info->subject, sizeof(removingCert->cert_info->subject)},
         {STORE_ATTR_SERIAL, serialInBignum, sizeof(BIGNUM)},
+        {STORE_ATTR_END},
+        {STORE_ATTR_END},
+        {STORE_ATTR_END},
         {STORE_ATTR_END}
     };
+    
+    int keyIdLen = -1;
+    unsigned char *keyId = X509_keyid_get0(removingCert, &keyIdLen);
+    
+    int currentAttrsCount = 3;
+    if( keyId )
+    {
+        attrs[currentAttrsCount].code = STORE_ATTR_KEYID;
+        attrs[currentAttrsCount].value = keyId;
+        attrs[currentAttrsCount].value_size = keyIdLen;
+        currentAttrsCount++;
+    }
+    
+    if( removingCert->cert_info->issuerUID )
+    {
+        attrs[currentAttrsCount].code = STORE_ATTR_ISSUERKEYID;
+        attrs[currentAttrsCount].value = removingCert->cert_info->issuerUID->data;
+        attrs[currentAttrsCount].value_size = removingCert->cert_info->issuerUID->length;
+        currentAttrsCount++;
+    }
+    
+    if( removingCert->cert_info->subjectUID )
+    {
+        attrs[currentAttrsCount].code = STORE_ATTR_SUBJECTKEYID;
+        attrs[currentAttrsCount].value = removingCert->cert_info->subjectUID->data;
+        attrs[currentAttrsCount].value_size = removingCert->cert_info->subjectUID->length;
+        //currentAttrsCount++;
+    }
     
     OPENSSL_ITEM params[] = {
         {STORE_PARAM_KEY_NO_PARAMETERS}
@@ -163,6 +189,73 @@
         NSLog(@"Error while deleting certificate. Error code: %d", deleteResult);
     }
 }
+
+#pragma mark - Working with CRLs
+
+//- (void)addCRL:(X509_CRL*)newCrl
+//{
+//    OPENSSL_ITEM attrs[] = {{ STORE_ATTR_END }};
+//    OPENSSL_ITEM params[] = {{ STORE_PARAM_KEY_NO_PARAMETERS }};
+//    
+//    int addResult = STORE_store_crl(store, newCrl, attrs, params);
+//    
+//    if( !addResult )
+//    {
+//        NSLog(@"Error: unable to add certificate into store. Error code %d", addResult);
+//    }
+//}
+
++ (void)addCRL:(X509_CRL*)newCrl
+{
+    ENGINE *tmpEngine = ENGINE_by_id(CTIOSRSA_ENGINE_ID);
+    STORE *tmpStore = STORE_new_engine(tmpEngine);
+    
+    OPENSSL_ITEM attrs[] = {
+        { STORE_ATTR_END },
+        { STORE_ATTR_END },
+        { STORE_ATTR_END }
+    };
+    OPENSSL_ITEM params[] = {{ STORE_PARAM_KEY_NO_PARAMETERS }};
+
+    attrs[0].code = STORE_ATTR_ISSUER;
+    attrs[0].value = X509_CRL_get_issuer(newCrl);
+    attrs[0].value_size = sizeof(X509_NAME);
+    
+    //TODO: check whether it is necessary to set the hash value
+    attrs[1].code = STORE_ATTR_CERTHASH;
+    attrs[1].value = (void*)[Utils hexDataToString:newCrl->sha1_hash length:20 isNeedSpacing:false].UTF8String;
+    attrs[1].value_size = strlen(attrs[1].value);
+    
+    int addResult = STORE_store_crl(tmpStore, newCrl, attrs, params);
+    
+    if( !addResult )
+    {
+        NSLog(@"Error: unable to add CRL into store. Error code %d", addResult);
+    }
+    
+    STORE_free(tmpStore);
+    ENGINE_free(tmpEngine);
+}
+
+#pragma mark - Working with private keys
+
+- (void)removePrivateKeyById:(NSData*)privKeyId
+{
+    OPENSSL_ITEM removingKeyAttrs[] = {
+        { STORE_ATTR_KEYID, (void*)privKeyId.bytes, privKeyId.length },
+        { STORE_ATTR_END }
+    };
+    
+    OPENSSL_ITEM emptyParams[] = {{STORE_PARAM_KEY_NO_PARAMETERS}};
+    
+    int keyDelResult = STORE_delete_private_key(self.store, removingKeyAttrs, emptyParams);
+    if( keyDelResult != 0 )
+    {
+        NSLog(@"Key deletion result: %d", keyDelResult);
+    }
+}
+
+#pragma mark - Utility functions
 
 + (const char*)storeNameByTypeId:(enum CERT_STORE_TYPE)typeId
 {

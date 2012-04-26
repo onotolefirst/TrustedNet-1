@@ -27,9 +27,11 @@ enum ENM_SCOPE_VALUE_INDEX {
     SVI_VALID_TO = 3
     };
 
-enum ENM_IMAGE_INDEX {
-    II_CHECKED_VALID = 1,
-    II_UNCHECKED_VALID = 2
+enum ENM_IMAGE_FLAGS {
+    IF_CHECKED = 1,
+    IF_VALID = 2,
+    IF_INVALID = 4,
+    IF_UNKNOWN = 8
     };
 
 @interface SelectCertViewController : CommonDetailController <NavigationSource, UITableViewDataSource, UITableViewDelegate, UISearchDisplayDelegate, SettingsMenuSourceDelegate>

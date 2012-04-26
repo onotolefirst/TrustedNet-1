@@ -35,12 +35,22 @@ enum CERT_STORE_TYPE {
 @property (readonly) enum CERT_STORE_TYPE storeType;
 
 - (id)initWithStoreType:(enum CERT_STORE_TYPE)storeType;
+//TODO: make ancestor class or protocol for supporting other store types
 //initWithFileStore
 //initWithAddressBook
 
 - (void)addCertificate:(X509*)newCert;
 - (void)removeCertificate:(X509*)removingCert;
 //- (void)modifyCertificate:...
+
+//- (void)addCRL:(X509_CRL*)newCrl;
++ (void)addCRL:(X509_CRL*)newCrl;
+//- (void)removeCRL:...
+//- (void)modidfyCRL:...
+
+//- (void)addPrivateKey:...
+- (void)removePrivateKeyById:(NSData*)privKeyId;
+//- (void)modifyPrivateKey:...
 
 + (const char*)storeNameByTypeId:(enum CERT_STORE_TYPE)typeId;
 

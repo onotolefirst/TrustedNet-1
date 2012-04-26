@@ -25,11 +25,12 @@
 
 #include "CertificateStore.h"
 
-@interface CertMenuModel : CommonNavigationItem
+@interface CertMenuModel : CommonNavigationItem <MenuDataRefreshinProtocol>
 
 @property (nonatomic, retain) CertificateStore *store;
 @property (nonatomic, retain) NSArray *certArray;
 
 - (id) initWithStoreType:(enum CERT_STORE_TYPE)initType;
+- (id) initWithStore:(CertificateStore*)newStore;
 
 @end

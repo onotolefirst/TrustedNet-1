@@ -189,6 +189,8 @@
     return [usageHelper checkUsageWithId:checkingUsage.usageId] != nil;
 }
 
+#pragma mark - Filtering
+
 - (BOOL)filterable
 {
     return YES;

@@ -63,6 +63,8 @@
 		B301B03414723F2E00344993 /* CertUsageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B301B03214723F2E00344993 /* CertUsageViewController.m */; };
 		B301B03514723F2E00344993 /* CertUsageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B301B03314723F2E00344993 /* CertUsageViewController.xib */; };
 		B302490814D7D4470054013C /* ParametersPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = B302490614D7D4470054013C /* ParametersPanel.m */; };
+		B3038184153E9D5B0043CFE8 /* CheckStatusDialogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3038182153E9D5B0043CFE8 /* CheckStatusDialogViewController.m */; };
+		B3038185153E9D5B0043CFE8 /* CheckStatusDialogViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B3038183153E9D5B0043CFE8 /* CheckStatusDialogViewController.xib */; };
 		B303EE631513210B0060DE59 /* SelectAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = B303EE621513210B0060DE59 /* SelectAlgorithm.m */; };
 		B3045902152AEEFE00BD9BB8 /* key.png in Resources */ = {isa = PBXBuildFile; fileRef = B30458F8152AEEFE00BD9BB8 /* key.png */; };
 		B305091614FCFA4400EF1313 /* PolicyProfileHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B305091514FCFA4400EF1313 /* PolicyProfileHelper.m */; };
@@ -256,6 +258,10 @@
 		B301B03314723F2E00344993 /* CertUsageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CertUsageViewController.xib; path = Classes/CertUsage/CertUsageViewController.xib; sourceTree = "<group>"; };
 		B302490514D7D4470054013C /* ParametersPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParametersPanel.h; path = Classes/Profile/ParametersPanel.h; sourceTree = "<group>"; };
 		B302490614D7D4470054013C /* ParametersPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ParametersPanel.m; path = Classes/Profile/ParametersPanel.m; sourceTree = "<group>"; };
+		B3038181153E9D5B0043CFE8 /* CheckStatusDialogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheckStatusDialogViewController.h; path = Classes/Cert/CheckStatusDialogViewController.h; sourceTree = "<group>"; };
+		B3038182153E9D5B0043CFE8 /* CheckStatusDialogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CheckStatusDialogViewController.m; path = Classes/Cert/CheckStatusDialogViewController.m; sourceTree = "<group>"; };
+		B3038183153E9D5B0043CFE8 /* CheckStatusDialogViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CheckStatusDialogViewController.xib; path = Classes/Cert/CheckStatusDialogViewController.xib; sourceTree = "<group>"; };
+		B3038186153EA3340043CFE8 /* CheckStatusDialogViewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheckStatusDialogViewControllerDelegate.h; path = Classes/Cert/CheckStatusDialogViewControllerDelegate.h; sourceTree = "<group>"; };
 		B303EE611513210B0060DE59 /* SelectAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectAlgorithm.h; path = Classes/Profile/SelectAlgorithm.h; sourceTree = "<group>"; };
 		B303EE621513210B0060DE59 /* SelectAlgorithm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectAlgorithm.m; path = Classes/Profile/SelectAlgorithm.m; sourceTree = "<group>"; };
 		B30458F8152AEEFE00BD9BB8 /* key.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = key.png; path = Resources/Images/doc_icons/key.png; sourceTree = "<group>"; };
@@ -600,6 +606,27 @@
 			name = Detail;
 			sourceTree = "<group>";
 		};
+		B303817E153E98550043CFE8 /* Check status dialog */ = {
+			isa = PBXGroup;
+			children = (
+				B3038181153E9D5B0043CFE8 /* CheckStatusDialogViewController.h */,
+				B3038182153E9D5B0043CFE8 /* CheckStatusDialogViewController.m */,
+				B3038183153E9D5B0043CFE8 /* CheckStatusDialogViewController.xib */,
+				B3038186153EA3340043CFE8 /* CheckStatusDialogViewControllerDelegate.h */,
+			);
+			name = "Check status dialog";
+			sourceTree = "<group>";
+		};
+		B3038180153E98700043CFE8 /* Certificate chain */ = {
+			isa = PBXGroup;
+			children = (
+				B3F7A70D1535697000E86771 /* CertChainViewController.h */,
+				B3F7A70E1535697000E86771 /* CertChainViewController.m */,
+				B310FC581536C7810069D12F /* CertChainViewDelegate.h */,
+			);
+			name = "Certificate chain";
+			sourceTree = "<group>";
+		};
 		B3058C0F149A0E98008A3F8C /* KissXML */ = {
 			isa = PBXGroup;
 			children = (
@@ -741,9 +768,8 @@
 				73F74E311495FFAA003DD7C1 /* CertListPopoverViewController.h */,
 				73F74E321495FFAA003DD7C1 /* CertListPopoverViewController.m */,
 				73F74E331495FFAA003DD7C1 /* CertListPopoverViewController.xib */,
-				B3F7A70D1535697000E86771 /* CertChainViewController.h */,
-				B3F7A70E1535697000E86771 /* CertChainViewController.m */,
-				B310FC581536C7810069D12F /* CertChainViewDelegate.h */,
+				B3038180153E98700043CFE8 /* Certificate chain */,
+				B303817E153E98550043CFE8 /* Check status dialog */,
 			);
 			name = Detail;
 			sourceTree = "<group>";
@@ -1143,6 +1169,7 @@
 				B381E7831529F69C00D7F17E /* CertDetailHeaderViewController.xib in Resources */,
 				B3045902152AEEFE00BD9BB8 /* key.png in Resources */,
 				B310FC5B153717630069D12F /* chain-element.png in Resources */,
+				B3038185153E9D5B0043CFE8 /* CheckStatusDialogViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1240,6 +1267,7 @@
 				B30830C115204B3F0063DE1A /* CertificateStore.m in Sources */,
 				B381E7821529F69C00D7F17E /* CertDetailHeaderViewController.m in Sources */,
 				B3F7A70F1535697000E86771 /* CertChainViewController.m in Sources */,
+				B3038184153E9D5B0043CFE8 /* CheckStatusDialogViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

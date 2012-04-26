@@ -28,6 +28,19 @@
     return self;
 }
 
+- (id) initWithStore:(CertificateStore*)newStore
+{
+    self = [super init];
+    
+    if( self )
+    {
+        self.store = newStore;
+        self.certArray = self.store.certificates;
+    }
+    
+    return self;
+}
+
 - (void)dealloc
 {
     [super dealloc];
@@ -69,7 +82,7 @@
     return 1;
 }
 
-- (NSInteger)mainMenuRowsInSection:(NSInteger)section{
+- (NSInteger)mainMenuRowsInSection:(NSInteger)section {
     if( self.certArray )
     {
         return self.certArray.count;
@@ -86,10 +99,8 @@
 - (UIViewController<NavigationSource>*)getDetailControllerForElementAt:(NSIndexPath*)index
 {
     CertDetailViewController *certDetail = [[CertDetailViewController alloc] initWithCertInfo:[self.certArray objectAtIndex:index.row]];
-    if( self.store.storeType == CST_MY )
-    {
-        certDetail.parentStore = self.store;
-    }
+    certDetail.parentStore = self.store;
+    
     return [certDetail autorelease];
 }
 
@@ -107,7 +118,23 @@
         CertificateInfo *certInfo = [self.certArray objectAtIndex:idx.row];
         
         // set cell info
-        [cellView.certImageView performSelectorOnMainThread:@selector(setImage:) withObject: [UIImage imageNamed:@"cert-valid.png"] waitUntilDone:YES];        
+        
+        switch ([CertificateInfo simplifyedStatusByDetailedStatus:[certInfo verify]]) {
+            case CSS_VALID:
+                cellView.certImageView.image = [UIImage imageNamed:@"cert-valid.png"];
+                break;
+                
+            case CSS_INVALID:
+                cellView.certImageView.image = [UIImage imageNamed:@"cert-invalid.png"];
+                break;
+                
+            case CSS_INSUFFICIENT_INFO:
+            default:
+                cellView.certImageView.image = [UIImage imageNamed:@"cert-invalid.png"];
+                break;
+        }
+        
+        
         cellView.certSubject.text = [Crypto getDNFromX509_NAME:certInfo.subject withNid:NID_commonName];
         cellView.certIssuer.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"CERT_WHO_ISSUED",
                             @"CERT_WHO_ISSUED"), [Crypto getDNFromX509_NAME:certInfo.issuer withNid:NID_commonName]];
@@ -122,5 +149,55 @@
 //{
 //    return (CommonNavigationItem *)self;
 //}
+
+#pragma mark - MenuDataRefreshinProtocol
+
+- (void)addElement:(id)newElement
+{
+    if( ![newElement isKindOfClass:[CertificateInfo class]] )
+    {
+        NSLog(@"Wrong class transmitted");
+        return;
+    }
+    
+    //TODO: implement
+}
+
+- (void)removeElement:(id)removingElement
+{
+    if( [removingElement isKindOfClass:[CertificateInfo class]] )
+    {
+        [self.store removeCertificate:((CertificateInfo*)removingElement).x509];
+        self.certArray = self.store.certificates;
+        
+        return;
+    }
+    else if( [removingElement isKindOfClass:[NSData class]] || [removingElement isKindOfClass:[NSMutableData class]] )
+    {
+        [self.store removePrivateKeyById:removingElement];
+        
+        return;
+    }
+    
+    NSLog(@"Wrong class transmitted");
+    return;
+}
+
+- (void)saveExistingElement:(id)savingElement
+{
+    if( ![savingElement isKindOfClass:[CertificateInfo class]] )
+    {
+        NSLog(@"Wrong class transmitted");
+        return;
+    }
+    
+    //TODO: implement
+}
+
+- (BOOL)checkIfExisting:(id)checkingElement
+{
+    //TODO: implement
+    return YES;
+}
 
 @end
