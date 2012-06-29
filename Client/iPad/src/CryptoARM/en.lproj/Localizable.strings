@@ -89,6 +89,10 @@
 "MM_OPERATIONAL_SETTINGS" = "Operational settings";
 "MM_CERTIFICATE_PURPOSE_REFERENCE" = "Certificate purpose reference";
 "MM_CERTIFICATE_PRINT_TEMPLATES" = "Certificate print templates";
+"MM_ALERT_OPEN_ZIP_TITLE" = "Open archive";
+"MM_ALERT_OPEN_ZIP_MESSAGE" = "Unpack entire archive and display the catalog with its elements?";
+"MM_ALERT_EXTRACT_ZIP_TITLE" = "Extracting files";
+"MM_ALERT_UNZIP_ALL_MESSAGE" = "There was no marked files in the archive.\nUnpack all files?";
 
 // Wizard section
 "WIZARD_RECIPIENTS" = "Recipients";
@@ -116,6 +120,7 @@
 "WIZARD_ORGANIZATION" = "Company";
 "WIZARD_POST" = "Job Title";
 "WIZARD_ADD_CERT" = "Add certificate";
+"WIZARD_REARCHIVE_MANAGER_TITLE" = "Adding files to the archive";
 
 // address book section
 "ADD_CERTS_FROM_STORE" = "Select other...";
@@ -129,6 +134,7 @@
 "ROOT_OPERATIONS_LOG" = "Operation log";
 "ROOT_PROGRAM_DESCRIPTION" = "About program";
 "ROOT_TECH_SUPPORT" = "Technical support";
+"ROOT_FILES_FOR_PROCESSING" = "Files for processing";
 
 // Certificate usages interface
 "CERTIFICATE_USAGE_TITLE" = "Certificate usage";
@@ -233,7 +239,45 @@
 "CERTIFICATES" = "Certificates";
 "SAVE_BUTTON_TITLE" = "Save";
 "DELETE_BUTTON_TITLE" = "Delete";
+"TYPE" = "Type";
+"CONTENT" = "Content";
+"ELEMENTS" = "elements";
+"CANCEL" = "Cancel";
+"ADD" = "Add";
 
 // ERRORs
 "UNKNOWN_ERROR_OCCURED" = "An unexpected error occurred on performing the operation";
 "UNABLE_SEND_EMAIL" = "Your device doesn't support possibility to send email";
+
+// Filetypes section
+"FILE_ARCHIVE" = "Document archive";
+"FILE_CERTIFICATE" = "certificate";
+"FILE_XML" = "operating configuration";
+"FILE_DOC" = "document Word 97-2003";
+"FILE_DOCX" = "document Word";
+"FILE_TXT" = "text file";
+"FILE_P12" = "private key kontainer";
+"FILE_P7B" = "certificate file PKCS7";
+"FILE_CRL" = "certificate revocation list";
+"FILE_RTF" = "formatted text";
+"FILE_XLS" = "list Excel 97-2003";
+"FILE_XLSX" = "list Excel";
+"FILE_PPT" = "presentation PowerPoint 97-2003";
+"FILE_PPTX" = "presentation PowerPoint";
+"FILE_BMP" = "image";
+"FILE_JPG" = "image";
+"FILE_PNG" = "pictute";
+"FILE_GIF" = "animation";
+"FILE_ACCDB" = "database Access";
+"FILE_MDB" = "database";
+"FILE_A" = "UNIX library";
+"FILE_MP3" = "audiofile";
+"FILE_MOV" = "QuickTime video";
+"FILE_AVI" = "file Windows Media";
+"FILE_PDF" = "document Adobe Acrobat";
+"FILE_SWF" = "movie Flash MX";
+"FILE_RAR" = "archive RAR";
+"FILE_EXE" = "Windows executable";
+"FILE_BAT" = "batch file MS-DOS";
+"FILE_CMD" = "batch file Windows";
+"FILE_UNKNOWN" = "unknown";

@@ -12,8 +12,7 @@
 #import "DetailNavController.h"
 
 @implementation MenuListController
-@synthesize menuModel;
-@synthesize navigationDelegate;
+@synthesize menuModel, navigationDelegate, mainSplitView;
 
 //- (id)initWithStyle:(UITableViewStyle)style
 //{
@@ -24,15 +23,21 @@
 //    return self;
 //}
 
-- (id)initWithMenuItem:(CommonNavigationItem*)menuItem
+- (id)initWithMenuItem:(CommonNavigationItem*)menuItem andSplitViewController:(MainSplitViewController *)svc
 {
     self = [super init];
     if (self) {
         // Custom initialization
         self.menuModel = menuItem;
         
+      //  if (svc)
+        {
+            self.mainSplitView = svc;//[svc copy];
+        }
+        
         searchBar = [[UISearchBar alloc] init];
         searchController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
+        [self.tableView setTableHeaderView:menuItem.tblHeaderView];
         
         if( [menuItem filterable] )
         {
@@ -52,9 +57,16 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     [searchBar release];
     [searchController release];
+    
+   // if (mainSplitView)
+    {
+    //    [mainSplitView release];
+    }
+    
     [super dealloc];
 }
 
@@ -90,7 +102,6 @@
 
 - (void)viewDidUnload
 {
-
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -169,34 +180,73 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCellAccessoryType elementType = [menuModel typeOfElementAt:indexPath];
+{        
+    NSString *strClassName = [[menuModel class] description];
     
-    //TODO: change action selection
-    if( UITableViewCellAccessoryNone == elementType )
-        return;
-    
-    if( UITableViewCellAccessoryDisclosureIndicator == elementType )
+    if ( ([strClassName isEqualToString:@"CertChainViewController"])
+        || ([strClassName isEqualToString:@"ArchiveMenuModel"])
+        || ([strClassName isEqualToString:@"MainMenuModel"]) )
     {
-        CommonNavigationItem *newItem = [menuModel submenuNavigationItemForIndex:indexPath];
-        
-        if( !newItem )
+        if ([strClassName isEqualToString:@"ArchiveMenuModel"])
         {
-            NSLog(@"Error: Unable to get submenu for this item");
-            return;
+            [(ArchiveMenuModel *)menuModel setParentNavigationController:[self navigationController]];
+            [(ArchiveMenuModel *)menuModel setNavigationDelegate:self.navigationDelegate];
+
+            [(ArchiveMenuModel *)menuModel selectRowAtIndexPath:indexPath inTableView:tableView];
         }
-        
-        if( self.navigationDelegate )
+
+        CommonNavigationItem *newItem = [menuModel submenuNavigationItemForIndex:indexPath];
+
+        if( newItem )
         {
-            [self.navigationDelegate addItem:newItem forIndex:indexPath];
+            if( self.navigationDelegate )
+            {
+                if ([strClassName isEqualToString:@"ArchiveMenuModel"])
+                {
+                    UINavigationController *mainNavigationController = [self navigationController];
+
+                    if (mainNavigationController)
+                    {
+                        // push menu subview controller(archive content table view)
+                        MenuListController *subViewController = [[MenuListController alloc] initWithMenuItem:newItem andSplitViewController:nil];
+                        subViewController.navigationDelegate = self.navigationDelegate;
+
+                        [mainNavigationController pushViewController:subViewController animated:YES];                        
+                        ArchiveMenuModel *someItem = (ArchiveMenuModel *)newItem;
+
+                        UIView *labelView = [[UIView alloc] initWithFrame:CGRectMake(500, 0, 320, 40)];
+                        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+                        [label setFont:[UIFont boldSystemFontOfSize:12.0]];
+                        [label setBackgroundColor:[UIColor clearColor]];
+                        [label setTextColor:[UIColor whiteColor]];
+                        [label setText:[someItem.strFilename lastPathComponent]];
+                        [labelView addSubview:label];
+
+                        [mainNavigationController.navigationBar.topItem setTitleView:labelView];
+                        //[mainNavigationController.navigationBar.topItem setTitle:[someItem.strFilename lastPathComponent]];
+
+                        [label release];
+                        [subViewController release];
+                    }
+                }
+                else
+                {
+                    [self.navigationDelegate addItem:newItem forIndex:indexPath];
+                }
+            }
+            else
+            {
+                NSLog(@"Warning: navigationDelegate is not setted");
+            }
         }
         else
         {
-            NSLog(@"Warning: navigationDelegate is not setted");
+            NSLog(@"Unable to get submenu for this item");
         }
     }
     
-    if( UITableViewCellAccessoryDetailDisclosureButton == elementType )
+    if ( ([strClassName isEqualToString:@"CertificateUsageMenuModel"])
+        || ([strClassName isEqualToString:@"CertMenuModel"]) )
     {
         if( self.navigationDelegate )
         {

@@ -436,4 +436,186 @@ const NSString *productGUID = @"0AA8B7A5-0B41-4B53-9B18-B38B475CE41D";
     return resultImage;
 }
 
++ (unsigned long long int)folderSize:(NSString *)folderPath
+{
+    NSFileManager *localFileManager = [[NSFileManager alloc] init];
+    NSDirectoryEnumerator *dirEnum = [localFileManager enumeratorAtPath:folderPath];
+    
+    NSString *fileName;
+    unsigned long long int fileSize = 0;
+    
+    while (fileName = [dirEnum nextObject])
+    {
+        NSError *errorAttr;
+        NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[folderPath stringByAppendingPathComponent:fileName] error:&errorAttr];
+        fileSize += [[fileAttributes objectForKey:NSFileSize] intValue];
+    }
+    
+    return fileSize;
+}
+
++ (NSString *)getFileTypeByExtension:(NSString *)strExtension outDocImageIconPath:(NSMutableString *)strPath
+{
+    if (([strExtension isEqualToString:@"zip"]) || ([strExtension isEqualToString:@"ZIP"]))
+    {
+        [strPath appendString:@"zipFolder.png"];
+        return NSLocalizedString(@"FILE_ARCHIVE", @"FILE_ARCHIVE");
+    }
+    else if ((([strExtension isEqualToString:@"cer"]) || ([strExtension isEqualToString:@"CER"])))
+    {
+        [strPath appendString:@"certificate.png"];
+        return NSLocalizedString(@"FILE_CERTIFICATE", @"FILE_CERTIFICATE");
+    }
+    else if ((([strExtension isEqualToString:@"xml"]) || ([strExtension isEqualToString:@"XML"])))
+    {
+        [strPath appendString:@"oid.png"];
+        return NSLocalizedString(@"FILE_XML", @"FILE_XML");
+    }
+    else if ((([strExtension isEqualToString:@"doc"]) || ([strExtension isEqualToString:@"DOC"])))
+    {
+        [strPath appendString:@"doc.png"];
+        return NSLocalizedString(@"FILE_DOC", @"FILE_DOC");
+    }
+    else if ((([strExtension isEqualToString:@"docx"]) || ([strExtension isEqualToString:@"DOCX"])))
+    {
+        [strPath appendString:@"zipGray.png"];
+        return NSLocalizedString(@"FILE_DOCX", @"FILE_DOCX");
+    }
+    else if ((([strExtension isEqualToString:@"txt"]) || ([strExtension isEqualToString:@"TXT"])))
+    {
+        [strPath appendString:@"txt.png"];
+        return NSLocalizedString(@"FILE_TXT", @"FILE_TXT");
+    }
+    else if ((([strExtension isEqualToString:@"p12"]) || ([strExtension isEqualToString:@"P12"])))
+    {
+        [strPath appendString:@"key.png"];
+        return NSLocalizedString(@"FILE_P12", @"FILE_P12");
+    }
+    else if ((([strExtension isEqualToString:@"pfx"]) || ([strExtension isEqualToString:@"PFX"])))
+    {
+        [strPath appendString:@"key.png"];
+        return NSLocalizedString(@"FILE_P12", @"FILE_P12");
+    }
+    else if ((([strExtension isEqualToString:@"p7b"]) || ([strExtension isEqualToString:@"P7B"])))
+    {
+        [strPath appendString:@"zipGray.png"];
+        return NSLocalizedString(@"FILE_P7B", @"FILE_P7B");
+    }
+    else if ((([strExtension isEqualToString:@"crl"]) || ([strExtension isEqualToString:@"CRL"])))
+    {
+        [strPath appendString:@"zipGray.png"];
+        return NSLocalizedString(@"FILE_CRL", @"FILE_CRL");
+    }
+    else if ((([strExtension isEqualToString:@"rtf"]) || ([strExtension isEqualToString:@"RTF"])))
+    {
+        [strPath appendString:@"zipGray.png"];
+        return NSLocalizedString(@"FILE_RTF", @"FILE_RTF");
+    }
+    else if ((([strExtension isEqualToString:@"xls"]) || ([strExtension isEqualToString:@"XLS"])))
+    {
+        [strPath appendString:@"xls.png"];
+        return NSLocalizedString(@"FILE_XLS", @"FILE_XLS");
+    }
+    else if ((([strExtension isEqualToString:@"xlsx"]) || ([strExtension isEqualToString:@"XLSX"])))
+    {
+        [strPath appendString:@"zipGray.png"];
+        return NSLocalizedString(@"FILE_XLSX", @"FILE_XLSX");
+    }
+    else if ((([strExtension isEqualToString:@"ppt"]) || ([strExtension isEqualToString:@"PPT"])))
+    {
+        [strPath appendString:@"zipGray.png"];
+        return NSLocalizedString(@"FILE_PPT", @"FILE_PPT");
+    }
+    else if ((([strExtension isEqualToString:@"pptx"]) || ([strExtension isEqualToString:@"PPTX"])))
+    {
+        [strPath appendString:@"zipGray.png"];
+        return NSLocalizedString(@"FILE_PPTX", @"FILE_PPTX");
+    }
+    else if ((([strExtension isEqualToString:@"bmp"]) || ([strExtension isEqualToString:@"BMP"])))
+    {
+        [strPath appendString:@"zipGray.png"];
+        return NSLocalizedString(@"FILE_BMP", @"FILE_BMP");
+    }
+    else if ((([strExtension isEqualToString:@"jpg"]) || ([strExtension isEqualToString:@"JPG"])))
+    {
+        [strPath appendString:@"zipGray.png"];
+        return NSLocalizedString(@"FILE_JPG", @"FILE_JPG");
+    }
+    else if ((([strExtension isEqualToString:@"png"]) || ([strExtension isEqualToString:@"PNG"])))
+    {
+        [strPath appendString:@"zipGray.png"];
+        return NSLocalizedString(@"FILE_PNG", @"FILE_PNG");
+    }
+    else if ((([strExtension isEqualToString:@"gif"]) || ([strExtension isEqualToString:@"GIF"])))
+    {
+        [strPath appendString:@"zipGray.png"];
+        return NSLocalizedString(@"FILE_GIF", @"FILE_GIF");
+    }
+    else if ((([strExtension isEqualToString:@"accdb"]) || ([strExtension isEqualToString:@"ACCDB"])))
+    {
+        [strPath appendString:@"zipGray.png"];
+        return NSLocalizedString(@"FILE_ACCDB", @"FILE_ACCDB");
+    }
+    else if ((([strExtension isEqualToString:@"mdb"]) || ([strExtension isEqualToString:@"MDB"])))
+    {
+        [strPath appendString:@"zipGray.png"];
+        return NSLocalizedString(@"FILE_MDB", @"FILE_MDB");
+    }
+    else if ((([strExtension isEqualToString:@"a"]) || ([strExtension isEqualToString:@"A"])))
+    {
+        [strPath appendString:@"zipGray.png"];
+        return NSLocalizedString(@"FILE_A", @"FILE_A");
+    }
+    else if ((([strExtension isEqualToString:@"mp3"]) || ([strExtension isEqualToString:@"MP3"])))
+    {
+        [strPath appendString:@"zipGray.png"];
+        return NSLocalizedString(@"FILE_MP3", @"FILE_MP3");
+    }
+    else if ((([strExtension isEqualToString:@"mov"]) || ([strExtension isEqualToString:@"MOV"])))
+    {
+        [strPath appendString:@"zipGray.png"];
+        return NSLocalizedString(@"FILE_MOV", @"FILE_MOV");
+    }
+    else if ((([strExtension isEqualToString:@"avi"]) || ([strExtension isEqualToString:@"AVI"])))
+    {
+        [strPath appendString:@"zipGray.png"];
+        return NSLocalizedString(@"FILE_AVI", @"FILE_AVI");
+    }
+    else if ((([strExtension isEqualToString:@"pdf"]) || ([strExtension isEqualToString:@"PDF"])))
+    {
+        [strPath appendString:@"zipGray.png"];
+        return NSLocalizedString(@"FILE_PDF", @"FILE_PDF");
+    }
+    else if ((([strExtension isEqualToString:@"swf"]) || ([strExtension isEqualToString:@"SWF"])))
+    {
+        [strPath appendString:@"zipGray.png"];
+        return NSLocalizedString(@"FILE_SWF", @"FILE_SWF");
+    }
+    else if ((([strExtension isEqualToString:@"rar"]) || ([strExtension isEqualToString:@"RAR"])))
+    {
+        [strPath appendString:@"zipGray.png"];
+        return NSLocalizedString(@"FILE_RAR", @"FILE_RAR");
+    }
+    else if ((([strExtension isEqualToString:@"exe"]) || ([strExtension isEqualToString:@"EXE"])))
+    {
+        [strPath appendString:@"zipGray.png"];
+        return NSLocalizedString(@"FILE_EXE", @"FILE_EXE");
+    }
+    else if ((([strExtension isEqualToString:@"bat"]) || ([strExtension isEqualToString:@"BAT"])))
+    {
+        [strPath appendString:@"zipGray.png"];
+        return NSLocalizedString(@"FILE_BAT", @"FILE_BAT");
+    }
+    else if ((([strExtension isEqualToString:@"cmd"]) || ([strExtension isEqualToString:@"CMD"])))
+    {
+        [strPath appendString:@"zipGray.png"];
+        return NSLocalizedString(@"FILE_CMD", @"FILE_CMD");
+    }
+    else
+    {
+        [strPath appendString:@"unknownFile.png"];
+        return NSLocalizedString(@"FILE_UNKNOWN", @"FILE_UNKNOWN");
+    }
+}
+
 @end

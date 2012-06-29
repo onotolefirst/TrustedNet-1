@@ -77,11 +77,6 @@
     return result;
 }
 
-- (UITableViewCellAccessoryType)typeOfElementAt:(NSIndexPath *)idx
-{
-    return UITableViewCellAccessoryDetailDisclosureButton;
-}
-
 - (UITableViewCell*)dequeOrCreateDefaultCell:(UITableView*)tableView
 {
     static NSString *CellIdentifier = @"CertUsageCell";

@@ -13,8 +13,8 @@
 
 #import "Wizard/WizardEncryptViewController.h"
 
-
 @implementation MainSplitViewController
+@synthesize archiveMenuModelController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,6 +27,11 @@
 
 - (void)dealloc
 {
+    if (archiveMenuModelController)
+    {
+        [archiveMenuModelController release];
+    }
+    
     [super dealloc];
 }
 

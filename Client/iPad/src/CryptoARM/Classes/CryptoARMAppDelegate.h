@@ -9,7 +9,10 @@
 #import <UIKit/UIKit.h>
 
 #import "MainSplitViewController.h"
+#import "MenuNavigationController.h"
 #import "Wizard/WizardEncryptViewController.h"
+#import "ArchiveMenuModel.h"
+#import "MenuListController.h"
 
 @interface CryptoARMAppDelegate : NSObject <UIApplicationDelegate> {
     MainSplitViewController *mainController;
@@ -17,7 +20,6 @@
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
-
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;

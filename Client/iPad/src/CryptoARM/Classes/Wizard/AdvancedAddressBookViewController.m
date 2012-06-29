@@ -15,12 +15,14 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
+    if (self)
+    {
         //TODO: create chain view controller and insert to popover instead of tempController
         UIViewController* tempController = [[UIViewController alloc] init];
         groupsPopover = [[UIPopoverController alloc] initWithContentViewController:tempController];
         [tempController release];
     }
+    
     return self;
 }
 

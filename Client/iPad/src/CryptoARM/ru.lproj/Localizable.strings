@@ -89,6 +89,10 @@
 "MM_OPERATIONAL_SETTINGS" = "Операционные настройки";
 "MM_CERTIFICATE_PURPOSE_REFERENCE" = "Справочник назначений сертификата";
 "MM_CERTIFICATE_PRINT_TEMPLATES" = "Шаблоны печати сертификата";
+"MM_ALERT_OPEN_ZIP_TITLE" = "Открытие архива";
+"MM_ALERT_OPEN_ZIP_MESSAGE" = "Распаковать выбранный архив целиком и отобразить каталог с его элементами?";
+"MM_ALERT_EXTRACT_ZIP_TITLE" = "Извлечение файлов";
+"MM_ALERT_UNZIP_ALL_MESSAGE" = "Не было отмечено ни одного файла архива.\nРаспаковать все файлы архива?";
 
 // Wizard section
 "WIZARD_RECIPIENTS" = "Получатели";
@@ -116,6 +120,7 @@
 "WIZARD_ORGANIZATION" = "Организация";
 "WIZARD_POST" = "Должность";
 "WIZARD_ADD_CERT" = "Добавить сертификат";
+"WIZARD_REARCHIVE_MANAGER_TITLE" = "Добавление файлов в архив";
 
 // address book section
 "ADD_CERTS_FROM_STORE" = "Выбрать другой...";
@@ -129,6 +134,7 @@
 "ROOT_OPERATIONS_LOG" = "Журнал операций";
 "ROOT_PROGRAM_DESCRIPTION" = "Описание программы";
 "ROOT_TECH_SUPPORT" = "Техподдержка";
+"ROOT_FILES_FOR_PROCESSING" = "Файлы для обработки";
 
 // Certificate usages interface
 "CERTIFICATE_USAGE_TITLE" = "Назначение сертификата";
@@ -236,7 +242,45 @@
 "CERTIFICATES" = "Сертификаты";
 "SAVE_BUTTON_TITLE" = "Сохранить";
 "DELETE_BUTTON_TITLE" = "Удалить";
+"TYPE" = "Тип";
+"CONTENT" = "Содержимое";
+"ELEMENTS" = "элемента";
+"CANCEL" = "Отмена";
+"ADD" = "Добавить";
 
 // ERRORs
 "UNKNOWN_ERROR_OCCURED" = "Произошла непредвиденная ошибка при выполнении операции";
 "UNABLE_SEND_EMAIL" = "Ваше устройство не поддерживает возможность отправки электронной почты";
+
+// Filetypes section
+"FILE_ARCHIVE" = "архив";
+"FILE_CERTIFICATE" = "сертификат";
+"FILE_XML" = "операционная настройка";
+"FILE_DOC" = "документ Word 97-2003";
+"FILE_DOCX" = "документ Word";
+"FILE_TXT" = "текстовый файл";
+"FILE_P12" = "ключевой контейнер";
+"FILE_P7B" = "файл сертификата PKCS7";
+"FILE_CRL" = "список отзыва сертификатов";
+"FILE_RTF" = "форматированный текст";
+"FILE_XLS" = "лист Excel 97-2003";
+"FILE_XLSX" = "лист Excel";
+"FILE_PPT" = "презентация PowerPoint 97-2003";
+"FILE_PPTX" = "презентация PowerPoint";
+"FILE_BMP" = "изображение";
+"FILE_JPG" = "изображение";
+"FILE_PNG" = "рисунок";
+"FILE_GIF" = "анимация";
+"FILE_ACCDB" = "база данных Access";
+"FILE_MDB" = "база данных";
+"FILE_A" = "библиотека UNIX";
+"FILE_MP3" = "аудиофайл";
+"FILE_MOV" = "видеоролик QuickTime";
+"FILE_AVI" = "файл Windows Media";
+"FILE_PDF" = "документ Adobe Acrobat";
+"FILE_SWF" = "видеоролик Flash MX";
+"FILE_RAR" = "архив RAR";
+"FILE_EXE" = "исполняемый файл";
+"FILE_BAT" = "пакетный файл MS-DOS";
+"FILE_CMD" = "пакетный файл Windows";
+"FILE_UNKNOWN" = "неизвестный";

@@ -33,7 +33,7 @@
         inputFilePath = [inputFilePath stringByAppendingPathComponent:@"Inbox"];
         inputFilePath = [inputFilePath stringByAppendingPathComponent:[URLString lastPathComponent]];
         [inputFilePath retain];
-                        
+
         // check if recieved data is enciphered, signed or plain text
         BIO *bioInputFile = BIO_new_file([inputFilePath cStringUsingEncoding:NSASCIIStringEncoding], "r");
         PKCS7 *inputMessage;
@@ -765,44 +765,6 @@
     }
 }
 
-- (void)viewDidUnload
-{
-    // important: remove created result file (if only it has been created) and input file
-    NSError *error;
-    if ([[NSFileManager defaultManager] fileExistsAtPath:resultTempFilePath])
-    {
-        [[NSFileManager defaultManager] removeItemAtPath:resultTempFilePath error:&error];
-    }
-    
-    if ([[NSFileManager defaultManager] fileExistsAtPath:inputFilePath])
-    {
-        [[NSFileManager defaultManager] removeItemAtPath:inputFilePath error:&error];
-    }
-
-    [self setImageDoc:nil];
-    [self setDocumentName:nil];
-    [self setCreationDate:nil];
-    [self setDocumentSize:nil];
-    [self setUrlToRecievedFile:nil];
-    [self setImageProfile:nil];
-    [self setTblRecipients:nil];
-    [self setDocInteractionController:nil];
-    [self setSettingsMenuPopover:nil];
-    [self setBtnSelectSettings:nil];
-    [self setBtnAddRecipients:nil];
-    [self setIsShowingLandscapeView:nil];
-    settingsMenu = nil;
-
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    // Update the view with current data before it is displayed.
-    [super viewWillAppear:animated];
-}
-
 - (void)didReceiveMemoryWarning
 {
     // Releases the view if it doesn't have a superview.
@@ -1037,6 +999,44 @@
     [tblRecipients reloadData];
 }
 
+- (void)viewDidUnload
+{
+    // important: remove created result file (if only it has been created) and input file
+    NSError *error;
+    if ([[NSFileManager defaultManager] fileExistsAtPath:resultTempFilePath])
+    {
+        [[NSFileManager defaultManager] removeItemAtPath:resultTempFilePath error:&error];
+    }
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:inputFilePath])
+    {
+        [[NSFileManager defaultManager] removeItemAtPath:inputFilePath error:&error];
+    }
+    
+    [self setImageDoc:nil];
+    [self setDocumentName:nil];
+    [self setCreationDate:nil];
+    [self setDocumentSize:nil];
+    [self setUrlToRecievedFile:nil];
+    [self setImageProfile:nil];
+    [self setTblRecipients:nil];
+    [self setDocInteractionController:nil];
+    [self setSettingsMenuPopover:nil];
+    [self setBtnSelectSettings:nil];
+    [self setBtnAddRecipients:nil];
+    [self setIsShowingLandscapeView:nil];
+    settingsMenu = nil;
+    
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    // Update the view with current data before it is displayed.
+    [super viewWillAppear:animated];
+}
+
 - (void)orientationChanged:(NSNotification *)notification
 {
     UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
@@ -1232,6 +1232,18 @@
         [settingsMenu addMenuItem:NSLocalizedString(@"WIZARD_ACTION_OPEN_IN", @"WIZARD_ACTION_OPEN_IN") withAction:@selector(actionOpenIn) forTarget:self];
         [settingsMenu addMenuItem:NSLocalizedString(@"WIZARD_ACTION_SEND_EMAIL", @"WIZARD_ACTION_SEND_EMAIL") withAction:@selector(actionSendEmail) forTarget:self];        
     }
+}
+
+- (Class)getSavingObjcetClass
+{
+    //TODO: implement, if necessary
+    return [self class];
+}
+
+- (id<MenuDataRefreshinProtocol>)createSavingObject
+{
+    //TODO: implement, if necessary
+    return nil;
 }
 
 #pragma mark - Wizard crypto operation common functions
@@ -1479,18 +1491,6 @@
 - (void)showAdvancedAddressBook
 {
     [parentController pushNavController:[[AdvancedAddressBookViewController alloc] initWithNibName:@"AdvancedAddressBookViewController" bundle:nil]];
-}
-
-- (Class)getSavingObjcetClass
-{
-    //TODO: implement, if necessary
-    return [self class];
-}
-
-- (id<MenuDataRefreshinProtocol>)createSavingObject
-{
-    //TODO: implement, if necessary
-    return nil;
 }
 
 @end

@@ -117,7 +117,7 @@
     // add callback watch device orientation changed selector
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
-        
+    
     // find out current device orientation
     isShowingLandscapeView = NO;
     
@@ -387,7 +387,6 @@
     if (cell == nil)
     {
         cell = (RecipientCertificateCellView *)[nib objectAtIndex:0];
-
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         // set cell info
@@ -529,7 +528,7 @@
 
 - (void)showCertificate:(id)sender
 {
-    UIButton *button = sender;
+    UIButton *button = (UIButton *)sender;
     
     X509 *selectedCert = X509_new();
     selectedCert = sk_X509_value(skCertFound, [button.titleLabel.text intValue]);

@@ -13,6 +13,7 @@
 #import "MenuListController.h"
 
 @implementation MenuNavigationController
+@synthesize menuNavController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -64,8 +65,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
     // Do any additional setup after loading the view from its nib.
-    
     UINavigationBar *navBar = menuNavController.navigationBar;
     navBar.tintColor = [UIColor colorWithRed:(CGFloat)187/255 green:(CGFloat)2/255 blue:(CGFloat)4/255 alpha:1];
     menuNavController.view.frame = self.view.bounds;
@@ -78,13 +79,27 @@
     backButton.target = self;
     backButton.image = [UIImage imageNamed:@"to-section.PNG"];
     
-    MenuListController *rootViewController = [[MenuListController alloc] initWithMenuItem:rootItem];
+    MenuListController *rootViewController = [[MenuListController alloc] initWithMenuItem:rootItem andSplitViewController:nil];
     rootViewController.navigationDelegate = self;
     
     [menuNavController pushViewController:rootViewController animated:NO];
     menuNavController.navigationBar.topItem.title = [rootItem menuTitle];
     menuNavController.navigationBar.topItem.leftBarButtonItem = backButton;
     
+    MainSplitViewController *parentSplitViewController = (MainSplitViewController *)[self parentViewController];
+    if (parentSplitViewController.archiveMenuModelController)
+    {      
+        // push menu subview controller(archive content table view)
+        MenuListController *subViewController = [[MenuListController alloc] initWithMenuItem:parentSplitViewController.archiveMenuModelController andSplitViewController:parentSplitViewController];
+        subViewController.navigationDelegate = self;
+        
+        [menuNavController pushViewController:subViewController animated:NO];
+        menuNavController.navigationBar.topItem.title = NSLocalizedString(@"ROOT_FILES_FOR_PROCESSING", @"ROOT_FILES_FOR_PROCESSING");
+
+        [subViewController release];
+        [parentSplitViewController.archiveMenuModelController release];
+    }
+
     [rootItem release];
     [backButton release];
     [rootViewController release];
@@ -121,7 +136,7 @@
     backButton.target = self;
     backButton.image = [UIImage imageNamed:@"to-root.PNG"];
     
-    MenuListController *newSubmenu = [[MenuListController alloc] initWithMenuItem:newItem];
+    MenuListController *newSubmenu = [[MenuListController alloc] initWithMenuItem:newItem andSplitViewController:nil];
     newSubmenu.navigationDelegate = self;
     
     [menuNavController pushViewController:newSubmenu animated:YES];
@@ -138,7 +153,7 @@
 }
 
 - (void)showDetailController:(UIViewController<NavigationSource>*)subController
-        {
+{
     if( self.splitViewController && [[self.splitViewController viewControllers] count] == 2 )
     {
         DetailNavController<NavigationSource> *controllerDetail = [[self.splitViewController viewControllers] objectAtIndex:1];

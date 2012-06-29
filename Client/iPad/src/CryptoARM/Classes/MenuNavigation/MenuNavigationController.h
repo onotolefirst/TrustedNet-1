@@ -10,13 +10,15 @@
 
 #import "CommonNavigationItem.h"
 #import "MenuNavigationDelegate.h"
+#include "MainSplitViewController.h"
 
 @interface MenuNavigationController : UIViewController <MenuNavigationDelegate>
 {
-    UINavigationController *menuNavController;
+    @public UINavigationController *menuNavController;
 }
 
 @property (nonatomic, readonly) CommonNavigationItem<MenuDataRefreshinProtocol> *currentMenuItem;
+@property (nonatomic, retain) UINavigationController *menuNavController;
 
 - (void)reloadMenuData;
 - (CommonNavigationItem<MenuDataRefreshinProtocol>*)currentMenuItem;

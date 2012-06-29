@@ -10,7 +10,7 @@
 
 @implementation CommonNavigationItem
 
-@synthesize filtered;
+@synthesize filtered, tblHeaderView;
 
 - (NSString*)menuTitle
 {
@@ -25,11 +25,6 @@
 - (NSInteger)mainMenuRowsInSection:(NSInteger)section
 {
     return 1;
-}
-
-- (UITableViewCellAccessoryType)typeOfElementAt:(NSIndexPath *)idx
-{
-    return UITableViewCellAccessoryNone;
 }
 
 - (UITableViewCell*)dequeOrCreateDefaultCell:(UITableView*)tableView
@@ -89,6 +84,11 @@
 - (void)applyFilterForSeachText:(NSString*)searchString andScope:(NSInteger)searchScope
 {
     
+}
+
+- (void)dealloc
+{
+    [tblHeaderView release];
 }
 
 @end

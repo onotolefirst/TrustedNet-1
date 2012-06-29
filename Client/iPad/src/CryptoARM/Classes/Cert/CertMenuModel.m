@@ -46,11 +46,6 @@
     [super dealloc];
 }
 
-- (UITableViewCellAccessoryType)typeOfElementAt:(NSIndexPath*)idx
-{
-    return UITableViewCellAccessoryDetailDisclosureButton;
-}
-
 - (NSString*)menuTitle
 {
     switch (store.storeType) {

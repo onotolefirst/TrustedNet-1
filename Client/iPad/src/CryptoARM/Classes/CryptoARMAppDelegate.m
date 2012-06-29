@@ -7,7 +7,6 @@
 //
 
 #import "CryptoARMAppDelegate.h"
-
 #import "PathHelper.h"
 
 @implementation CryptoARMAppDelegate
@@ -50,18 +49,18 @@ NSString *kSelectedLanguage = @"application_language";
     }
     else
     {
+        NSURL *appSettingDirUrl = [NSURL fileURLWithPath:directoryPath isDirectory:YES];
         NSError *checkError = nil;
         
-        BOOL fileIsDirectory = YES;
-        if( ![[NSFileManager defaultManager] fileExistsAtPath:directoryPath isDirectory:&fileIsDirectory] )
+        if( ![appSettingDirUrl checkResourceIsReachableAndReturnError:&checkError] )
         {
             NSDictionary *attrubutes = [NSDictionary dictionaryWithObject:[NSNumber numberWithLong:448] forKey:NSFilePosixPermissions];
-            [[NSFileManager defaultManager] createDirectoryAtPath:directoryPath withIntermediateDirectories:YES attributes:attrubutes error:&checkError];
+            [[NSFileManager defaultManager] createDirectoryAtPath:appSettingDirUrl.path withIntermediateDirectories:YES attributes:attrubutes error:&checkError];
         }
         
         if( checkError )
         {
-            NSLog(@"Error: Unable create folder \"%@\" with error:\n\t%@", directoryPath, checkError);
+            NSLog(@"Error: Unable create folder \"%@\" with error:\n\t%@", appSettingDirUrl.path, checkError);
         }
     }
     
@@ -92,7 +91,7 @@ NSString *kSelectedLanguage = @"application_language";
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-   /*
+    /*
      Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
      */
 }
@@ -114,7 +113,7 @@ NSString *kSelectedLanguage = @"application_language";
         [languages replaceObjectAtIndex:0 withObject:@"ru"];
         [defaults setValue:languages forKey:@"AppleLanguages"];
     }
-
+    
     [defaults synchronize];
 }
 
@@ -143,7 +142,7 @@ NSString *kSelectedLanguage = @"application_language";
     /*
      Typically you should set up the Core Data stack here, usually by passing the managed object context to the first view controller.
      self.<#View controller#>.managedObjectContext = self.managedObjectContext;
-    */
+     */
 }
 
 - (void)saveContext
@@ -258,21 +257,30 @@ NSString *kSelectedLanguage = @"application_language";
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
+// this function is called when we open any document(file) in CryptoARM("Open In..." operation)
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    // this function is called when we open any document(file) in CryptoARM("Open In..." operation)
-    // release mainController
-    if (mainController != nil)
+    // first free tmp folder if any document has been recieved
+    // build entire directory tree view inside an tmp folder
+    NSString *strTmpPath = [NSString stringWithString:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]];
+    strTmpPath = [strTmpPath stringByDeletingLastPathComponent];
+    strTmpPath = [strTmpPath stringByAppendingPathComponent:@"tmp"];
+    
+    NSFileManager *localFileManager = [[NSFileManager alloc] init];
+    NSDirectoryEnumerator *dirEnum = [localFileManager enumeratorAtPath:strTmpPath];
+    NSArray *arrEntireTreeView = [[NSArray alloc] initWithArray:[dirEnum allObjects]];
+    
+    NSString *strPath;
+    for (strPath in arrEntireTreeView)
     {
-        [mainController.view removeFromSuperview];
-        [mainController release];
+        NSError *error;
+        strPath = [strTmpPath stringByAppendingPathComponent:strPath];
+        [[NSFileManager defaultManager] removeItemAtPath:strPath error:&error];
     }
-
-    mainController = [[MainSplitViewController alloc] init];
-    [self.window addSubview:mainController.view];
- 
+    
     NSString *URLString = [url absoluteString];
-
+    
+    
     // %20 - space, need to be replaced
     URLString = [URLString stringByReplacingOccurrencesOfString:@"%20" withString:@" "];
     NSArray *arrUrlComponents = [URLString componentsSeparatedByString:@"/"];
@@ -292,14 +300,36 @@ NSString *kSelectedLanguage = @"application_language";
         }
     }
     
+    // release mainController
+    if (mainController != nil)
+    {
+        [mainController.view removeFromSuperview];
+        [mainController release];
+    }
+    
+    mainController = [[MainSplitViewController alloc] init];
+    
     if ([strID length])
     {
         // TODO: transfer it into certificate detail page view
     }
+    else if (([[URLString lastPathComponent] rangeOfString:@".zip"].location != NSNotFound)
+             || ([[URLString lastPathComponent] rangeOfString:@".ZIP"].location != NSNotFound))
+    {        
+        // incoming documents are always put in <Application_Home>/Documents/Inbox folder
+        NSString *decodedFilename = [[URLString lastPathComponent] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
+        NSString *zipFilePath = [NSString stringWithString:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]];
+        zipFilePath = [zipFilePath stringByAppendingPathComponent:@"Inbox"];
+        zipFilePath = [zipFilePath stringByAppendingPathComponent:decodedFilename];
+        
+        mainController.archiveMenuModelController = [[ArchiveMenuModel alloc] initWithFilePath:zipFilePath isArchive:NO isRoot:YES parentNavController:nil];
+    }
     
+    [self.window addSubview:mainController.view];
     [self.window makeKeyAndVisible];
-    wizardEncryptController = [[WizardEncryptViewController alloc] initWithNibName:@"WizardEncryptViewController" withFileURL:url bundle:nil];
-    [mainController setDetailViewController:wizardEncryptController];
+    //   wizardEncryptController = [[WizardEncryptViewController alloc] initWithNibName:@"WizardEncryptViewController" withFileURL:url bundle:nil];
+    //   [mainController setDetailViewController:wizardEncryptController];
     
     return YES;
 }

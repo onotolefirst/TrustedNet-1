@@ -57,4 +57,10 @@ struct SST_Entry {
 
 + (UIImage*)constructImageWithIcon:(UIImage*)iconImage andAccessoryIcon:(UIImage*)accessoryIcon;
 
+// returns readable file purpose|type by its extension with image file path to it
++ (NSString *)getFileTypeByExtension:(NSString *)strExtension outDocImageIconPath:(NSMutableString *)strPath;
+
+// returns size of entire content in directory including all subfolders
++ (unsigned long long int)folderSize:(NSString *)folderPath;
+
 @end

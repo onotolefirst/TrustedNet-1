@@ -11,13 +11,15 @@
 #import "NavigationSource.h"
 
 @interface CommonNavigationItem : NSObject {
+    UIView *tblHeaderView;
 }
+
+@property (nonatomic, retain) UIView *tblHeaderView;
 
 - (NSString*)menuTitle;
 
 - (NSInteger)mainMenuSections;
 - (NSInteger)mainMenuRowsInSection:(NSInteger)section;
-- (UITableViewCellAccessoryType)typeOfElementAt:(NSIndexPath*)idx;
 
 - (UITableViewCell*)dequeOrCreateDefaultCell:(UITableView*)tableView;
 - (UITableViewCell*)fillCell:(UITableViewCell*)cell atIndex:(NSIndexPath*)idx inTableView:(UITableView*)tableView;

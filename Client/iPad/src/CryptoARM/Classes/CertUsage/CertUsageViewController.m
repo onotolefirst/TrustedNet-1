@@ -206,9 +206,9 @@
             [newUsage release];
             return FALSE;
         }
+        
         [newUsage release];
     }
-    
     
     [usageSaver removeElement:usage];
     
