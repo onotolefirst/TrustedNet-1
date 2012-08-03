@@ -1150,7 +1150,6 @@
 				73FF5819141F81A9002B897A /* Cert */,
 				B3D2222214CD6B01002A2BC5 /* Operation Profiles */,
 				B31546D31471090C007725F9 /* Certificate Usage */,
-				73FF5847141F8616002B897A /* Crypto */,
 			);
 			name = "Main view";
 			sourceTree = "<group>";
