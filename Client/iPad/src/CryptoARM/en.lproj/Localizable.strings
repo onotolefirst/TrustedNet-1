@@ -1,0 +1,283 @@
+//CERTIFICATE COMMON INFORMATION
+// key usage extensions
+"KU_DIGITAL_SIGNATURE" = "Digital Signature";
+"KU_NON_REPUDIATION" = "Non-Repudiation";
+"KU_KEY_ENCIPHERMENT" = "Key Encipherment";
+"KU_DATA_ENCIPHERMENT" = "Data Encipherment";
+"KU_KEY_AGREEMENT" = "Key Agreement";
+"KU_KEY_CERT_SIGN" = "Certificate sign";
+"KU_CRL_SIGN" = "CRL sign";
+"KU_ENCIPHER_ONLY" = "Encipher only";
+"KU_UNDEF" = "Unknown";
+"NO" = "No";
+"YES" = "Yes";
+
+// Certificates Detail View
+// status
+"CERT_STATUS" = "Certificate status";
+"CERT_VALID" = "Valid";
+"CERT_INVALID" = "Invalid";
+"CERT_UNKNOWN_STATUS" = "Unknown status";
+
+"CERT_TITLE" = "Certificate";
+"CERT_WHO_ISSUED" = "Issuer";
+"CERT_EXPIRED" = "Expires";
+
+"CERT_THEME" = "Subject Name";
+"CERT_ISSUER_NAME" = "Issuer Name";
+"CERT_SIGNATURE_ALG" = "Signature Algorithm";
+"CERT_KEY_USAGE" = "Key Usage";
+"CERT_SUBJECT" = "Subject Key Identifier";
+"CERT_AKID" = "Authority Key Identifier";
+"CERT_CDP" = "CRL Distribution Points";
+"CERT_AUTHORITY" = "Certificate Authority Information Access";
+"CERT_C_TITLE" = "Country Name";
+"CERT_CN_TITLE" = "Common Name";
+"CERT_E_TITLE" = "Email Address";
+"CERT_VERSION_TITLE" = "Version";
+"CERT_SN_TITLE" = "Serial Number";
+"CERT_OU_TITLE" = "Domain Component";
+"CERT_SIGNATURE_ALG_TITLE" = "Algorithm";
+"CERT_PARAMS_TITLE" = "Parameters";
+"CERT_PUBLIC_KEY_TITLE" = "Public Key Data";
+"CERT_SIGNATURE_TITLE" = "Signature";
+"CERT_PURPOSE_TITLE" = "Purpose";
+"CERT_KID_TITLE" = "Key Identifier";
+"CERT_URL_TITLE" = "URL";
+"CERT_ACCESS_TITLE" = "Access Method";
+"CERT_CRITICAL_TITLE" = "Critical";
+"CERT_NOT_VALID_BEFORE_TITLE" = "Not Valid Before";
+"CERT_NOT_VALID_AFTER_TITLE" = "Not Valid After";
+"CERT_USAGE_TITLE" = "Usage";
+"CERT_EXTENDED_KEY_USAGE" = "Extended Key Usage";
+
+"CERT_MANAGE_CERTIFICATE" = "Certificate management";
+"CERT_CHECK_CERT_STATUS" = "Check status";
+"CERT_EXPORT_CERTIFICATE" = "Export certificate";
+"CERT_SEND_CERT_BY_EMAIL" = "Send by E-Mail";
+"CERT_PRINT_CERTIFICATE" = "Print certificate";
+"CERT_DELETE_CERTIFICATE" = "Delete certificate";
+
+"CERT_DEL_CERT_DLG_TITLE" = "Removing certificate";
+"CERT_DEL_CERT_DLG_DESCRIPTION" = "Will be made removing the certificate from store of %@. Continue?";
+"CERT_DEL_CERT_DLG_STORE_DESCR_MY" = "personal certificates";
+"CERT_DEL_CERT_DLG_STORE_DESCR_ADDR_BOOK" = "other users certificates";
+"CERT_DEL_CERT_DLG_STORE_DESCR_CA" = "intermediate CA";
+"CERT_DEL_CERT_DLG_STORE_DESCR_ROOT" = "root certification authorities";
+"CERT_DEL_CERT_DLG_REMOVE_ALSO_PRIVATE_KEY" = "Delete also the private key";
+
+"CERT_CHECK_STATUS_ERROR" = "Error while verifying certificate";
+"CERT_UNABLE_LOAD_CRL" = "Unable to load CRL. Distribution points is absent.";
+"CERT_FAIL_TO_LOAD_CRL" = "Faild to load CRL.";
+
+"CERT_CHECK_STATUS_DLG_TITLE" = "Certificate status verification";
+
+///////////////////////////////////////////////////
+// Authority Information Access - Access methods
+"AM_OCSP" = "Online Certificate Status Protocol";
+"AM_CA_ISSUER" = "Certification Authority Issuer";
+
+// Main menu section
+"MM_MENU" = "Menu";
+"MM_SECTIONS" = "Sections";
+"MM_PRIVATE_CERTIFICATES" = "Private certificates";
+"MM_OTHER_PEOPLE_CERTIFICATES" = "Other people certificates";
+"MM_INTERMEDAITE_CERTIFICATION_AUTHORITIES" = "Intermediate certification authorities";
+"MM_TRUSTED_ROOT_CERTIFICATION_AUTHORITIES" = "Trusted root certification authorities";
+"MM_CERTIFICATE_REVOCATION_LIST" = "Certificate revocation lists";
+"MM_CERTIFICATE_ENROLLMENT_REQUESTS" = "Certificate enrollment requests";
+"MM_OPERATIONAL_SETTINGS" = "Operational settings";
+"MM_CERTIFICATE_PURPOSE_REFERENCE" = "Certificate purpose reference";
+"MM_CERTIFICATE_PRINT_TEMPLATES" = "Certificate print templates";
+"MM_ALERT_OPEN_ZIP_TITLE" = "Open archive";
+"MM_ALERT_OPEN_ZIP_MESSAGE" = "Unpack entire archive and display the catalog with its elements?";
+"MM_ALERT_EXTRACT_ZIP_TITLE" = "Extracting files";
+"MM_ALERT_UNZIP_ALL_MESSAGE" = "There was no marked files in the archive.\nUnpack all files?";
+
+// Wizard section
+"WIZARD_RECIPIENTS" = "Recipients";
+"WIZARD_ENCRYPTION_MANAGER_TITLE" = "Encryption/decryption manager";
+"WIZARD_CREATED" = "Created";
+"WIZARD_BUTTON_ENCRYPT_TITLE" = "Encrypt document";
+"WIZARD_BUTTON_SEND_EMAIL_TITLE" = "Send by E-mail";
+"WIZARD_BUTTON_OPEN_IN_TITLE" = "Open document in...";
+"WIZARD_SIZE" = "Size:";
+"WIZARD_DOCUMENT_OPERATION" = "Operations on the document";
+"WIZARD_ACTION_ENCRYPT_AND_OPEN_IN" = "Encipher and Open In...";
+"WIZARD_ACTION_ENCRYPT_AND_EMAIL" = "Encipher and send e-mail";
+"WIZARD_ACTION_DECIPHER_AND_OPEN_IN" = "Decipher and Open In...";
+"WIZARD_ACTION_DECIPHER_AND_EMAIL" = "Decipher and send e-mail";
+"WIZARD_ACTION_REENCIPHER_AND_OPEN_IN" = "Re-encipher and Open In...";
+"WIZARD_ACTION_REENCIPHER_AND_EMAIL" = "Re-encipher and send e-mail";
+"WIZARD_RECIPIENT_LIST" = "Recipient document list";
+"WIZARD_ADD_RECIPIENT_BTN" = "Add recipients";
+"WIZARD_CERTIFICATES" = "Certificates:";
+"WIZARD_WARNING_CANNOT_DECIPHER" = "The document is encrypted, but you are not included in the list of recipients. The document can not be decrypted.";
+"WIZARD_ACTION_OPEN_IN" = "Open the document In...";
+"WIZARD_ACTION_SEND_EMAIL" = "Send the document via e-mail";
+"WIZARD_ADVANCED_ADDRESS_BOOK_TITLE" = "Recipients of the document";
+"WIZARD_CERTIFICATES_BINDING_MANAGER" = "Certificates binding manager";
+"WIZARD_ORGANIZATION" = "Company";
+"WIZARD_POST" = "Job Title";
+"WIZARD_ADD_CERT" = "Add certificate";
+"WIZARD_REARCHIVE_MANAGER_TITLE" = "Adding files to the archive";
+
+// address book section
+"ADD_CERTS_FROM_STORE" = "Select other...";
+"ENCIPHER_CERTIFICATE" = "Encryption certificate";
+
+//Root view and menu
+"SECTIONS" = "Sections";
+"ROOT_APPLICATION_CERVICES" = "Application cervices";
+"ROOT_ADDRES_BOOK" = "Address book";
+"ROOT_IDEAS_DISCUSSION" = "ideas discussion";
+"ROOT_OPERATIONS_LOG" = "Operation log";
+"ROOT_PROGRAM_DESCRIPTION" = "About program";
+"ROOT_TECH_SUPPORT" = "Technical support";
+"ROOT_FILES_FOR_PROCESSING" = "Files for processing";
+
+// Certificate usages interface
+"CERTIFICATE_USAGE_TITLE" = "Certificate usage";
+"CERTIFICATE_USAGES_DICTIONARY" = "Certificate usage dictionary";
+"CERT_USAGE_IDENTIFICATOR" = "Identificator";
+"CERT_USAGE_PURPOSE" = "Purpose description";
+"CERT_USAGE_OBJECT_IDENTIFICATOR" = "Object identificator";
+"CERT_USAGE_WARNING" = "Warning";
+"CERT_USAGE_STING_IN_FIELD_IS_NOT_OID" = "String, entered into field \"%@\" is not OID:\n\n%@";
+"CERT_USAGE_OID_ALREADY_PRESENT" = "This object identifier is already present in the dictionary. Enter new ID, or modify an existing one.";
+"CERT_USAGE_CERTIFICATE_USAGES" = "Certificate usages";
+
+// Operational profiles interface
+"PROFILES_TITLE" = "Operation profiles";
+"PROFILE_TITLE" = "Operation profile";
+"PROILE_NAME" = "Profile name";
+"PROILE_PARAMETERS" = "Profile parameters";
+"PROILE_SIGNING" = "Signing";
+"PROILE_ENCRYPTION" = "Encryption";
+"PROILE_DECRYPTION" = "Decription";
+"PROILE_CERT_POLICY" = "Certificates policy";
+"PROFILE_SCOPE_NAME" = "Name";
+"PROFILE_SCOPE_DESCRIPTION" = "Description";
+"PROFILE_SCOPE_CREATION_DATE" = "Creation date";
+
+"CERT_USAGE_OID_NAME_SERVET_AUTH_CERT" = "The server authentication certificate";
+"CERT_USAGE_OID_NAME_CLIENT_AUTH_CERT" = "Client authentication certificate";
+"CERT_USAGE_OID_NAME_CODE_SIGNING_CERT" = "Code Signing Certificate";
+"CERT_USAGE_OID_NAME_EMAIL_SECURITY_CERT" = "Certificate of email security";
+"CERT_USAGE_OID_NAME_TIMESTAMP_SIGNING_CERT" = "Timestamp signing certificate";
+"CERT_USAGE_OID_NAME_OCSP_SESP_SIGNING_CERT" = "OCSP response signing certificate";
+"CERT_USAGE_OID_NAME_IKE_MEDIATOR_CERT" = "IKE-certified mediator IP-security";
+
+// Operational profile parameters panel
+"PROFILE_PARAMETERS_ENTER_PIN" = "Enter PIN code";
+"PROFILE_PARAMETERS_ABSENT" = "Absent";
+"PROFILE_PARAMETERS_INCLUDE_FILE_NAME_INTO_RESOURECE_ID" = "Включить имя файла в идентификатор ресурса";
+"PROFILE_PARAMETERS_CERTIFICATE_OWNER" = "Certificate owner";
+"PROFILE_PARAMETERS_SIGNATURE_TYPE" = "Signature type";
+"PROFILE_PARAMETERS_COMMENT" = "Comment";
+"PROFILE_PARAMETERS_RESOURCE_IS_FILENAME" = "Resource - file name";
+"PROFILE_PARAMETERS_RESOURCE_IDENTIFIER" = "Resource identifier";
+"PROFILE_PARAMETERS_MOT_SELECTED" = "Not selected";
+"PROFILE_PARAMETERS_CREATE_DETACHED_SIGNATURE" = "Create detached signature";
+"PROFILE_PARAMETERS_CREATE_IN_BASE64" = "Create file in BASE64";
+"PROFILE_PARAMETERS_CREATE_IN_DER" = "Create file in DER";
+"PROFILE_PARAMETERS_ARCHIVE_AFTER_SIGINING" = "Archive the file after the signing";
+"PROFILE_PARAMETERS_ENCRYPT_TO_SENDER" = "Encrypt to sender";
+"PROFILE_PARAMETERS_CERTIFICATE_USAGE" = "Certificate usage";
+"PROFILE_PARAMETERS_NOT_SPECIFIED" = "Not specified";
+"PROFILE_PARAMETERS_ADDITIONAL_SIGN_PARAMETERS" = "Additional signature parameters";
+"PROFILE_PARAMETERS_SIGNATURE_CERTIFICATES" = "Signature certificates";
+"PROFILE_PARAMETERS_KEY_PIN_CODE" = "Key access code (PIN)";
+"PROFILE_PARAMETERS_HASH_ALG_TYPE" = "Hash algorithm type";
+"PROFILE_PARAMETERS_ADDITIONAL_SIGN_PARAMETERS" = "Additional signature parameters";
+"PROFILE_PARAMETERS_SIGNATURE_SAVING" = "Signature saving";
+"PROFILE_PARAMETERS_RESULT_FILE_FORMAT" = "Result file format";
+"PROFILE_PARAMETERS_ENCRYPTION_CERT" = "Encrypting certificate";
+"PROFILE_PARAMETERS_ENCRYPT_ALG_TYPE" = "Encrypting algorithm type";
+"PROFILE_PARAMETERS_RECIEVERS_CERTIFICATES" = "Recievers certificates";
+"PROFILE_PARAMETERS_ENCRYPTING_CERTIFICATE" = "Decrypting certificates";
+"PROFILE_PARAMETERS_ENCRYPT_CERTIFICATES_FILTER" = "Encrypting certificates filter";
+"PROFILE_PARAMETERS_SIGN_CERTIFICATES_FILTER" = "Фильтр назначений сертификатов подписи";
+"PROFILE_PARAMETERS_CERTIFICATES_FOR_VALIDATION_BY_ONLINE_CRL" = "Certificates that require loading CRL from CA";
+"PROFILE_PARAMETERS_SIGN_USAGE_COMMENT" = "Comment for signature usage";
+"PROFILE_PARAMETERS_SIGN_COMMENT" = "Signature comment";
+"PROFILE_PARAMETERS_SECURE_DELETION" = "Secure deletion";
+"PROFILE_PARAMETERS_REMOVE_SOURCE_FILE_AFTER_ENCRYPTION" = "Remove source file after encrypting";
+"PROFILE_PARAMETERS_ARCHIVE_AFTER_ENCRYPTION" = "Archive file after encryption";
+
+"PROFILE_PARAMETERS_OID_CREATION" = "Creation";
+"PROFILE_PARAMETERS_OID_CORRECTED" = "Corrected";
+"PROFILE_PARAMETERS_OID_ACQUAINT" = "Acquaint";
+"PROFILE_PARAMETERS_OID_AGREED" = "Agreed";
+"PROFILE_PARAMETERS_OID_SIGNED" = "Signed";
+"PROFILE_PARAMETERS_OID_AFFIRM" = "Affirm";
+
+// Operational profile select algorithm
+"PROFILE_SEL_ALG_SIGNATURE_HASH_ALG_TYPE" = "Signature hash algorithm type";
+"PROFILE_SEL_ALG_HASH_ALG_TYPE" = "Hash algorithm type";
+"PROFILE_SEL_ALG_SELECT_ALGOTITHM" = "Select algorithm";
+
+// Operational settings celect certificate
+"PROFILE_SEL_CERT_SIGNATURE_CERTIFICATE" = "Signature certificate";
+"PROFILE_SEL_CERT_ENCRYPTION_CERTIFICATE" = "Encryption certificate";
+"PROFILE_SEL_CERT_RECIEVERS_CERTIFICATES" = "Recievers certificates";
+"PROFILE_SEL_CERT_DECRYPTING_CERTIFICATES" = "Decryptiong certificate";
+"PROFILE_SEL_CERT_CERTIFICATES_FOR_VALIDATION_BY_CRL" = "Certificates that require loading CRL from CA";
+"PROFILE_SEL_CERT_DATE_FORMAT" = "Date format: YYYY-MM-DD";
+
+// common
+"YEAR_PREFIX" = "y";
+"CRYPTOARM" = "CryptoARM";
+"BYTE_PREFIX" = "byte";
+"KBYTE_PREFIX" = "Kb";
+"MBYTE_PREFIX" = "Mb";
+"GBYTE_PREFIX" = "Gb";
+"EMPTY_PREFIX" = "Empty";
+"WARNING" = "Warning";
+"CHOICE_OF_SETTINGS" = "Choice of settings";
+"BUTTON_DONE" = "Done";
+"CERTIFICATES" = "Certificates";
+"SAVE_BUTTON_TITLE" = "Save";
+"DELETE_BUTTON_TITLE" = "Delete";
+"TYPE" = "Type";
+"CONTENT" = "Content";
+"ELEMENTS" = "elements";
+"CANCEL" = "Cancel";
+"ADD" = "Add";
+
+// ERRORs
+"UNKNOWN_ERROR_OCCURED" = "An unexpected error occurred on performing the operation";
+"UNABLE_SEND_EMAIL" = "Your device doesn't support possibility to send email";
+
+// Filetypes section
+"FILE_ARCHIVE" = "Document archive";
+"FILE_CERTIFICATE" = "certificate";
+"FILE_XML" = "operating configuration";
+"FILE_DOC" = "document Word 97-2003";
+"FILE_DOCX" = "document Word";
+"FILE_TXT" = "text file";
+"FILE_P12" = "private key kontainer";
+"FILE_P7B" = "certificate file PKCS7";
+"FILE_CRL" = "certificate revocation list";
+"FILE_RTF" = "formatted text";
+"FILE_XLS" = "list Excel 97-2003";
+"FILE_XLSX" = "list Excel";
+"FILE_PPT" = "presentation PowerPoint 97-2003";
+"FILE_PPTX" = "presentation PowerPoint";
+"FILE_BMP" = "image";
+"FILE_JPG" = "image";
+"FILE_PNG" = "pictute";
+"FILE_GIF" = "animation";
+"FILE_ACCDB" = "database Access";
+"FILE_MDB" = "database";
+"FILE_A" = "UNIX library";
+"FILE_MP3" = "audiofile";
+"FILE_MOV" = "QuickTime video";
+"FILE_AVI" = "file Windows Media";
+"FILE_PDF" = "document Adobe Acrobat";
+"FILE_SWF" = "movie Flash MX";
+"FILE_RAR" = "archive RAR";
+"FILE_EXE" = "Windows executable";
+"FILE_BAT" = "batch file MS-DOS";
+"FILE_CMD" = "batch file Windows";
+"FILE_UNKNOWN" = "unknown";

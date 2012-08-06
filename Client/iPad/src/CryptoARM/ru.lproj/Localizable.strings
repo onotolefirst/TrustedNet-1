@@ -1,0 +1,286 @@
+//CERTIFICATE COMMON INFORMATION
+// key usage extensions
+"KU_DIGITAL_SIGNATURE" = "Подпись данных";
+"KU_NON_REPUDIATION" = "Неотрекаемость";
+"KU_KEY_ENCIPHERMENT" = "Шифрование ключа";
+"KU_DATA_ENCIPHERMENT" = "Шифрование данных";
+"KU_KEY_AGREEMENT" = "Согласование ключей";
+"KU_KEY_CERT_SIGN" = "Подпись сертификатов";
+"KU_CRL_SIGN" = "Подписывание списков отзыва (CRL)";
+"KU_ENCIPHER_ONLY" = "Шифрование данных";
+"KU_UNDEF" = "Неизвестно";
+"NO" = "Нет";
+"YES" = "Да";
+
+// Certificates Detail View
+// status
+"CERT_STATUS" = "Статус сертификата";
+"CERT_VALID" = "Действителен";
+"CERT_INVALID" = "Не действителен";
+"CERT_UNKNOWN_STATUS" = "Статус неизвестен";
+
+"CERT_TITLE" = "Сертификат";
+"CERT_WHO_ISSUED" = "Кем выдан";
+"CERT_EXPIRED" = "Истекает";
+
+"CERT_THEME" = "Тема";
+"CERT_ISSUER_NAME" = "Кем выдан";
+"CERT_SIGNATURE_ALG" = "Алгоритм подписи";
+"CERT_KEY_USAGE" = "Применение";
+"CERT_SUBJECT" = "Субъект";
+"CERT_AKID" = "Идентификатор ключа органа сертификации";
+"CERT_CDP" = "Точки распределения аннулирования сертификата";
+"CERT_AUTHORITY" = "Доступ к информации бюро сертификации";
+"CERT_C_TITLE" = "Название страны";
+"CERT_CN_TITLE" = "Общее имя";
+"CERT_E_TITLE" = "Адрес электронной почты";
+"CERT_VERSION_TITLE" = "Версия";
+"CERT_SN_TITLE" = "Серийный номер";
+"CERT_OU_TITLE" = "Компонент домена";
+"CERT_SIGNATURE_ALG_TITLE" = "Алгоритм подписи";
+"CERT_PARAMS_TITLE" = "Параметры";
+"CERT_PUBLIC_KEY_TITLE" = "Данные открытого ключа";
+"CERT_SIGNATURE_TITLE" = "Подпись";
+"CERT_PURPOSE_TITLE" = "Цель";
+"CERT_KID_TITLE" = "Идентифик. ключа";
+"CERT_URL_TITLE" = "URL";
+"CERT_ACCESS_TITLE" = "Метод доступа";
+"CERT_CRITICAL_TITLE" = "Критическое";
+"CERT_NOT_VALID_BEFORE_TITLE" = "Действителен с";
+"CERT_NOT_VALID_AFTER_TITLE" = "Действителен по";
+"CERT_USAGE_TITLE" = "Использование";
+"CERT_EXTENDED_KEY_USAGE" = "Дополнительное применение";
+
+"CERT_MANAGE_CERTIFICATE" = "Управление сертификатом";
+"CERT_CHECK_CERT_STATUS" = "Проверить статус";
+"CERT_EXPORT_CERTIFICATE" = "Экспорт сертификата";
+"CERT_SEND_CERT_BY_EMAIL" = "Отправить по E-Mail";
+"CERT_PRINT_CERTIFICATE" = "Печать сертификата";
+"CERT_DELETE_CERTIFICATE" = "Удалить сертификат";
+
+"CERT_DEL_CERT_DLG_TITLE" = "Удаление сертификата";
+"CERT_DEL_CERT_DLG_DESCRIPTION" = "Будет произведено удаление сертификата из хранилища %@. Продолжить?";
+"CERT_DEL_CERT_DLG_STORE_DESCR_MY" = "личных сертификатов";
+"CERT_DEL_CERT_DLG_STORE_DESCR_ADDR_BOOK" = "сертификатов других пользователей";
+"CERT_DEL_CERT_DLG_STORE_DESCR_CA" = "промежуточных центров сертификации";
+"CERT_DEL_CERT_DLG_STORE_DESCR_ROOT" = "корневых центров сертификации";
+"CERT_DEL_CERT_DLG_REMOVE_ALSO_PRIVATE_KEY" = "Удалить также закрытый ключ";
+
+"CERT_CHECK_STATUS_ERROR" = "Ошибка проверки статуса";
+"CERT_UNABLE_LOAD_CRL" = "Невозможно загрузить СОС. Отсутствуют точки распространения.";
+"CERT_FAIL_TO_LOAD_CRL" = "Не удалось загрузить СОС";
+
+"CERT_CHECK_STATUS_DLG_TITLE" = "Проверка статуса сертификата";
+
+///////////////////////////////////////////////////
+// Authority Information Access - Access methods
+"AM_OCSP" = "Протокол статуса онлайнового сертификата";
+"AM_CA_ISSUER" = "Сертификат Удостоверяющего Центра";
+
+// Main menu section
+"MM_MENU" = "Меню";
+"MM_SECTIONS" = "Разделы";
+"MM_PRIVATE_CERTIFICATES" = "Личные сертификаты";
+"MM_OTHER_PEOPLE_CERTIFICATES" = "Сертификаты других пользователей";
+"MM_INTERMEDAITE_CERTIFICATION_AUTHORITIES" = "Сертификаты промежуточных центров";
+"MM_TRUSTED_ROOT_CERTIFICATION_AUTHORITIES" = "Сертификаты корневых центров";
+"MM_CERTIFICATE_REVOCATION_LIST" = "Списки отзыва сертификатов";
+"MM_CERTIFICATE_ENROLLMENT_REQUESTS" = "Запросы на сертификат";
+"MM_OPERATIONAL_SETTINGS" = "Операционные настройки";
+"MM_CERTIFICATE_PURPOSE_REFERENCE" = "Справочник назначений сертификата";
+"MM_CERTIFICATE_PRINT_TEMPLATES" = "Шаблоны печати сертификата";
+"MM_ALERT_OPEN_ZIP_TITLE" = "Открытие архива";
+"MM_ALERT_OPEN_ZIP_MESSAGE" = "Распаковать выбранный архив целиком и отобразить каталог с его элементами?";
+"MM_ALERT_EXTRACT_ZIP_TITLE" = "Извлечение файлов";
+"MM_ALERT_UNZIP_ALL_MESSAGE" = "Не было отмечено ни одного файла архива.\nРаспаковать все файлы архива?";
+
+// Wizard section
+"WIZARD_RECIPIENTS" = "Получатели";
+"WIZARD_ENCRYPTION_MANAGER_TITLE" = "Менеджер шифрования/расшифрования";
+"WIZARD_CREATED" = "Создан";
+"WIZARD_BUTTON_ENCRYPT_TITLE" = "Шифровать документ";
+"WIZARD_BUTTON_SEND_EMAIL_TITLE" = "Отправить по E-mail";
+"WIZARD_BUTTON_OPEN_IN_TITLE" = "Открыть документ в...";
+"WIZARD_SIZE" = "Размер:";
+"WIZARD_DOCUMENT_OPERATION" = "Операции над документом";
+"WIZARD_ACTION_ENCRYPT_AND_OPEN_IN" = "Зашифровать и открыть в...";
+"WIZARD_ACTION_ENCRYPT_AND_EMAIL" = "Зашифровать и отправить по e-mail";
+"WIZARD_ACTION_DECIPHER_AND_OPEN_IN" = "Расшифровать и открыть в...";
+"WIZARD_ACTION_DECIPHER_AND_EMAIL" = "Расшифровать и отправить по e-mail";
+"WIZARD_ACTION_REENCIPHER_AND_OPEN_IN" = "Перешифровать и открыть в...";
+"WIZARD_ACTION_REENCIPHER_AND_EMAIL" = "Перешифровать и отправить по e-mail";
+"WIZARD_RECIPIENT_LIST" = "Список получателей документа";
+"WIZARD_ADD_RECIPIENT_BTN" = "Добавить получателей";
+"WIZARD_CERTIFICATES" = "Сертификатов:";
+"WIZARD_WARNING_CANNOT_DECIPHER" = "Документ зашифрован, но Вы не занесены в список получателей. Документ не может быть расшифрован.";
+"WIZARD_ACTION_OPEN_IN" = "Открыть документ в...";
+"WIZARD_ACTION_SEND_EMAIL" = "Отправить документ по e-mail";
+"WIZARD_ADVANCED_ADDRESS_BOOK_TITLE" = "Получатели документа";
+"WIZARD_CERTIFICATES_BINDING_MANAGER" = "Менеджер привязки сертификатов";
+"WIZARD_ORGANIZATION" = "Организация";
+"WIZARD_POST" = "Должность";
+"WIZARD_ADD_CERT" = "Добавить сертификат";
+"WIZARD_REARCHIVE_MANAGER_TITLE" = "Добавление файлов в архив";
+
+// address book section
+"ADD_CERTS_FROM_STORE" = "Выбрать другой...";
+"ENCIPHER_CERTIFICATE" = "Сертификат шифрования";
+
+//Root view and menu
+"SECTIONS" = "Разделы";
+"ROOT_APPLICATION_CERVICES" = "Сервисы приложения";
+"ROOT_ADDRES_BOOK" = "Адресная книга";
+"ROOT_IDEAS_DISCUSSION" = "Обсуждение идей";
+"ROOT_OPERATIONS_LOG" = "Журнал операций";
+"ROOT_PROGRAM_DESCRIPTION" = "Описание программы";
+"ROOT_TECH_SUPPORT" = "Техподдержка";
+"ROOT_FILES_FOR_PROCESSING" = "Файлы для обработки";
+
+// Certificate usages interface
+"CERTIFICATE_USAGE_TITLE" = "Назначение сертификата";
+"CERTIFICATE_USAGES_DICTIONARY" = "Справочник назначений сертификата";
+"CERT_USAGE_IDENTIFICATOR" = "Идентификатор";
+"CERT_USAGE_PURPOSE" = "Назначение";
+"CERT_USAGE_OBJECT_IDENTIFICATOR" = "Объектный идентификатор";
+"CERT_USAGE_WARNING" = "Предупреждение";
+"CERT_USAGE_STING_IN_FIELD_IS_NOT_OID" = "Строка, введенная в поле \"%@\" не является OID-ом:\n\n%@";
+"CERT_USAGE_OID_ALREADY_PRESENT" = "Данный объектный идентификатор уже присутствует в справочнике. Введите новый идентификатор или измените существующий.";
+"CERT_USAGE_CERTIFICATE_USAGES" = "Назначения сертификата";
+
+"CERT_USAGE_OID_NAME_SERVET_AUTH_CERT" = "Сертификат проверки подлинности сервера";
+"CERT_USAGE_OID_NAME_CLIENT_AUTH_CERT" = "Сертификат проверки подлинности клиента";
+"CERT_USAGE_OID_NAME_CODE_SIGNING_CERT" = "Сертификат подписи кода";
+"CERT_USAGE_OID_NAME_EMAIL_SECURITY_CERT" = "Сертификат защиты электронной почты";
+"CERT_USAGE_OID_NAME_TIMESTAMP_SIGNING_CERT" = "Сертификат подписи штампа времени";
+"CERT_USAGE_OID_NAME_OCSP_SESP_SIGNING_CERT" = "Сертификат подписи OCSP ответа";
+"CERT_USAGE_OID_NAME_IKE_MEDIATOR_CERT" = "Сертификат IKE-посредника IP-безопасности";
+
+// Operational profiles interface
+"PROFILES_TITLE" = "Операционные настройки";
+"PROFILE_TITLE" = "Операционная настройка";
+"PROILE_NAME" = "Наименование настройки";
+"PROILE_PARAMETERS" = "Параметры настройки";
+"PROILE_SIGNING" = "Подпись";
+"PROILE_ENCRYPTION" = "Шифрование";
+"PROILE_DECRYPTION" = "Расшифрование";
+"PROILE_CERT_POLICY" = "Политика сертификатов";
+"PROFILE_SCOPE_NAME" = "Название";
+"PROFILE_SCOPE_DESCRIPTION" = "Описание";
+"PROFILE_SCOPE_CREATION_DATE" = "Дата создания";
+
+
+// Operational profile parameters panel
+"PROFILE_PARAMETERS_ENTER_PIN" = "Введите PIN код";
+"PROFILE_PARAMETERS_ABSENT" = "Отсутствует";
+"PROFILE_PARAMETERS_INCLUDE_FILE_NAME_INTO_RESOURECE_ID" = "Включить имя файла в идентификатор ресурса";
+"PROFILE_PARAMETERS_CERTIFICATE_OWNER" = "Владелец сертификата";
+"PROFILE_PARAMETERS_SIGNATURE_TYPE" = "Тип подписи";
+"PROFILE_PARAMETERS_COMMENT" = "Комментарий";
+"PROFILE_PARAMETERS_RESOURCE_IS_FILENAME" = "Ресурс - имя файла";
+"PROFILE_PARAMETERS_RESOURCE_IDENTIFIER" = "Идентификатор ресурса";
+"PROFILE_PARAMETERS_MOT_SELECTED" = "Не выбраны";
+"PROFILE_PARAMETERS_CREATE_DETACHED_SIGNATURE" = "Создать отделенную подпись";
+"PROFILE_PARAMETERS_CREATE_IN_BASE64" = "Формировать файл в BASE64";
+"PROFILE_PARAMETERS_CREATE_IN_DER" = "Формировать файл в DER";
+"PROFILE_PARAMETERS_ARCHIVE_AFTER_SIGINING" = "Архивировать после создания подписи";
+"PROFILE_PARAMETERS_ENCRYPT_TO_SENDER" = "Шифровать в адрес отправителя";
+"PROFILE_PARAMETERS_CERTIFICATE_USAGE" = "Назначение сертификата";
+"PROFILE_PARAMETERS_NOT_SPECIFIED" = "Не задано";
+"PROFILE_PARAMETERS_ADDITIONAL_SIGN_PARAMETERS" = "Дополнительные параметры подписи";
+"PROFILE_PARAMETERS_SIGNATURE_CERTIFICATES" = "Сертификаты подписи";
+"PROFILE_PARAMETERS_KEY_PIN_CODE" = "Код доступа к ключу (PIN-код)";
+"PROFILE_PARAMETERS_HASH_ALG_TYPE" = "Тип хеш-алгоритма";
+"PROFILE_PARAMETERS_ADDITIONAL_SIGN_PARAMETERS" = "Дополнительные параметры подписи";
+"PROFILE_PARAMETERS_SIGNATURE_SAVING" = "Сохранение подписи";
+"PROFILE_PARAMETERS_RESULT_FILE_FORMAT" = "Формат выходного файла";
+"PROFILE_PARAMETERS_ENCRYPTION_CERT" = "Сертификат шифрования";
+"PROFILE_PARAMETERS_ENCRYPT_ALG_TYPE" = "Тип алгоритма шифрования";
+"PROFILE_PARAMETERS_RECIEVERS_CERTIFICATES" = "Сертификаты получатетей";
+"PROFILE_PARAMETERS_ENCRYPTING_CERTIFICATE" = "Сертификат расшифрования";
+"PROFILE_PARAMETERS_ENCRYPT_CERTIFICATES_FILTER" = "Фильтр назначений сертификатов шифрования";
+"PROFILE_PARAMETERS_SIGN_CERTIFICATES_FILTER" = "Фильтр назначений сертификатов подписи";
+"PROFILE_PARAMETERS_CERTIFICATES_FOR_VALIDATION_BY_ONLINE_CRL" = "Сертификаты для которых требуется загрузка CRL из УЦ";
+"PROFILE_PARAMETERS_SIGN_USAGE_COMMENT" = "Комментарий по использованию подписи";
+"PROFILE_PARAMETERS_SIGN_COMMENT" = "Комментарий подписи";
+"PROFILE_PARAMETERS_SECURE_DELETION" = "Гарантированное удаление";
+"PROFILE_PARAMETERS_REMOVE_SOURCE_FILE_AFTER_ENCRYPTION" = "Удалить исходный файл после шифрования";
+"PROFILE_PARAMETERS_ARCHIVE_AFTER_ENCRYPTION" = "Архивировать после шифрования";
+//"PROFILE_PARAMETERS_" = ;
+
+"PROFILE_PARAMETERS_OID_CREATION" = "Создание";
+"PROFILE_PARAMETERS_OID_CORRECTED" = "Исправлено";
+"PROFILE_PARAMETERS_OID_ACQUAINT" = "Ознакомлен";
+"PROFILE_PARAMETERS_OID_AGREED" = "Согласовано";
+"PROFILE_PARAMETERS_OID_SIGNED" = "Подписано";
+"PROFILE_PARAMETERS_OID_AFFIRM" = "Утверждено";
+
+// Operational profile select algorithm
+"PROFILE_SEL_ALG_SIGNATURE_HASH_ALG_TYPE" = "Тип хэш-алгоритма подписи";
+"PROFILE_SEL_ALG_HASH_ALG_TYPE" = "Тип хэш-алгоритма";
+"PROFILE_SEL_ALG_SELECT_ALGOTITHM" = "Выберите алгоритм";
+
+// Operational settings celect certificate
+"PROFILE_SEL_CERT_SIGNATURE_CERTIFICATE" = "Сертификат подписи";
+"PROFILE_SEL_CERT_ENCRYPTION_CERTIFICATE" = "Сертификат шифрования";
+"PROFILE_SEL_CERT_RECIEVERS_CERTIFICATES" = "Сертификаты получателей";
+"PROFILE_SEL_CERT_DECRYPTING_CERTIFICATES" = "Сертификат расшифрования";
+"PROFILE_SEL_CERT_CERTIFICATES_FOR_VALIDATION_BY_CRL" = "Сертификаты, требующие загрузки CRL из УЦ";
+"PROFILE_SEL_CERT_DATE_FORMAT" = "Формат даты: ГГГГ-ММ-ДД";
+
+
+// common
+"YEAR_PREFIX" = "г";
+"CRYPTOARM" = "КриптоАРМ";
+"BYTE_PREFIX" = "байт";
+"KBYTE_PREFIX" = "Кб";
+"MBYTE_PREFIX" = "Мб";
+"GBYTE_PREFIX" = "Гб";
+"EMPTY_PREFIX" = "Пустой";
+"WARNING" = "Предупреждение";
+"CHOICE_OF_SETTINGS" = "Выбор настройки";
+"BUTTON_DONE" = "Готово";
+"CERTIFICATES" = "Сертификаты";
+"SAVE_BUTTON_TITLE" = "Сохранить";
+"DELETE_BUTTON_TITLE" = "Удалить";
+"TYPE" = "Тип";
+"CONTENT" = "Содержимое";
+"ELEMENTS" = "элемента";
+"CANCEL" = "Отмена";
+"ADD" = "Добавить";
+
+// ERRORs
+"UNKNOWN_ERROR_OCCURED" = "Произошла непредвиденная ошибка при выполнении операции";
+"UNABLE_SEND_EMAIL" = "Ваше устройство не поддерживает возможность отправки электронной почты";
+
+// Filetypes section
+"FILE_ARCHIVE" = "архив";
+"FILE_CERTIFICATE" = "сертификат";
+"FILE_XML" = "операционная настройка";
+"FILE_DOC" = "документ Word 97-2003";
+"FILE_DOCX" = "документ Word";
+"FILE_TXT" = "текстовый файл";
+"FILE_P12" = "ключевой контейнер";
+"FILE_P7B" = "файл сертификата PKCS7";
+"FILE_CRL" = "список отзыва сертификатов";
+"FILE_RTF" = "форматированный текст";
+"FILE_XLS" = "лист Excel 97-2003";
+"FILE_XLSX" = "лист Excel";
+"FILE_PPT" = "презентация PowerPoint 97-2003";
+"FILE_PPTX" = "презентация PowerPoint";
+"FILE_BMP" = "изображение";
+"FILE_JPG" = "изображение";
+"FILE_PNG" = "рисунок";
+"FILE_GIF" = "анимация";
+"FILE_ACCDB" = "база данных Access";
+"FILE_MDB" = "база данных";
+"FILE_A" = "библиотека UNIX";
+"FILE_MP3" = "аудиофайл";
+"FILE_MOV" = "видеоролик QuickTime";
+"FILE_AVI" = "файл Windows Media";
+"FILE_PDF" = "документ Adobe Acrobat";
+"FILE_SWF" = "видеоролик Flash MX";
+"FILE_RAR" = "архив RAR";
+"FILE_EXE" = "исполняемый файл";
+"FILE_BAT" = "пакетный файл MS-DOS";
+"FILE_CMD" = "пакетный файл Windows";
+"FILE_UNKNOWN" = "неизвестный";
