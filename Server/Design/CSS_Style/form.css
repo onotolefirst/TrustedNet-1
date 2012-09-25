@@ -1,0 +1,345 @@
+@import url("messages/messages.css");
+
+/*  Фон и TopBar */
+body {
+     background-image: url(resources/themes/images/trusted/login_form/bg.gif); /* Путь к фоновому изображению */
+    }
+  
+#topbar {
+    position: fixed;
+	top: 0px; 
+	left: 0px;
+    width: 100%;
+    height: 30px;
+	background-image: url(resources/themes/images/trusted/login_form/topbar_field.gif); 
+	z-index: 100;
+}
+
+* html #topbar {
+    position: absolute;
+}
+ 
+#top-left {top: 0px; left: 0px; width: 100%; height: 30px; background: url(resources/themes/images/trusted/login_form/topbar_label.gif) no-repeat;}
+  
+/*   Форма логинации   */
+
+#login_form {
+   position: fixed;
+   top: 50%;
+   left: 50%;
+   margin-top: -170px;
+   margin-left: -293px;
+   width: 586px;
+   height: 341px;
+   background-image: url(resources/themes/images/trusted/login_form/login_form.gif);
+} 
+
+#login_auth{
+   position: absolute;
+   top: 199px;
+   left: 344px;
+}
+
+#password_auth{
+   position: absolute;
+   top: 232px;
+   left: 344px;
+}
+
+#remember{
+   position: absolute;
+   top: 266px;
+   left: 364px;
+   /*font: 8pt/7pt sans-serif;*/
+   width: 175px; 
+   height: 14px; 
+   background-image: url(resources/themes/images/trusted/login_form/remember.gif);
+   background-repeat:no-repeat;  
+}
+
+#register {
+   cursor:pointer;
+   position: absolute;
+   top: 305px;
+   left: 50px;
+   width: 70px; 
+   height: 14px; 
+   background-image: url(resources/themes/images/trusted/login_form/register.gif);
+   background-repeat:no-repeat;
+} 
+
+#pass_remember {
+   cursor:pointer;
+   position: absolute;
+   top: 305px;
+   left: 140px;
+   width: 88px; 
+   height: 14px; 
+   background-image: url(resources/themes/images/trusted/login_form/pass_remember.gif);
+   background-repeat:no-repeat;
+} 
+
+
+#submit_login{
+   position: absolute;
+   top: 294px;
+   left: 330px;
+   cursor:pointer;
+   display:block;
+   width: 66px;
+   height: 26px;
+   line-height:70px;
+   text-align:center;
+   background-image:url(resources/themes/images/trusted/login_form/submit_login_fone.gif);
+   background-repeat:no-repeat;
+   outline: none;
+   -moz-outline-style: none;
+   border: none;
+}
+
+/*   Форма регистрации   */
+.scrollblock_Y{overflow: auto; height: 800px;}
+
+#registration_form {
+   position: relative;
+   top: 50%;
+   left: 50%;
+   margin-top: -368px;
+   margin-left: -302px;
+   width: 604px;
+   height: 736px;
+   background-image: url(resources/themes/images/trusted/login_form/registration_form.gif);
+} 
+
+#first_name{
+   position: absolute;
+   top: 189px;
+   left: 52px;
+}
+
+#last_name{
+   position: absolute;
+   top: 239px;
+   left: 52px;
+}
+
+#email_reg{
+   position: absolute;
+   top: 289px;
+   left: 52px;
+}
+
+#login_reg{
+   position: absolute;
+   top: 339px;
+   left: 52px;
+}
+
+#password_reg{
+   position: absolute;
+   top: 389px;
+   left: 52px;
+}
+
+#password2_reg{
+   position: absolute;
+   top: 439px;
+   left: 52px;
+}
+
+#agree_reg{
+   position: absolute;
+   top: 485px;
+   left: 58px;
+}
+
+#recapcha_registration{
+   position: absolute;
+   top: 544px;
+   left: 50px;
+}
+
+
+#submit_registration{
+   position: absolute;
+   top: 688px;
+   left: 52px;
+   cursor:pointer;
+   display:block;
+   width: 151px;
+   height: 25px;
+   background-image:url(resources/themes/images/trusted/login_form/submit_registration.gif);
+   background-repeat:no-repeat;
+   outline: none;
+   -moz-outline-style: none;
+   border: none;
+}
+
+#back_registration {
+   cursor:pointer;
+   position: absolute;
+   top: 10px;
+   left: 10px;
+   width: 85px; 
+   height: 36px; 
+   background-image: url(resources/themes/images/trusted/login_form/button_back.gif);
+   background-repeat:no-repeat;
+} 
+
+#user_agree {
+   cursor:pointer;
+   position: absolute;
+   top: 484px;
+   left: 217px;
+   width: 189px; 
+   height: 21px; 
+   background-image: url(resources/themes/images/trusted/login_form/user_agree.gif);
+   background-repeat:no-repeat;
+} 
+
+/*   Форма восстановления пароля   */
+
+#remember_form {
+   position: relative;
+   top: 50%;
+   left: 50%;
+   margin-top: 50px;
+   margin-left: -302px;
+   height: 595px; 
+   width: 602px;
+   background-image: url(resources/themes/images/trusted/login_form/remember_form.gif);
+} 
+
+#login_rem{
+   position: absolute;
+   top: 259px;
+   left: 52px;
+}
+
+#email_rem{
+   position: absolute;
+   top: 309px;
+   left: 52px;
+}
+
+#recapcha_remember{
+   position: absolute;
+   top: 398px;
+   left: 50px;
+}
+
+#submit_remember{
+   position: absolute;
+   top: 530px;
+   left: 52px;
+   cursor:pointer;
+   display:block;
+   width: 111px;
+   height: 25px;
+   background-image:url(resources/themes/images/trusted/login_form/submit_remember.gif);
+   background-repeat:no-repeat;
+   outline: none;
+   -moz-outline-style: none;
+   border: none;
+}
+
+
+
+/* CLEAN FORM
+/////////////////////////////*/
+
+/* General */
+
+.cleanform {
+	font-size:1em;
+	width:40em;
+	color:#1b1b1b;
+	text-align:left;
+	margin:1em auto
+}
+
+/* Elements */
+
+.cleanform  label,.cleanform legend {
+	padding:0;
+	margin:0.3em 0
+}
+
+.cleanform fieldset {
+	padding:0.7em;
+	border:1px solid #ddd;
+	margin:0 0 0.5em 0
+}
+
+.cleanform label {
+	font-weight:bold
+}
+
+.cleanform fieldset input {
+	width:70%;
+	line-height:1.5em;
+	padding:0.15em
+}
+
+.cleanform .radio input,
+.cleanform .checkbox input {
+	width:auto;
+	border:none;
+	margin:0 1.5em 0 0
+}
+
+.cleanform input, .cleanform textarea, .cleanform select {
+	display:block;
+	margin-bottom:1em;
+	font-size:1em;
+	border:1px solid #bbb;
+	padding:0.15em;
+	margin-right:1em
+}
+
+.cleanform .radio label, .cleanform .radio input,
+.cleanform .checkbox label, .cleanform .checkbox input {
+	display:inline;
+	margin:0 1.5em 0 0
+}
+
+.cleanform .radio input, .cleanform .checkbox input {
+	margin:0 0.3em 0 0
+}
+
+.cleanform .multiple label{
+	float:left;
+	width:29%;
+	overflow:hidden;
+	padding-left:1px
+}
+
+.cleanform .multiple input {
+	cursor:pointer
+}
+
+
+/* information */
+
+.cleanform .formInfo {
+	margin-bottom:1em;
+	padding-bottom:0.5em;
+	border-bottom:0.1em solid #ddd
+}
+
+.cleanform .formInfo h2 {
+	color:#00889e;
+	font-weight:bold;
+	font-size:1.2em;
+	margin-bottom:1em
+}
+
+.cleanform .formInfo p{
+	text-align:justify
+}
+
+.cleanform .required {
+	color:#ff3838;
+	font-weight:bold;
+	font-size:0.8em
+}
